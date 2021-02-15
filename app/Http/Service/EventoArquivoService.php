@@ -554,7 +554,7 @@ class EventoArquivoService
                 $oImpacto->save();
             }
              
-            $url_sistema = config("app.PATH_SISTEMA_MIDIACLIP");
+            $url_sistema = config("app.url_midiaclip");
             $eh_integrador  = \App\Http\Dao\ConfigDao::getValor("EH_INTEGRADOR");
             $url_integrador  = \App\Http\Dao\ConfigDao::getValor("URL_API_INTEGRADOR");
              

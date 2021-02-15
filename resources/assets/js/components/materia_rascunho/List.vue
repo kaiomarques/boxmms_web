@@ -66,28 +66,6 @@ export default {
           );
 
 
-          var recortes_segundos = [];
-
-        function highlightCut(segundo) {
-          $(".transcricoes tr .hora_inicio_seg").each(function() {
-              var transcricao_inicio = Number($(this).val());
-              var transcricao_fim = transcricao_inicio + 300;
-              //alert("Inicio: " + segundo + "|| transcricao_inicio: "+ transcricao_inicio + " || " + transcricao_fim);
-
-              if(segundo >= transcricao_inicio && segundo <= transcricao_fim) {
-                $(this).parent("tr").css('background-color', '#EBBAAF !important');
-                //alert(segundo);
-                return;
-              }
-          });           
-        }
-
-        $(".recortes tr input[type=hidden]").each(function() {
-            highlightCut($(this).val());
-            recortes_segundos.push(parseInt($(this).val()));
-        });
-
-
 /*
           $.each(retorno.data, function (key, value) {
             var ids = value.ids_arquivos;

@@ -415,6 +415,30 @@ class EventosController extends Controller
         $reg = Eventos::find($id);
         return array( "code" =>  1,  "data"=> $reg);
     }
+
+
+    private function parseEventos($arquivos, $idEvento) {
+
+        $sql_completo = \App\Http\Service\EventoService::SqlCorteDeMaterias($idEvento);
+        $cortesDeMaterias = DB::select($sql_completo);
+
+        foreach($arquivos as $key => $arquivo) {
+            $arquivo->utilizado = false;
+            $inicio = $arquivo->hora_inicio_seg;
+            $fim = $inicio + 600;
+
+            foreach($cortesDeMaterias as $corte) {
+                if($corte->hora_inicio_seg >= $inicio && $corte->hora_inicio_seg <= $fim) {
+                    $arquivo->utilizado = true;
+                    break;
+                }
+            }
+            $arquivos[$key] = $arquivo;
+        }
+        return $arquivos;
+    }
+
+
     /**
      * Display the specified resource.
      *
@@ -424,7 +448,6 @@ class EventosController extends Controller
     public function show($id, Request $request)
     {
         $reg = Eventos::find($id);
-           
         $simples = $request->input("simples");
         $clean = $request->input("clean");
            
@@ -436,7 +459,6 @@ class EventosController extends Controller
         if ($simples == "") {
             $ls_meta = DB::select($sql_completo);
         }
-           
            
         if ($reg->tipo == "pai" &&  $simples == "") {
             $reg->arquivos = $this->getArquivos($id); //É um evento principal,pai, gerado a partir da fila. Então posso trazer todos os arquivos.
@@ -450,7 +472,8 @@ class EventosController extends Controller
                    
                   //$reg->form_pai = Eventos::find($reg->id_evento_pai);
                    
-                $reg->arquivos =  $this->getArquivos($reg->id_evento_pai);
+                $reg->arquivos = $this->getArquivos($reg->id_evento_pai);
+                $reg->arquivos = $this->parseEventos($reg->arquivos, $reg->id_evento_pai);
                 $reg->start_clientes =  \App\Http\Service\EventoService::getListCliente($reg->id_evento_pai);
             } else {
                 $reg->arquivos =  $this->getArquivos($id, " and ea.tipo='join' "); //Vou trazer o arquivo que engloba tudo o que o cara definiu.

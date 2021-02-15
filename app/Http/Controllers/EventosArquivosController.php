@@ -70,8 +70,8 @@ class EventosArquivosController extends Controller
         $order = " id ";
         $order_type = "desc";
               
-        $DB_MIDIACLIP = \App\Http\Dao\ConfigDao::getSchemaMidiaClip(); // config("app.DB_MIDIACLIP");      
-        $DB_BOXMMS = config("app.DB_DATABASE");
+        $DB_MIDIACLIP = \App\Http\Dao\ConfigDao::getSchemaMidiaClip(); // config("app.DB_MIDIACLIP");
+            
             
         $id_cliente = $request->input("id_cliente");
         $id_programa = $request->input("id_programa");
@@ -156,8 +156,8 @@ class EventosArquivosController extends Controller
 
         $sql = " select ea.*, ev.data,  '' as blnk, '' as tempo_h_realizado, convert( pr.nome using utf8) as programa_nome, ".
                        " convert( m.titulo using utf8) as titulo_materia "
-                        . " from ". $DB_BOXMMS. ".eventos_arquivos ea"
-                        . "  inner join ". $DB_BOXMMS. ".eventos ev on ev.id = ea.id_evento "
+                        . " from eventos_arquivos ea"
+                        . "  inner join eventos ev on ev.id = ea.id_evento "
                         . " left join ". $DB_MIDIACLIP. ".programa pr on pr.id = ev.id_programa "
                         . " left join ". $DB_MIDIACLIP. ".materia_radiotv_jornal m on m.id = ea.id_materia_radiotv_jornal ".
                         $inner_sub
@@ -283,32 +283,24 @@ class EventosArquivosController extends Controller
             if (count($canais) > 0) {
                 $palavrasIds = [];
                 $palavrasMap = [];
-                $url = "http://12.0.2.7/api/Taxonomias";
+                //$url = "http://12.0.2.7/api/Taxonomias";
 
                 foreach ($canais as $canal) {
                     array_push($palavrasIds, $canal->id);
                     $palavrasMap[$canal->id] = $canal;
                 }
 
-                $client = new \GuzzleHttp\Client();
-                $response = $client->request('POST', $url, [ 'json' => [ 'recorte_id' => $novo->id, 'palavras_chave' => $palavrasIds, 'texto'=> $novo->texto] ]);
-                $canaisEncontrados = json_decode($response->getBody()->getContents());
-
-                if ($canaisEncontrados) {
-                    foreach ($canaisEncontrados as $canalEncontrado) {  
-                        if (!array_key_exists($canalEncontrado, $palavrasMap)) continue;
-
-                        $vinculo = new \App\EventosArquivosPalavras();
-                        $vinculo->data = \App\Http\Dao\ConfigDao::executeScalar("select data as res from eventos where id =  ". $novo->id_evento);
-                        $vinculo->id_evento = $novo->id_evento;
-                        $vinculo->id_evento_arquivo = $novo->id;
-                        $vinculo->id_cliente = $palavrasMap[$canalEncontrado]->clienteId;
-                        $vinculo->cita_diretamente = 1;
-                        $vinculo->id_dicionario_tag =$palavrasMap[$canalEncontrado]->idMMS;
-                        $vinculo->status = 1;
-                            
-                        array_push($resultados, $vinculo);
-                    }
+                foreach ($palavrasMap as $canal) {  
+                    $vinculo = new \App\EventosArquivosPalavras();
+                    $vinculo->data = \App\Http\Dao\ConfigDao::executeScalar("select data as res from eventos where id =  ". $novo->id_evento);
+                    $vinculo->id_evento = $novo->id_evento;
+                    $vinculo->id_evento_arquivo = $novo->id;
+                    $vinculo->id_cliente = $canal->clienteId;
+                    $vinculo->cita_diretamente = 0;
+                    $vinculo->id_dicionario_tag =$canal->idMMS;
+                    $vinculo->status = 1;
+                        
+                    array_push($resultados, $vinculo);
                 }
             }
         } else {
@@ -897,6 +889,7 @@ class EventosArquivosController extends Controller
         $id = $request->input("id");
             
         $reg = EventosArquivos::find($id);
+        $ret = null;
 
         if (! is_null($reg)) {
             $path = \App\Http\Service\EventoService::getPathEvento($reg->id_evento, true);
@@ -907,9 +900,10 @@ class EventosArquivosController extends Controller
                 
             $ret = $reg->delete();
         }
+
+        return array("msg"=>"sucesso", "code" =>  1 , "success" => $ret, "results"=> $reg);
                 
            
                
-        return array("msg"=>"sucesso", "code" =>  1 , "success" => $ret, "results"=> $reg);
     }
 }

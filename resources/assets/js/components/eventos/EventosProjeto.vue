@@ -35,8 +35,11 @@
                     :key="index"
                     v-bind:video_id="item.id"
                     v-bind:class="current_video != null && current_video.id == item.id ? 'bg-light-blue-active {{ item.id }}': ''"
+                    v-bind:style="item.utilizado == true ? 'background-color: rgb(235, 186, 175)': ''"
                   >
                     <input type="hidden" class="hora_inicio_seg" v-bind:value="item.hora_inicio_seg" />
+                    <input type="hidden" class="utilizado" nome = "utilizado"
+                      v-bind:value="item.utilizado" />
                     <td>{{item.nome}}</td>
 
                     <td style="width: 30px">
@@ -275,6 +278,8 @@
                     v-bind:class="current_video != null && current_video.id == item.id ? 'bg-light-blue-active': ''"
                   >
                     <input type="hidden" name="hora_inicio_seg" v-bind:value="item.hora_inicio_seg"  />
+                    <input type="hidden" class="id" nome = "id"
+                      v-bind:value="item.id" />
                     <td>{{item.titulo}}</td>
                     <td>{{item.nome}}</td>
                     <td>{{item.duracao}}</td>
@@ -669,22 +674,6 @@ export default {
         );
       }
       
-      var recortes_segundos = [];
-
-      function highlightCut(segundo) {
-        $(".transcricoes tr .hora_inicio_seg").each(function() {
-            var transcricao_inicio = Number($(this).val());
-            var transcricao_fim = transcricao_inicio + 300;
-            //alert("Inicio: " + segundo + "|| transcricao_inicio: "+ transcricao_inicio + " || " + transcricao_fim);
-
-            if(segundo >= transcricao_inicio && segundo <= transcricao_fim) {
-              $(this).parent("tr").css('background-color', 'rgb(255 196 189) !important');
-              //alert(segundo);
-              return;
-            }
-        });           
-      }
-
       self.scroll();
       self.interval_id = setInterval(function() { self.atualizaArquivos();}, 30000);
     };
@@ -693,14 +682,6 @@ export default {
 
     $(".content-wrapper").css({ "max-height": "auto", height: "1500px" });
 
-/*        
-        alert("1");
-        $(".recortes tr input[type=hidden]").each(function() {
-            alert("2");
-            highlightCut($(this).val());
-            recortes_segundos.push(parseInt($(this).val()));
-        });
-*/
     function doc_keyUp(e) {
         if (e.shiftKey && e.keyCode === 73) {            
             obj_corteaudiovideo.catchTime('start');

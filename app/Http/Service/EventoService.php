@@ -568,4 +568,18 @@ class EventoService
          
         return json_encode($obj_json);
     }
+
+    public static function SqlCorteDeMaterias($idEvento, $DBTMP ="")
+    {
+        $DB_MIDIACLIP = \App\Http\Dao\ConfigDao::getSchemaMidiaClip();        
+        
+        $sql = "
+            SELECT ea.id, ea.hora_inicio_seg FROM boxmmsdb.eventos_arquivos ea 
+                INNER JOIN eventos e2 ON e2.id = ea.id_evento
+                INNER JOIN eventos e1 ON e1.id = e2.id_evento_pai
+            WHERE e1.id = {$idEvento} and ea.tipo = \"cut\" and id_materia_radiotv_jornal is not null";
+                
+        return $sql;
+    }
+
 }

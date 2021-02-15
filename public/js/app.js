@@ -61221,6 +61221,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -61407,22 +61412,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         });
       }
 
-      var recortes_segundos = [];
-
-      function highlightCut(segundo) {
-        $(".transcricoes tr .hora_inicio_seg").each(function () {
-          var transcricao_inicio = Number($(this).val());
-          var transcricao_fim = transcricao_inicio + 300;
-          //alert("Inicio: " + segundo + "|| transcricao_inicio: "+ transcricao_inicio + " || " + transcricao_fim);
-
-          if (segundo >= transcricao_inicio && segundo <= transcricao_fim) {
-            $(this).parent("tr").css('background-color', 'rgb(255 196 189) !important');
-            //alert(segundo);
-            return;
-          }
-        });
-      }
-
       self.scroll();
       self.interval_id = setInterval(function () {
         self.atualizaArquivos();
@@ -61433,14 +61422,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     $(".content-wrapper").css({ "max-height": "auto", height: "1500px" });
 
-    /*        
-            alert("1");
-            $(".recortes tr input[type=hidden]").each(function() {
-                alert("2");
-                highlightCut($(this).val());
-                recortes_segundos.push(parseInt($(this).val()));
-            });
-    */
     function doc_keyUp(e) {
       if (e.shiftKey && e.keyCode === 73) {
         obj_corteaudiovideo.catchTime('start');
@@ -67838,27 +67819,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       obj_api.call("materia_rascunho?id_projeto=" + this.id_projeto.toString(), "get", {}, function (retorno) {
         console.log("Retorno materia rascunho ? " + "materia_rascunho?id_projeto=" + self.id_projeto.toString());
 
-        var recortes_segundos = [];
-
-        function highlightCut(segundo) {
-          $(".transcricoes tr .hora_inicio_seg").each(function () {
-            var transcricao_inicio = Number($(this).val());
-            var transcricao_fim = transcricao_inicio + 300;
-            //alert("Inicio: " + segundo + "|| transcricao_inicio: "+ transcricao_inicio + " || " + transcricao_fim);
-
-            if (segundo >= transcricao_inicio && segundo <= transcricao_fim) {
-              $(this).parent("tr").css('background-color', '#EBBAAF !important');
-              //alert(segundo);
-              return;
-            }
-          });
-        }
-
-        $(".recortes tr input[type=hidden]").each(function () {
-          highlightCut($(this).val());
-          recortes_segundos.push(parseInt($(this).val()));
-        });
-
         /*
                   $.each(retorno.data, function (key, value) {
                     var ids = value.ids_arquivos;
@@ -68046,6 +68006,10 @@ var render = function() {
                                     _vm.current_video.id == item.id
                                       ? "bg-light-blue-active {{ item.id }}"
                                       : "",
+                                  style:
+                                    item.utilizado == true
+                                      ? "background-color: rgb(235, 186, 175)"
+                                      : "",
                                   attrs: { video_id: item.id }
                                 },
                                 [
@@ -68053,6 +68017,15 @@ var render = function() {
                                     staticClass: "hora_inicio_seg",
                                     attrs: { type: "hidden" },
                                     domProps: { value: item.hora_inicio_seg }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "utilizado",
+                                    attrs: {
+                                      type: "hidden",
+                                      nome: "utilizado"
+                                    },
+                                    domProps: { value: item.utilizado }
                                   }),
                                   _vm._v(" "),
                                   _c("td", [_vm._v(_vm._s(item.nome))]),
@@ -68380,6 +68353,12 @@ var render = function() {
                                       name: "hora_inicio_seg"
                                     },
                                     domProps: { value: item.hora_inicio_seg }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "id",
+                                    attrs: { type: "hidden", nome: "id" },
+                                    domProps: { value: item.id }
                                   }),
                                   _vm._v(" "),
                                   _c("td", [_vm._v(_vm._s(item.titulo))]),

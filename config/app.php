@@ -20,15 +20,15 @@ return [
     'base_assets' => env('BASE_PATH', '/').env('PATH_PUBLIC', 'laravel/public/'),
     'base_site' => env('BASE_PATH_SITE', '/') ,
     'url_midiaclip' => env('PATH_SISTEMA_MIDIACLIP', 'http://mdclipweb.midiaclip.com.br/') ,
+    'PATH_SISTEMA_MIDIACLIP' => env('PATH_SISTEMA_MIDIACLIP'),
     'url_api4' => env('PATH_API4_MIDIACLIP', 'http://localhost/midiaapi4/') ,
     'DB_MIDIACLIP' => env('DB_MIDIACLIP', 'midiaclip_producao') ,
-    'DB_DATABASE' => env('DB_DATABASE', 'boxmmsdb') ,
-    'PATH_URL_VIDEOS' => env("PATH_URL_VIDEOS", ''),
-	'PATH_ANEXO' =>  env('PATH_ANEXO'),
-	'PATH_ARQUIVOS' => env('PATH_ARQUIVOS'),
-	'PATH_SUBFOLDER' => env('PATH_SUBFOLDER'),
-    
-    
+    'DB_DATABASE' => env('DB_DATABASE','boxmmsdb'),
+    'PATH_URL_VIDEOS' => env('PATH_URL_VIDEOS', ''),
+    'PATH_ANEXO' => env('PATH_ANEXO'),
+    'PATH_ARQUIVOS' => env('PATH_ARQUIVOS'),
+    'PATH_SUBFOLDER' => env('PATH_SUBFOLDER'),
+    'PATH_FFMPEG' => env('PATH_FFMPEG'),
     
     
     'version_js' => env('version_js', "?h=00746") ,
@@ -87,7 +87,7 @@ return [
     |
     */
 
-    'timezone' => 'America/Bahia',
+    'timezone' => 'America/Sao_Paulo',
 
     /*
     |--------------------------------------------------------------------------
