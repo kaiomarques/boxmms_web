@@ -416,7 +416,10 @@ class EventoArquivoService
         $date_ind =  date("Ymd_Hi");
         $nome_destino = $id_materia.".1.".$date_ind.".".self::getExtension($reg->nome);
          
-        copy($pasta_origem.DIRECTORY_SEPARATOR.$reg->nome, $pasta_destino.DIRECTORY_SEPARATOR.$nome_destino);
+        $videoMateriacaminhoDeOrigem = $pasta_origem.DIRECTORY_SEPARATOR.$reg->nome;
+        $videoMateriacaminhoDeDestino = $pasta_destino.DIRECTORY_SEPARATOR.$nome_destino;
+
+        copy($videoMateriacaminhoDeOrigem, $videoMateriacaminhoDeDestino);
          
         $meta_dados = $obj_materia_frags->meta_dados;
          
@@ -444,7 +447,9 @@ class EventoArquivoService
                 if ($AUTO_INCREMENT) {
                     $obj_arquivo->incrementing = true;
                 }
-                 
+                 var_dump($videoMateriacaminhoDeOrigem);
+                 var_dump($videoMateriacaminhoDeDestino);
+                 die;
                 $obj_arquivo->save();
             }
         }
