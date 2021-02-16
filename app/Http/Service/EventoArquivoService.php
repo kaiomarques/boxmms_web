@@ -448,6 +448,8 @@ class EventoArquivoService
                     $obj_arquivo->incrementing = true;
                 }
 
+                var_dump($obj_arquivo);die;
+
                 $save_result = $obj_arquivo->save();
             }
         }
