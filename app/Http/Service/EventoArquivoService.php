@@ -447,10 +447,12 @@ class EventoArquivoService
                 if ($AUTO_INCREMENT) {
                     $obj_arquivo->incrementing = true;
                 }
-                 var_dump($videoMateriacaminhoDeOrigem);
-                 var_dump($videoMateriacaminhoDeDestino);
-                 die;
-                $obj_arquivo->save();
+
+                $save_result = $obj_arquivo->save();
+                var_dump($videoMateriacaminhoDeOrigem);
+                var_dump($videoMateriacaminhoDeDestino);
+                var_dump($save_result);
+                die;
             }
         }
          
