@@ -325,8 +325,10 @@ class EventoArquivoService
         $obj_json = json_decode($json_data);
         $reg =  \App\EventosArquivos::find($id);
         var_dump($reg);
-        $tempo = UtilService::time_to_seconds($reg->tempo_realizado_minutos * 60);
-        var_dump($tempo);die;
+        $tempo = UtilService::time_to_seconds(($reg->tempo_realizado_minutos * 60));
+        var_dump($tempo);
+        
+        die;
         
         $reg_evento = \App\Eventos::find($reg->id_evento);
          
