@@ -324,7 +324,6 @@ class EventoArquivoService
     {
         $obj_json = json_decode($json_data);
         $reg =  \App\EventosArquivos::find($id);
-        var_dump($reg);
         $reg_evento = \App\Eventos::find($reg->id_evento);
          
         $obj_materia_frags = json_decode($id_materia_frags);
@@ -420,9 +419,6 @@ class EventoArquivoService
         $videoMateriacaminhoDeOrigem = $pasta_origem.DIRECTORY_SEPARATOR.$reg->nome;
         $videoMateriacaminhoDeDestino = $pasta_destino.DIRECTORY_SEPARATOR.$nome_destino;
 
-        var_dump($videoMateriacaminhoDeOrigem);
-        var_dump($videoMateriacaminhoDeDestino);die;
-
         $copyResult = copy($videoMateriacaminhoDeOrigem, $videoMateriacaminhoDeDestino);
 
         $meta_dados = $obj_materia_frags->meta_dados;
@@ -444,14 +440,17 @@ class EventoArquivoService
                 $obj_arquivo->tabela = "materia_radiotv_jornal";
                 $obj_arquivo->nome = $nome_destino;
                 $obj_arquivo->data_cadastro = UtilService::getCurrentBDdate();
-                $obj_arquivo->duracao_segundos = UtilService::time_to_seconds($reg->duracao);
-                $obj_arquivo->duracao = UtilService::converteSegundos_ParaHoraMinuto($reg->duracao_segundos);
+                $obj_arquivo->duracao_segundos = UtilService::time_to_seconds($reg->tempo_realizado_minutos);
+                $obj_arquivo->duracao = UtilService::converteSegundos_ParaHoraMinuto($obj_arquivo->duracao_segundos);
                 $obj_arquivo->codigo = "dvd";
                  
                 if ($AUTO_INCREMENT) {
                     $obj_arquivo->incrementing = true;
                 }
                 $save_result = $obj_arquivo->save();
+                var_dump($videoMateriacaminhoDeOrigem);
+                var_dump($videoMateriacaminhoDeDestino);die;
+        
             }
         }
          
