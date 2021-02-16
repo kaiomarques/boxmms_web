@@ -418,8 +418,6 @@ class EventoArquivoService
          
         $videoMateriacaminhoDeOrigem = $pasta_origem.DIRECTORY_SEPARATOR.$reg->nome;
         $videoMateriacaminhoDeDestino = $pasta_destino.DIRECTORY_SEPARATOR.$nome_destino;
-
-        copy($videoMateriacaminhoDeOrigem, $videoMateriacaminhoDeDestino);
          
         $meta_dados = $obj_materia_frags->meta_dados;
          
@@ -448,7 +446,8 @@ class EventoArquivoService
                     $obj_arquivo->incrementing = true;
                 }
 
-                //$save_result = $obj_arquivo->save();
+                $save_result = $obj_arquivo->save();
+                copy($videoMateriacaminhoDeOrigem, $videoMateriacaminhoDeDestino);
                 var_dump($videoMateriacaminhoDeOrigem);
                 var_dump($videoMateriacaminhoDeDestino);
                 var_dump($save_result);
