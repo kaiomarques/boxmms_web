@@ -420,7 +420,7 @@ class EventoArquivoService
         $videoMateriacaminhoDeDestino = $pasta_destino.DIRECTORY_SEPARATOR.$nome_destino;
 
         var_dump($videoMateriacaminhoDeOrigem);
-        var_dump($videoMateriacaminhoDeDestino);die;
+        var_dump($videoMateriacaminhoDeDestino);
 
         $copyResult = copy($videoMateriacaminhoDeOrigem, $videoMateriacaminhoDeDestino);
 
