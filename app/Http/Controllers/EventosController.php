@@ -446,7 +446,7 @@ class EventosController extends Controller
      * @return Response
      */
     public function show($id, Request $request)
-    {
+    {die;
         $reg = Eventos::find($id);
         $simples = $request->input("simples");
         $clean = $request->input("clean");

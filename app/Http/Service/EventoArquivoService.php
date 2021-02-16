@@ -418,7 +418,9 @@ class EventoArquivoService
          
         $videoMateriacaminhoDeOrigem = $pasta_origem.DIRECTORY_SEPARATOR.$reg->nome;
         $videoMateriacaminhoDeDestino = $pasta_destino.DIRECTORY_SEPARATOR.$nome_destino;
-         
+
+        $copyResult = copy($videoMateriacaminhoDeOrigem, $videoMateriacaminhoDeDestino);
+
         $meta_dados = $obj_materia_frags->meta_dados;
          
         for ($i =0; $i < count($meta_dados); $i++) {
@@ -453,13 +455,12 @@ class EventoArquivoService
         $reg->id_materia_radiotv_jornal = $id_materia;
         $reg->save();
 
-        $copyResult = copy($videoMateriacaminhoDeOrigem, $videoMateriacaminhoDeDestino);
-
+/*
         var_dump("Copy result", $copyResult);
         var_dump($videoMateriacaminhoDeOrigem);
         var_dump($videoMateriacaminhoDeDestino);
         var_dump($save_result);
-        die;
+        die;*/
         //Agora preciso de um registro de arquivo...
          
         $reg_rascunho =  MateriaRascunhoService::salvar($request, $obj_json->id_rascunho, $id_materia);
