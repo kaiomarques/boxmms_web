@@ -420,6 +420,9 @@ class EventoArquivoService
         $videoMateriacaminhoDeOrigem = $pasta_origem.DIRECTORY_SEPARATOR.$reg->nome;
         $videoMateriacaminhoDeDestino = $pasta_destino.DIRECTORY_SEPARATOR.$nome_destino;
 
+        var_dump($videoMateriacaminhoDeOrigem);
+        var_dump($videoMateriacaminhoDeDestino);die;
+
         $copyResult = copy($videoMateriacaminhoDeOrigem, $videoMateriacaminhoDeDestino);
 
         $meta_dados = $obj_materia_frags->meta_dados;
