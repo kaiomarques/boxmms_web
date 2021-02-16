@@ -324,7 +324,9 @@ class EventoArquivoService
     {
         $obj_json = json_decode($json_data);
         $reg =  \App\EventosArquivos::find($id);
-        var_dump($reg);die;
+        var_dump($reg);
+        UtilService::time_to_seconds($reg->tempo_realizado_minutos);
+        die;
         $reg_evento = \App\Eventos::find($reg->id_evento);
          
         $obj_materia_frags = json_decode($id_materia_frags);
