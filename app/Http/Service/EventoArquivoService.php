@@ -453,8 +453,9 @@ class EventoArquivoService
         $reg->id_materia_radiotv_jornal = $id_materia;
         $reg->save();
 
-        copy($videoMateriacaminhoDeOrigem, $videoMateriacaminhoDeDestino);
-        
+        $copyResult = copy($videoMateriacaminhoDeOrigem, $videoMateriacaminhoDeDestino);
+
+        var_dump("Copy result", $copyResult);
         var_dump($videoMateriacaminhoDeOrigem);
         var_dump($videoMateriacaminhoDeDestino);
         var_dump($save_result);
