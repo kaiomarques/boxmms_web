@@ -324,6 +324,7 @@ class EventoArquivoService
     {
         $obj_json = json_decode($json_data);
         $reg =  \App\EventosArquivos::find($id);
+        var_dump($reg);die;
         $reg_evento = \App\Eventos::find($reg->id_evento);
          
         $obj_materia_frags = json_decode($id_materia_frags);
@@ -447,9 +448,6 @@ class EventoArquivoService
                 if ($AUTO_INCREMENT) {
                     $obj_arquivo->incrementing = true;
                 }
-
-                var_dump($obj_arquivo);die;
-
                 $save_result = $obj_arquivo->save();
             }
         }
