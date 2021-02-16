@@ -134,7 +134,7 @@ class EdicoesDAO implements IEdicoesDAO
                 $item->tempo_realizado,
                 $item->tempo_realizado_minutos,
                 $item->tempo_total,
-                Tempo::minutos($item->tempo_total)->toString(),
+                Tempo::minutos($item->tempo_realizado_minutos)->toString(),
                 $item->path,
                 $item->evento_status));            
 
