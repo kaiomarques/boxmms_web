@@ -447,16 +447,18 @@ class EventoArquivoService
                 }
 
                 $save_result = $obj_arquivo->save();
-                copy($videoMateriacaminhoDeOrigem, $videoMateriacaminhoDeDestino);
-                var_dump($videoMateriacaminhoDeOrigem);
-                var_dump($videoMateriacaminhoDeDestino);
-                var_dump($save_result);
-                die;
             }
         }
          
         $reg->id_materia_radiotv_jornal = $id_materia;
         $reg->save();
+
+        copy($videoMateriacaminhoDeOrigem, $videoMateriacaminhoDeDestino);
+        
+        var_dump($videoMateriacaminhoDeOrigem);
+        var_dump($videoMateriacaminhoDeDestino);
+        var_dump($save_result);
+        die;
         //Agora preciso de um registro de arquivo...
          
         $reg_rascunho =  MateriaRascunhoService::salvar($request, $obj_json->id_rascunho, $id_materia);
