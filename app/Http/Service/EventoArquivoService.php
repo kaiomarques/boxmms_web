@@ -325,8 +325,9 @@ class EventoArquivoService
         $obj_json = json_decode($json_data);
         $reg =  \App\EventosArquivos::find($id);
         var_dump($reg);
-        UtilService::time_to_seconds($reg->tempo_realizado_minutos);
-        die;
+        $tempo = UtilService::time_to_seconds($reg->tempo_realizado_minutos * 60);
+        var_dump($tempo);die;
+        
         $reg_evento = \App\Eventos::find($reg->id_evento);
          
         $obj_materia_frags = json_decode($id_materia_frags);
@@ -394,7 +395,6 @@ class EventoArquivoService
         $registro->id_operador = $reg_evento->id_operador;
         $registro->status_atual = 0;
          
-         
         $registro->save();
          
         $id_materia = $registro->id;
@@ -418,7 +418,7 @@ class EventoArquivoService
         //"yyyyMMdd_HHmm"
         $date_ind =  date("Ymd_Hi");
         $nome_destino = $id_materia.".1.".$date_ind.".".self::getExtension($reg->nome);
-         
+
         $videoMateriacaminhoDeOrigem = $pasta_origem.DIRECTORY_SEPARATOR.$reg->nome;
         $videoMateriacaminhoDeDestino = $pasta_destino.DIRECTORY_SEPARATOR.$nome_destino;
 
@@ -428,8 +428,7 @@ class EventoArquivoService
         $copyResult = copy($videoMateriacaminhoDeOrigem, $videoMateriacaminhoDeDestino);
 
         $meta_dados = $obj_materia_frags->meta_dados;
-         
-
+s
         var_dump($reg->duracao);
         var_dump($reg->duracao_segundos);
         var_dump($reg->tempo_realizado_minutos);die;
