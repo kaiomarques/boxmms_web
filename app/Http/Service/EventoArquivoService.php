@@ -325,9 +325,8 @@ class EventoArquivoService
         $obj_json = json_decode($json_data);
         $reg =  \App\EventosArquivos::find($id);
         $tempo_convertido = $reg->tempo_realizado_minutos * 60;
-        var_dump($tempo_convertido);
-        //$tempo = UtilService::time_to_seconds( ($reg->tempo_realizado_minutos * 60)  );
-        
+        $tempo = UtilService::time_to_seconds( ($reg->tempo_realizado_minutos * 60)  );
+        var_dump($tempo);
         
         die;
         
@@ -431,7 +430,7 @@ class EventoArquivoService
         $copyResult = copy($videoMateriacaminhoDeOrigem, $videoMateriacaminhoDeDestino);
 
         $meta_dados = $obj_materia_frags->meta_dados;
-s
+
         var_dump($reg->duracao);
         var_dump($reg->duracao_segundos);
         var_dump($reg->tempo_realizado_minutos);die;
