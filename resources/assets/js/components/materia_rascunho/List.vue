@@ -64,23 +64,13 @@ export default {
               "materia_rascunho?id_projeto=" +
               self.id_projeto.toString()
           );
-
-
-/*
-          $.each(retorno.data, function (key, value) {
-            var ids = value.ids_arquivos;
-            ids = ids.split(",");
-            for(var i = 0; i < ids.length; i++) {
-              $(".table-striped tr[video_id="+ ids[i]+"]").css('background-color', '#dd4b39');
-            }
-          });
-*/
           console.log(retorno);
           self.items = retorno.data;
         }
       );
     },
     openProjeto(item, index) {
+      
       if (this.onSelect != null) {
         this.onSelect(item, index);
       }

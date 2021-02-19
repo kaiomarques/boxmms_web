@@ -5,7 +5,7 @@
         <div class="form-row" style="padding-top: 10px">
           <div class="col-md-2">
             <div class="form-group">
-              <label>Data Início</label>
+              <label>Data IníciossssRRR</label>
               <input
                 type="text"
                 class="form-control"
@@ -529,6 +529,7 @@ export default {
   computed: {},
   mounted() {
     let self = this;
+    
 
     self.button_new_text = '<i class="fa fa-user" ></i> CADASTRAR';
 

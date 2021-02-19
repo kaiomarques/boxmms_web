@@ -40,7 +40,10 @@ class MateriaRascunhoController extends Controller
                
                
         if ($request->input("id_projeto")  != "") {
-            $filtro .= " and p.id_projeto = ".  $request->input("id_projeto");
+            $sql = "SELECT id_evento_pai FROM `boxmmsdb`.`eventos` WHERE id = ".  $request->input("id_projeto");
+            $itens = DB::select($sql);
+            $id_evento = $itens[0]->id_evento_pai;
+            $filtro .= " and p.id_projeto in (SELECT id FROM `boxmmsdb`.`eventos` ev2 WHERE ev2.id_evento_pai = ".  $id_evento . ") ";
         }
               
         if (trim($request->input("id_programa"))  != "" && $request->input("id_programa") != "-1") {

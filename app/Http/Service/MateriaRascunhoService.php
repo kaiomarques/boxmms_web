@@ -232,7 +232,8 @@ class MateriaRascunhoService{
            $mes = (int)$dt->format("m");
            
            
-            $sql = " select av.id, av.nome , '' as url  from ". $DB_MIDIACLIP . ".arquivos av "
+            $sql = " select av.id, av.nome , '' as url, av.url_externa, av.status  "
+                    . " from ". $DB_MIDIACLIP . ".arquivos av "
                     . " where av.id_materia = ". $id.
                     " and av.tabela in ( 'materia_radio_tv_jornal' , 'materia_radiotv_jornal') ";
             
@@ -250,10 +251,14 @@ class MateriaRascunhoService{
             
            $arquivos  = DB::select($sql);
            
-           for ( $ii = 0; $ii< count($arquivos); $ii++ ){
-               $item_arquivo = &$arquivos[$ii];
-               $item_arquivo->url =  $PATH_SISTEMA_MIDIACLIP . "RTV/".$ano."/".$mes."/". 
-                       $item_arquivo->nome;
+           for ( $ii = 0; $ii< count($arquivos); $ii++ ) {
+                $item_arquivo = &$arquivos[$ii];
+                if($item_arquivo-> status == 2) {
+                    $item_arquivo->url =  $item_arquivo->url_externa;    
+                } else {
+                    $item_arquivo->url =  $PATH_SISTEMA_MIDIACLIP . "RTV/".$ano."/".$mes."/". 
+                    $item_arquivo->nome;
+                }
            }
            
            $item->arquivos = $arquivos;

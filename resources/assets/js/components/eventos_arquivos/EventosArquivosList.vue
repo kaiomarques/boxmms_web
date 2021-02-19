@@ -369,7 +369,6 @@ export default {
       obj_editor.loadCalendar("#filtro_dtfim");
       console.log("URL: " + window.URL_API + "recortes");
       console.log("Type: " + self.type);
-
       self.load_data();
     });
   }

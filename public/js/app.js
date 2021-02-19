@@ -67818,21 +67818,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       obj_api.call("materia_rascunho?id_projeto=" + this.id_projeto.toString(), "get", {}, function (retorno) {
         console.log("Retorno materia rascunho ? " + "materia_rascunho?id_projeto=" + self.id_projeto.toString());
-
-        /*
-                  $.each(retorno.data, function (key, value) {
-                    var ids = value.ids_arquivos;
-                    ids = ids.split(",");
-                    for(var i = 0; i < ids.length; i++) {
-                      $(".table-striped tr[video_id="+ ids[i]+"]").css('background-color', '#dd4b39');
-                    }
-                  });
-        */
         console.log(retorno);
         self.items = retorno.data;
       });
     },
     openProjeto: function openProjeto(item, index) {
+
       if (this.onSelect != null) {
         this.onSelect(item, index);
       }
@@ -68925,7 +68916,7 @@ var render = function() {
           [
             _c("div", { staticClass: "col-md-2" }, [
               _c("div", { staticClass: "form-group" }, [
-                _c("label", [_vm._v("Data Início")]),
+                _c("label", [_vm._v("Data IníciossssRRR")]),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
@@ -72013,7 +72004,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       obj_editor.loadCalendar("#filtro_dtfim");
       console.log("URL: " + window.URL_API + "recortes");
       console.log("Type: " + self.type);
-
       self.load_data();
     });
   }
