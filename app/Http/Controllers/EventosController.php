@@ -459,7 +459,10 @@ class EventosController extends Controller
             foreach($materias as $key => $materia) {
                 $inicioMateria = strtotime($materia->hora_inicio);
                 $fimMateria = strtotime($materia->hora_fim);
-                if($inicioMateria >= $inicioArquivo && $inicioMateria < $fimArquivo) {
+                if(
+                    ($inicioMateria >= $inicioArquivo && $inicioMateria < $fimArquivo) ||
+                    ($fimMateria >= $inicioArquivo && $fimMateria < $fimArquivo)
+                ) {
                     $arquivo->utilizado = true;
                     break;
                 }
