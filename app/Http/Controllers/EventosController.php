@@ -418,35 +418,6 @@ class EventosController extends Controller
 
 
     private function parseEventos($arquivos, $idEvento) {
-/*
-        $sql_materias_completo = \App\Http\Service\EventoService::SqlMateriasByEvento($idEvento);
-        $materias = DB::select($sql_materias_completo);
-
-        $ids = [];
-
-        foreach($materias as $materia) {
-            $ids_arquivos = $materia->ids_arquivos;
-            $ids_arquivos = explode(",", $ids_arquivos);
-            foreach($ids_arquivos as $id) $ids[] = $id; 
-        }
-
-        $sql_completo = \App\Http\Service\EventoService::SqlCorteDeMaterias($ids);
-        $cortesDeMaterias = DB::select($sql_completo);
-
-        foreach($arquivos as $key => $arquivo) {
-            $arquivo->utilizado = false;
-            $inicio = $arquivo->hora_inicio_seg;
-            $fim = $inicio + 300;
-
-            foreach($cortesDeMaterias as $corte) {
-                if($corte->hora_inicio_seg >= $inicio && $corte->hora_inicio_seg < $fim) {
-                    $arquivo->utilizado = true;
-                    break;
-                }
-            }
-            $arquivos[$key] = $arquivo;
-        }
-        */
 
         $sql_materias = \App\Http\Service\EventoService::SqlMateriasHorasByEvento($idEvento);
         $materias = DB::select($sql_materias);

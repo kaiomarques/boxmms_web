@@ -583,30 +583,4 @@ class EventoService
         return $sql_hora;
     }
 
-    public static function SqlMateriasByEvento($idEvento, $DBTMP ="")
-    {
-        $DB_MIDIACLIP = \App\Http\Dao\ConfigDao::getSchemaMidiaClip();        
-        
-
-        $sql_ids = "
-            SELECT ids_arquivos 
-                FROM boxmmsdb.materia_rascunho p 
-            WHERE p.id_projeto in (
-                    SELECT id FROM `boxmmsdb`.`eventos` ev2 WHERE ev2.id_evento_pai = {$idEvento}
-            )";
-                
-        return $sql_ids;
-    }
-
-    public static function SqlCorteDeMaterias($idsCortes, $DBTMP ="")
-    {
-        $DB_MIDIACLIP = \App\Http\Dao\ConfigDao::getSchemaMidiaClip();        
-
-        $sql = "
-            SELECT ea.id, ea.hora_inicio_seg FROM boxmmsdb.eventos_arquivos ea 
-            WHERE ea.id in (".implode(",", $idsCortes).") and ea.tipo = \"cut\" ";
-                
-        return $sql;
-    }
-
 }
