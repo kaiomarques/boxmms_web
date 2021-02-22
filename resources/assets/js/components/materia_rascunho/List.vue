@@ -1,5 +1,17 @@
 <template>
   <div>
+    <div class="materias_loading" style="
+      position:absolute;
+      height:100%;
+      width:100%;
+      display:none;
+    ">
+        <img src="/public/img/loading.gif" style="
+                width: 40px;
+                left: 50%;
+                position: absolute;
+                margin-left: -40px;">
+    </div>
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
@@ -52,6 +64,7 @@ export default {
   },
   methods: {
     load_data() {
+      $(".materias_loading").show();
       let self = this;
 
       obj_api.call(
@@ -59,6 +72,7 @@ export default {
         "get",
         {},
         function(retorno) {
+          $(".materias_loading").hide();
           console.log(
             "Retorno materia rascunho ? " +
               "materia_rascunho?id_projeto=" +

@@ -67791,6 +67791,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -67814,9 +67826,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   methods: {
     load_data: function load_data() {
+      $(".materias_loading").show();
       var self = this;
 
       obj_api.call("materia_rascunho?id_projeto=" + this.id_projeto.toString(), "get", {}, function (retorno) {
+        $(".materias_loading").hide();
         console.log("Retorno materia rascunho ? " + "materia_rascunho?id_projeto=" + self.id_projeto.toString());
         console.log(retorno);
         self.items = retorno.data;
@@ -67840,8 +67854,10 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
     _c("table", { staticClass: "table table-striped table-bordered" }, [
-      _vm._m(0),
+      _vm._m(1),
       _vm._v(" "),
       _vm.items != null
         ? _c(
@@ -67881,6 +67897,34 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "materias_loading",
+        staticStyle: {
+          position: "absolute",
+          height: "100%",
+          width: "100%",
+          display: "none"
+        }
+      },
+      [
+        _c("img", {
+          staticStyle: {
+            width: "40px",
+            left: "50%",
+            position: "absolute",
+            "margin-left": "-40px"
+          },
+          attrs: { src: "/public/img/loading.gif" }
+        })
+      ]
+    )
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
