@@ -682,12 +682,15 @@ export default {
 
     $(".content-wrapper").css({ "max-height": "auto", height: "1500px" });
 
+
+
     function doc_keyUp(e) {
-        if (e.shiftKey && e.keyCode === 73) {            
+
+        if (e.altKey && e.ctrlKey && e.keyCode === 73) {            
             obj_corteaudiovideo.catchTime('start');
         }
       
-        if (e.shiftKey && e.keyCode === 70) {
+        if (e.altKey && e.ctrlKey && e.keyCode === 70) {
             obj_corteaudiovideo.catchTime('end');
         }
     }
