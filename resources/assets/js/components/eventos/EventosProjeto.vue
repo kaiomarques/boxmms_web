@@ -35,7 +35,7 @@
                     :key="index"
                     v-bind:video_id="item.id"
                     v-bind:class="current_video != null && current_video.id == item.id ? 'bg-light-blue-active {{ item.id }}': ''"
-                    v-bind:style="item.utilizado == true ? 'background-color: rgb(235, 186, 175)': ''"
+                    v-bind:style="item.utilizado == true ? 'background-color: rgb(175 235 185)': ''"
                   >
                     <input type="hidden" class="hora_inicio_seg" v-bind:value="item.hora_inicio_seg" />
                     <input type="hidden" class="utilizado" nome = "utilizado"
