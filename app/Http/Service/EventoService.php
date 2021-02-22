@@ -569,15 +569,42 @@ class EventoService
         return json_encode($obj_json);
     }
 
-    public static function SqlCorteDeMaterias($idEvento, $DBTMP ="")
+
+    public static function SqlMateriasHorasByEvento($idEvento, $DBTMP ="")
     {
         $DB_MIDIACLIP = \App\Http\Dao\ConfigDao::getSchemaMidiaClip();        
         
+
+        $sql_hora = "
+            SELECT hora_inicio,hora_fim FROM boxintegra.materia_radiotv_jornal WHERE id in
+            (SELECT id_materia_radiotv_jornal FROM boxmmsdb.materia_rascunho p WHERE p.id_projeto in 
+            (SELECT id FROM `boxmmsdb`.`eventos` ev2 WHERE ev2.id_evento_pai = {$idEvento}))";
+                
+        return $sql_hora;
+    }
+
+    public static function SqlMateriasByEvento($idEvento, $DBTMP ="")
+    {
+        $DB_MIDIACLIP = \App\Http\Dao\ConfigDao::getSchemaMidiaClip();        
+        
+
+        $sql_ids = "
+            SELECT ids_arquivos 
+                FROM boxmmsdb.materia_rascunho p 
+            WHERE p.id_projeto in (
+                    SELECT id FROM `boxmmsdb`.`eventos` ev2 WHERE ev2.id_evento_pai = {$idEvento}
+            )";
+                
+        return $sql_ids;
+    }
+
+    public static function SqlCorteDeMaterias($idsCortes, $DBTMP ="")
+    {
+        $DB_MIDIACLIP = \App\Http\Dao\ConfigDao::getSchemaMidiaClip();        
+
         $sql = "
             SELECT ea.id, ea.hora_inicio_seg FROM boxmmsdb.eventos_arquivos ea 
-                INNER JOIN eventos e2 ON e2.id = ea.id_evento
-                INNER JOIN eventos e1 ON e1.id = e2.id_evento_pai
-            WHERE e1.id = {$idEvento} and ea.tipo = \"cut\" and id_materia_radiotv_jornal is not null";
+            WHERE ea.id in (".implode(",", $idsCortes).") and ea.tipo = \"cut\" ";
                 
         return $sql;
     }

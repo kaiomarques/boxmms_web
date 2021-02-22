@@ -418,23 +418,54 @@ class EventosController extends Controller
 
 
     private function parseEventos($arquivos, $idEvento) {
+/*
+        $sql_materias_completo = \App\Http\Service\EventoService::SqlMateriasByEvento($idEvento);
+        $materias = DB::select($sql_materias_completo);
 
-        $sql_completo = \App\Http\Service\EventoService::SqlCorteDeMaterias($idEvento);
+        $ids = [];
+
+        foreach($materias as $materia) {
+            $ids_arquivos = $materia->ids_arquivos;
+            $ids_arquivos = explode(",", $ids_arquivos);
+            foreach($ids_arquivos as $id) $ids[] = $id; 
+        }
+
+        $sql_completo = \App\Http\Service\EventoService::SqlCorteDeMaterias($ids);
         $cortesDeMaterias = DB::select($sql_completo);
 
         foreach($arquivos as $key => $arquivo) {
             $arquivo->utilizado = false;
             $inicio = $arquivo->hora_inicio_seg;
-            $fim = $inicio + 600;
+            $fim = $inicio + 300;
 
             foreach($cortesDeMaterias as $corte) {
-                if($corte->hora_inicio_seg >= $inicio && $corte->hora_inicio_seg <= $fim) {
+                if($corte->hora_inicio_seg >= $inicio && $corte->hora_inicio_seg < $fim) {
                     $arquivo->utilizado = true;
                     break;
                 }
             }
             $arquivos[$key] = $arquivo;
         }
+        */
+
+        $sql_materias = \App\Http\Service\EventoService::SqlMateriasHorasByEvento($idEvento);
+        $materias = DB::select($sql_materias);
+
+        foreach($arquivos as $key => $arquivo) {
+            $arquivo->utilizado = false;
+            $inicioArquivo = strtotime($arquivo->hora_inicio);
+            $fimArquivo = strtotime("+5 minutes", $inicioArquivo);
+
+            foreach($materias as $key => $materia) {
+                $inicioMateria = strtotime($materia->hora_inicio);
+                $fimMateria = strtotime($materia->hora_fim);
+                if($inicioMateria >= $inicioArquivo && $inicioMateria < $fimArquivo) {
+                    $arquivo->utilizado = true;
+                    break;
+                }
+            }    
+        }
+        
         return $arquivos;
     }
 
