@@ -67999,7 +67999,7 @@ var render = function() {
                                       : "",
                                   style:
                                     item.utilizado == true
-                                      ? "background-color: rgb(235, 186, 175)"
+                                      ? "background-color: rgb(175 235 185)"
                                       : "",
                                   attrs: { video_id: item.id }
                                 },
