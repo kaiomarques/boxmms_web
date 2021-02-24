@@ -432,7 +432,8 @@ class EventosController extends Controller
                 $fimMateria = strtotime($materia->hora_fim);
                 if(
                     ($inicioMateria >= $inicioArquivo && $inicioMateria < $fimArquivo) ||
-                    ($fimMateria >= $inicioArquivo && $fimMateria < $fimArquivo)
+                    ($fimMateria > $inicioArquivo && $fimMateria <= $fimArquivo) ||
+                    ($inicioMateria < $inicioArquivo && $fimMateria > $fimArquivo)
                 ) {
                     $arquivo->utilizado = true;
                     break;
