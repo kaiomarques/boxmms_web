@@ -251,7 +251,7 @@ class EventoArquivoService
         
         $files = array();
         $extensao = "";
-        
+
         if (count($ar) > 1) {
             //Mais de um arquivo? Vou juntar todos eles num arquivo só.
             for ($i = 0; $i < count($ar); $i++) {
@@ -276,7 +276,7 @@ class EventoArquivoService
                 $files[$i] = $path_evento. DIRECTORY_SEPARATOR . $arquivo->nome;
                 // $ids_arquivos .= ",".$arquivo->id;
             }
-
+            var_dump($files);die;
             // print_r( $files );die(" ");
             $txt_file = \App\Http\Service\FFmpegService::getFileTxt($files, $path_evento);
 

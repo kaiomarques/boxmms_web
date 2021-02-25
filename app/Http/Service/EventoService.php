@@ -478,6 +478,8 @@ class EventoService
 
         $reg->path =  self::getPrePasta($evento) . $evento->dia."/".$evento->id."/". $nome_final_arquivo;
         $reg->nome = $nome_final_arquivo;
+
+        var_dump($reg->nome);die;
                         
         $hora_inicio_seg = \App\Http\Dao\ConfigDao::executeScalar("select min(hora_inicio_seg) as res from eventos_arquivos where id in ( ". $ids_arquivos ." ) ");
         $tot = \App\Http\Dao\ConfigDao::executeScalar("select sum(tempo_realizado_minutos) as res from eventos_arquivos where id in ( ". $ids_arquivos ." ) ");

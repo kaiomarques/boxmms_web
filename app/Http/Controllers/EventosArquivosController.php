@@ -371,7 +371,7 @@ class EventosArquivosController extends Controller
         $ls_tags = \App\Http\Service\TempSearchService::getSQLTagsTotal($id_programa);
             
         $nova_materia = EventoArquivoService::geraMateriaByArquivos($id, $id_materia, $id_materia_frags, $json_data, $clientes, $ls_tags, $request);
-            
+        
         return $this->sendResponse(array("data"=>$nova_materia));
     }
         
