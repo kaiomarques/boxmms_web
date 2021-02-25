@@ -288,7 +288,7 @@ class EventoArquivoService
 
 
             $ret = \App\Http\Service\FFmpegService::executeCommand($comando_final);
-                                        
+            var_dump($ret);die;
 
             $id_arquivo_final =  \App\Http\Service\EventoService::salvarArquivoEventoFilho(
                 $reg_evento,
