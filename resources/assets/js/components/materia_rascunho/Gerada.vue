@@ -177,7 +177,7 @@ export default {
         var form = this.form;
 
         if (form.status == null || form.status == 0) {
-          return "Rascunho";
+          return "Matéria salva";
         }
         if (form.status == 1) {
           return "Matéria cadastrada, aguardando correção.";
