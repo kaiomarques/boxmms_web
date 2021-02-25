@@ -244,7 +244,7 @@ class EventoArquivoService
         $nome_final_arquivo = "";
         
         $lista_arquivo_ordenado = DB::select("select id from eventos_arquivos where id in ( ". $ids_arquivos. " ) order by hora_inicio_seg asc ");
-        
+
         $ids_arquivos = UtilService::arrayToString($lista_arquivo_ordenado, "id");
         
         $ar = explode(",", $ids_arquivos);
@@ -303,7 +303,7 @@ class EventoArquivoService
         }
                       
         // die($ret );
-                      
+
         return self::geraMateriaByArquivo(
             $id_arquivo_final,
             $id_materia,
