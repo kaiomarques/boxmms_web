@@ -100,35 +100,41 @@ class MateriasDAO implements IMateriasDAO
             ->appendLine("    `us`.`nome`                       AS `nome_operador` ")
             ->toString();
 
-        return (new StringBuilder())
+        $sql = (new StringBuilder())
             ->append($this->template($colunas))	
             ->appendLine("        ORDER BY {$orderBy} {$orderByDirection} ")
             ->appendLine("        LIMIT {$limit} OFFSET {$offset} ")
             ->toString();
+
+        return $sql;
     }
 
     public function lista($inicio, $fim, $cliente, $midia, $status, $emissora, $programa, $orderBy, $orderByDirection, $limit, $offset)
     {
+
+        $dados = [
+            "programa_ativo" => self::ATIVO,
+            "programa_id_null" => $programa,
+            "programa_id" => $programa,
+            "programa_midia_null" => $midia,
+            "programa_midia" => $midia,
+            "emissora_ativa" => self::ATIVO,
+            "emissora_id_null" => $emissora,
+            "emissora_id" => $emissora,
+            "emissora_midia_null" => $midia,
+            "emissora_midia" => $midia,
+            "cliente_null" => ($cliente == "" )? NULL : 1,
+            "cliente" => "%{$cliente}%",
+            "status" => $status,
+            "inicio_null" => $inicio,
+            "inicio" => $inicio,
+            "fim_null" => $fim,
+            "fim" => $fim
+        ];
+
         $result =  DB::connection($this->connectionId)
-            ->select($this->listaQuery($orderBy, $orderByDirection, $limit, $offset), [
-                "programa_ativo" => self::ATIVO,
-                "programa_id_null" => $programa,
-                "programa_id" => $programa,
-                "programa_midia_null" => $midia,
-                "programa_midia" => $midia,
-                "emissora_ativa" => self::ATIVO,
-                "emissora_id_null" => $emissora,
-                "emissora_id" => $emissora,
-                "emissora_midia_null" => $midia,
-                "emissora_midia" => $midia,
-                "cliente_null" => "%{$cliente}%",
-                "cliente" => "%{$cliente}%",
-                "status" => $status,
-                "inicio_null" => $inicio,
-                "inicio" => $inicio,
-                "fim_null" => $fim,
-                "fim" => $fim
-            ]);
+            ->select($this->listaQuery($orderBy, $orderByDirection, $limit, $offset), $dados);
+        //var_dump($dados);die;
 
         $materias = array();
         

@@ -389,7 +389,7 @@ class EventoArquivoService
         $registro->sinopse_html = $obj_json->sinopse;
 
         $registro->id_operador = $reg_evento->id_operador;
-        $registro->status_atual = 0;
+        $registro->status_atual = 1;
          
          
         $registro->save();

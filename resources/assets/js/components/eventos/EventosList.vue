@@ -5,7 +5,7 @@
         <div class="form-row" style="padding-top: 10px">
           <div class="col-md-2">
             <div class="form-group">
-              <label>Data IníciossssRRR</label>
+              <label>Data Início</label>
               <input
                 type="text"
                 class="form-control"

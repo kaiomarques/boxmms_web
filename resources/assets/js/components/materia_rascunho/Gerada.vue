@@ -170,24 +170,30 @@ export default {
     situacao: {
       get: function() {
         if (this.form == undefined || this.form == null) {
+          alert("undefined or null");
           return "Rascunho";
         }
 
         var form = this.form;
 
         if (form.status == null || form.status == 0) {
+          alert("null or 0");
           return "Rascunho";
         }
         if (form.status == 1) {
+          alert("1");
           return "Matéria cadastrada, aguardando correção.";
         }
         if (form.status == 2) {
+          alert("2");
           return "Matéria corrigida, aguardando liberação.";
         }
         if (form.status == 3) {
+          alert("3");
           return "Matéria liberada, aguardando envio de email.";
         }
         if (form.status == 4) {
+          alert("4");
           return "Matéria já enviada por email.";
         }
 
