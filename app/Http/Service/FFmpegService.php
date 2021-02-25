@@ -40,8 +40,6 @@ namespace App\Http\Service;
 
     public static function executeCommand($parameter){
             $path_ffmpeg = config("app.PATH_FFMPEG");
-            exec("\"".$path_ffmpeg."\"" ." ". $parameter );
-            var_dump($path_ffmpeg);
            // die( $path_ffmpeg ." ". $parameter );
             return exec("\"".$path_ffmpeg."\"" ." ". $parameter );
             return shell_exec($path_ffmpeg ." ". $parameter );
