@@ -286,7 +286,6 @@ class EventoArquivoService
             $comando_final = "-f concat -safe 0 -i \"" . $txt_file . "\" -c copy " . "\"" .
                                                     $path_evento . DIRECTORY_SEPARATOR . $nome_final_arquivo . "\"";
 
-            var_dump($comando_final);die;
 
             $ret = \App\Http\Service\FFmpegService::executeCommand($comando_final);
                                         
