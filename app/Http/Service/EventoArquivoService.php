@@ -276,7 +276,7 @@ class EventoArquivoService
                 $files[$i] = $path_evento. DIRECTORY_SEPARATOR . $arquivo->nome;
                 // $ids_arquivos .= ",".$arquivo->id;
             }
-            var_dump($files);die;
+
             // print_r( $files );die(" ");
             $txt_file = \App\Http\Service\FFmpegService::getFileTxt($files, $path_evento);
 
@@ -285,6 +285,8 @@ class EventoArquivoService
 
             $comando_final = "-f concat -safe 0 -i \"" . $txt_file . "\" -c copy " . "\"" .
                                                     $path_evento . DIRECTORY_SEPARATOR . $nome_final_arquivo . "\"";
+
+            var_dump($comando_final);die;
 
             $ret = \App\Http\Service\FFmpegService::executeCommand($comando_final);
                                         
