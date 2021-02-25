@@ -43,7 +43,7 @@ namespace App\Http\Service;
             //die( $path_ffmpeg ." ". $parameter );
         
 
-            return exec("\"".$path_ffmpeg."\"" ." ". $parameter );
+            //return exec("\"".$path_ffmpeg."\"" ." ". $parameter );
             return shell_exec($path_ffmpeg ." ". $parameter );
     }
      
