@@ -101,7 +101,7 @@
               <th>ID Matéria Gerada</th>
               <th>Título Matéria</th>
               <!-- <th>Cliente(s)</th> -->
-              <th></th>
+              <th data-priority="1"></th>
             </tr>
           </thead>
         </table>
@@ -278,8 +278,8 @@ export default {
                   { data: "hora_inicio" },
                   { data: "tempo_h_realizado" },
                   { data: "id_materia_radiotv_jornal" },
-                  { data: "titulo_materia" }
-                  // ,{ data: "blnk" }
+                  { data: "titulo_materia" },
+                  { data: "blnk" }
                 ],
                 order: [[0, "desc"]],
 

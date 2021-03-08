@@ -71969,9 +71969,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           searching: false,
           data: dataSet,
 
-          columns: [{ data: "id" }, { data: "programa_nome" }, { data: "data" }, { data: "hora_inicio" }, { data: "tempo_h_realizado" }, { data: "id_materia_radiotv_jornal" }, { data: "titulo_materia"
-            // ,{ data: "blnk" }
-          }],
+          columns: [{ data: "id" }, { data: "programa_nome" }, { data: "data" }, { data: "hora_inicio" }, { data: "tempo_h_realizado" }, { data: "id_materia_radiotv_jornal" }, { data: "titulo_materia" }, { data: "blnk" }],
           order: [[0, "desc"]],
 
           columnDefs: [{
@@ -72400,7 +72398,7 @@ var staticRenderFns = [
               _vm._v(" "),
               _c("th", [_vm._v("Título Matéria")]),
               _vm._v(" "),
-              _c("th")
+              _c("th", { attrs: { "data-priority": "1" } })
             ])
           ])
         ]
