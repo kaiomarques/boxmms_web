@@ -61228,6 +61228,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -68147,29 +68156,36 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _vm.current_video != null
-                  ? _c("div", { staticStyle: { margin: "2px" } }, [
-                      _vm.show_video
-                        ? _c("video", {
-                            attrs: {
-                              id: "video_main",
-                              src: _vm.current_video.url_load,
-                              width: "99%",
-                              preload: "auto",
-                              controls: "controls"
-                            },
-                            on: { timeupdate: _vm.setCurrentTime }
-                          })
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c("div", [
-                        _c("b", [_vm._v("Vídeo em reprodução:")]),
-                        _vm._v(
-                          "\n               " +
-                            _vm._s(_vm.current_video.nome) +
-                            "\n             "
-                        )
-                      ])
-                    ])
+                  ? _c(
+                      "div",
+                      {
+                        staticStyle: { margin: "2px" },
+                        attrs: { id: "bloco_nome_video" }
+                      },
+                      [
+                        _vm.show_video
+                          ? _c("video", {
+                              attrs: {
+                                id: "video_main",
+                                src: _vm.current_video.url_load,
+                                width: "99%",
+                                preload: "auto",
+                                controls: "controls"
+                              },
+                              on: { timeupdate: _vm.setCurrentTime }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("div", [
+                          _c("b", [_vm._v("Vídeo em reprodução:")]),
+                          _vm._v(
+                            "\n               " +
+                              _vm._s(_vm.current_video.nome) +
+                              "\n             "
+                          )
+                        ])
+                      ]
+                    )
                   : _vm._e(),
                 _vm._v(" "),
                 _vm.current_video != null &&
@@ -68184,21 +68200,25 @@ var render = function() {
                           "padding-bottom": "10px",
                           "padding-left": "0px",
                           "padding-top": "10px"
-                        }
+                        },
+                        attrs: { id: "bloco_de_captura" }
                       },
                       [
                         _c(
                           "div",
                           {
                             staticClass: "col-xs-12 col-lg-4",
-                            staticStyle: { "padding-left": "5px" }
+                            staticStyle: {
+                              "padding-left": "5px",
+                              "padding-right": "0"
+                            }
                           },
                           [
                             _c(
                               "div",
                               {
                                 staticStyle: {
-                                  width: "fit-content",
+                                  width: "82px",
                                   margin: "0 auto",
                                   display: "block"
                                 }
@@ -68208,7 +68228,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("input", {
                                   staticClass: "t_readonly",
-                                  staticStyle: { width: "70px" },
+                                  staticStyle: { width: "70px", padding: "0" },
                                   attrs: {
                                     type: "text",
                                     name: "tx_currentTime",
@@ -68238,153 +68258,174 @@ var render = function() {
                 (_vm.current_video.tipo == null ||
                   _vm.current_video.tipo == "pai" ||
                   _vm.current_video.tipo == "join")
-                  ? _c("div", [
-                      _c(
-                        "div",
-                        {
-                          staticClass: "col-xs-12",
-                          staticStyle: { padding: "0" }
-                        },
-                        [
-                          _c(
-                            "div",
-                            {
-                              staticClass: "col-xs-2",
-                              staticStyle: {
-                                "padding-left": "5px",
-                                "padding=right": "0"
-                              }
-                            },
-                            [_vm._v("Início:")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass: "col-xs-7",
-                              staticStyle: { padding: "0" }
-                            },
-                            [
-                              _c("input", {
-                                staticStyle: { width: "99%" },
-                                attrs: {
-                                  type: "range",
-                                  name: "rg_start",
-                                  id: "rg_start",
-                                  min: "0",
-                                  max: _vm.max_video_time,
-                                  onchange: "obj_corteaudiovideo.sendTime(this)"
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "col-xs-12 col-lg-12",
+                        attrs: { id: "bloco_inicio_fim" }
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "col-xs-12",
+                            staticStyle: { padding: "0" }
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass: "col-xs-2",
+                                staticStyle: {
+                                  "padding-left": "5px",
+                                  "padding=right": "0"
                                 }
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _vm._m(2)
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "col-lg-12",
-                          staticStyle: { padding: "0" }
-                        },
-                        [
-                          _c(
-                            "div",
-                            {
-                              staticClass: "col-xs-2",
-                              staticStyle: {
-                                "padding-left": "5px",
-                                "padding=right": "0"
-                              }
-                            },
-                            [_vm._v("Fim:")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass: "col-xs-7",
-                              staticStyle: { padding: "0" }
-                            },
-                            [
-                              _c("input", {
-                                staticStyle: { width: "99%" },
-                                attrs: {
-                                  type: "range",
-                                  name: "rg_end",
-                                  id: "rg_end",
-                                  min: "0",
-                                  max: _vm.max_video_time,
-                                  onchange: "obj_corteaudiovideo.sendTime(this)"
-                                }
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _vm._m(3)
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "col-lg-12",
-                          staticStyle: { "padding-bottom": "12px" }
-                        },
-                        [
-                          _c("div", { staticClass: "col-xs-12 input-group" }, [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.nome_projeto,
-                                  expression: "nome_projeto"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: {
-                                type: "text",
-                                placeholder: "Nome do recorte",
-                                id: "nome_projeto",
-                                maxlength: "100"
                               },
-                              domProps: { value: _vm.nome_projeto },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.nome_projeto = $event.target.value
-                                }
-                              }
-                            }),
+                              [_vm._v("Início:")]
+                            ),
                             _vm._v(" "),
-                            _c("span", { staticClass: "input-group-btn" }, [
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-info btn-sm pull-right",
-                                  attrs: { type: "button" },
+                            _c(
+                              "div",
+                              {
+                                staticClass: "col-xs-7",
+                                staticStyle: { padding: "0" }
+                              },
+                              [
+                                _c("input", {
+                                  staticStyle: { width: "99%" },
+                                  attrs: {
+                                    type: "range",
+                                    name: "rg_start",
+                                    id: "rg_start",
+                                    min: "0",
+                                    max: _vm.max_video_time,
+                                    onchange:
+                                      "obj_corteaudiovideo.sendTime(this)"
+                                  }
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _vm._m(2)
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "col-xs-12 col-lg-12",
+                            staticStyle: { padding: "0" }
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass: "col-xs-2",
+                                staticStyle: {
+                                  "padding-left": "5px",
+                                  "padding=right": "0"
+                                }
+                              },
+                              [_vm._v("Fim:")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "col-xs-7",
+                                staticStyle: { padding: "0" }
+                              },
+                              [
+                                _c("input", {
+                                  staticStyle: { width: "99%" },
+                                  attrs: {
+                                    type: "range",
+                                    name: "rg_end",
+                                    id: "rg_end",
+                                    min: "0",
+                                    max: _vm.max_video_time,
+                                    onchange:
+                                      "obj_corteaudiovideo.sendTime(this)"
+                                  }
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _vm._m(3)
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "col-xs-12 col-lg-12",
+                            staticStyle: {
+                              "padding-bottom": "12px",
+                              "padding-left": "0",
+                              "padding-right": "0",
+                              "padding-top": "5px"
+                            }
+                          },
+                          [
+                            _c(
+                              "div",
+                              { staticClass: "col-xs-12 input-group" },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.nome_projeto,
+                                      expression: "nome_projeto"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    placeholder: "Nome do recorte",
+                                    id: "nome_projeto",
+                                    maxlength: "100"
+                                  },
+                                  domProps: { value: _vm.nome_projeto },
                                   on: {
-                                    click: _vm.gera_corte,
-                                    disabled: function($event) {
-                                      !_vm.enableCorte
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.nome_projeto = $event.target.value
                                     }
                                   }
-                                },
-                                [
-                                  _c("i", { staticClass: "fa fa-cut" }),
-                                  _vm._v(" Gerar Recorte\n                 ")
-                                ]
-                              )
-                            ])
-                          ])
-                        ]
-                      )
-                    ])
+                                }),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "input-group-btn" }, [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass:
+                                        "btn btn-info btn-sm pull-right",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: _vm.gera_corte,
+                                        disabled: function($event) {
+                                          !_vm.enableCorte
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", { staticClass: "fa fa-cut" }),
+                                      _vm._v(
+                                        " Gerar Recorte\n                 "
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ]
+                            )
+                          ]
+                        )
+                      ]
+                    )
                   : _vm._e()
               ]
             )
@@ -68877,7 +68918,10 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "div",
-      { staticClass: "col-xs-12 col-lg-4", staticStyle: { padding: "0" } },
+      {
+        staticClass: "col-xs-12 col-lg-4",
+        staticStyle: { padding: "0", "padding-top": "5px" }
+      },
       [
         _c(
           "div",
@@ -68895,7 +68939,7 @@ var staticRenderFns = [
               attrs: {
                 type: "button",
                 name: "bt_catch_start",
-                onclick: "obj_corteaudiovideo.catchTime('start'T)",
+                onclick: "obj_corteaudiovideo.catchTime('start')",
                 id: "bt_catch_start",
                 value: "Capturar Início",
                 "data-toggle": "tooltip",
@@ -68927,30 +68971,39 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "div",
-      { staticClass: "col-xs-12 col-lg-4", staticStyle: { padding: "0" } },
+      {
+        staticClass: "col-xs-12 col-lg-4",
+        staticStyle: { "padding-left": "5px", "padding-right": "0" }
+      },
       [
-        _c("label", { staticStyle: { float: "right" } }, [
-          _vm._v("Velocidade:")
-        ]),
-        _vm._v(" "),
         _c(
-          "select",
+          "div",
           {
-            staticStyle: { float: "right" },
-            attrs: {
-              name: "video_velocidade",
-              id: "video_velocidade",
-              onchange: "obj_corteaudiovideo.setaVelocidade(this.value)"
-            }
+            staticStyle: { width: "72px", margin: "0 auto", display: "block" }
           },
           [
-            _c("option", { attrs: { value: "1" } }, [_vm._v("Normal")]),
+            _c("label", [_vm._v("Velocidade:")]),
             _vm._v(" "),
-            _c("option", { attrs: { value: "1.25" } }, [_vm._v("1,25")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "1.5" } }, [_vm._v("1,5")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "2" } }, [_vm._v("2")])
+            _c(
+              "select",
+              {
+                staticStyle: { width: "70px" },
+                attrs: {
+                  name: "video_velocidade",
+                  id: "video_velocidade",
+                  onchange: "obj_corteaudiovideo.setaVelocidade(this.value)"
+                }
+              },
+              [
+                _c("option", { attrs: { value: "1" } }, [_vm._v("Normal")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "1.25" } }, [_vm._v("1,25")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "1.5" } }, [_vm._v("1,5")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "2" } }, [_vm._v("2")])
+              ]
+            )
           ]
         )
       ]
@@ -72483,13 +72536,13 @@ var staticRenderFns = [
             _c("tr", [
               _c("th", [_vm._v("ID")]),
               _vm._v(" "),
-              _c("th", { attrs: { "data-priority": "1" } }, [
+              _c("th", { attrs: { "data-priority": "0" } }, [
                 _vm._v("Programa")
               ]),
               _vm._v(" "),
               _c("th", [_vm._v("Data")]),
               _vm._v(" "),
-              _c("th", { attrs: { "data-priority": "1" } }, [
+              _c("th", { attrs: { "data-priority": "0" } }, [
                 _vm._v("Hora Início")
               ]),
               _vm._v(" "),

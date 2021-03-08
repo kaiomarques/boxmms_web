@@ -64,7 +64,7 @@
                 </tbody>
               </table>
             </div>
-            <div v-if="current_video != null" style="margin:2px">
+            <div v-if="current_video != null" style="margin:2px" id="bloco_nome_video">
               <!--  v-bind:height="current_video.url_load.indexOf('.mp3') > -1 ? 100 : 330" -->
               <video
                 id="video_main"
@@ -87,12 +87,15 @@
               class="table"
               v-if="current_video != null && ( current_video.tipo == null || current_video.tipo == 'pai' || current_video.tipo == 'join' )"
             -->
-            <div class="col-xs-12"
+
+            <div class="col-xs-12" id="bloco_de_captura"
               v-if="current_video != null && ( current_video.tipo == null || current_video.tipo == 'pai' || current_video.tipo == 'join' )"
               style="padding-bottom: 10px;padding-left: 0px;padding-top: 10px;"
             >
-              <div class="col-xs-12 col-lg-4" style="padding-left:5px" >
-                <div style="width: fit-content;margin: 0 auto;display: block;">
+
+              <!-- --------- TEMPO ATUAL --------- -->
+              <div class="col-xs-12 col-lg-4" style="padding-left:5px;padding-right:0" >
+                <div style="width: 82px;margin: 0 auto;display: block;">
                   <label>Tempo Atual:</label>
                   <input
                     type="text"
@@ -100,7 +103,7 @@
                     id="tx_currentTime"
                     class="t_readonly"
                     readonly="readonly"
-                    style="width: 70px"
+                    style="width: 70px;padding:0"
                     :value="duracao_atual"
                   />
 
@@ -108,13 +111,13 @@
                 </div>
               </div>
 
-                
-              <div class="col-xs-12 col-lg-4" style="padding:0">
+              <!-- --------- BLOCO DE BOTÃO DE INÍCIO E FIM --------- -->  
+              <div class="col-xs-12 col-lg-4" style="padding:0;padding-top:5px">
                 <div style="width: fit-content;margin: 0 auto;display: block;">
                   <input
                     type="button"
                     name="bt_catch_start"
-                    onclick="obj_corteaudiovideo.catchTime('start'T)"
+                    onclick="obj_corteaudiovideo.catchTime('start')"
                     id="bt_catch_start"
                     value="Capturar Início"
                     data-toggle="tooltip"
@@ -133,8 +136,8 @@
                     class="btn btn-default btn-xs"
                     style="width: 120px"
                   />
-                  </div>
                 </div>
+              </div>
 
               <!-- div class="col-xs-12 col-lg-4">
                 <button
@@ -149,27 +152,33 @@
                 </button>
               </div -->
 
-
-              <div class="col-xs-12 col-lg-4"  style="padding:0">
-                <label style="float:right">Velocidade:</label>
-                <select
-                  name="video_velocidade"
-                  id="video_velocidade"
-                  onchange="obj_corteaudiovideo.setaVelocidade(this.value)"
-                   style="float:right"
-                >
-                  <option value="1">Normal</option>
-                  <option value="1.25">1,25</option>
-                  <option value="1.5">1,5</option>
-                  <option value="2">2</option>
-                </select>
+              <!-- --------- BLOCO DE VELOCIDADE --------- -->
+              <div class="col-xs-12 col-lg-4" style="padding-left:5px;padding-right:0" >
+                <div style="width: 72px;margin: 0 auto;display: block;">
+                  <label>Velocidade:</label>
+                  <select
+                    name="video_velocidade"
+                    id="video_velocidade"
+                    onchange="obj_corteaudiovideo.setaVelocidade(this.value)"
+                                        style="width: 70px"
+                  >
+                    <option value="1">Normal</option>
+                    <option value="1.25">1,25</option>
+                    <option value="1.5">1,5</option>
+                    <option value="2">2</option>
+                  </select>
+                </div>
               </div>
-            </div>
+          
+          </div>
 
             <!-- && current_video.tipo == 'join' -->
+          
+          
           <div
             v-if="current_video != null && ( current_video.tipo == null || current_video.tipo == 'pai' || current_video.tipo == 'join' ) "
-          >
+            id="bloco_inicio_fim" class="col-xs-12 col-lg-12"
+            >
             <div class="col-xs-12"  style="padding: 0;">
               <div class="col-xs-2" style="padding-left: 5px;padding=right:0">Início:</div>
               <div class="col-xs-7" style="padding: 0;">
@@ -193,7 +202,7 @@
                   />
               </div>
             </div>
-            <div class="col-lg-12"  style="padding: 0;">
+            <div class="col-xs-12 col-lg-12"  style="padding: 0;">
               <div class="col-xs-2"  style="padding-left: 5px;padding=right:0">Fim:</div>
 
               <div class="col-xs-7"  style="padding: 0;">
@@ -217,7 +226,7 @@
                 />
               </div>
             </div>
-            <div class="col-lg-12" style="padding-bottom: 12px;">
+            <div class="col-xs-12 col-lg-12" style="padding-bottom: 12px;padding-left: 0;padding-right: 0;padding-top: 5px;">
               <div class="col-xs-12 input-group">
                 <input
                   type="text"
