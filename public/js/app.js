@@ -78321,6 +78321,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -78745,9 +78747,9 @@ var staticRenderFns = [
           _c("tr", [
             _c("th", [_vm._v("ID")]),
             _vm._v(" "),
-            _c("th", [_vm._v("Data")]),
+            _c("th", { attrs: { "data-priority": "0" } }, [_vm._v("Data")]),
             _vm._v(" "),
-            _c("th", [_vm._v("Título")]),
+            _c("th", { attrs: { "data-priority": "0" } }, [_vm._v("Título")]),
             _vm._v(" "),
             _c("th", [_vm._v("Clientes")]),
             _vm._v(" "),
@@ -78757,7 +78759,10 @@ var staticRenderFns = [
             _vm._v(" "),
             _c("th", [_vm._v("Operador")]),
             _vm._v(" "),
-            _c("th", { staticStyle: { width: "40px" } })
+            _c("th", {
+              staticStyle: { width: "40px" },
+              attrs: { "data-priority": "1" }
+            })
           ])
         ])
       ]

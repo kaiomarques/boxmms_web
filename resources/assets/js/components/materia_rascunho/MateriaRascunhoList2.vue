@@ -1,3 +1,5 @@
+
+<!-- ---------------- LISTA DE MATÉRIAS SALVAS ---------------- -->
 <template>
   <div>
     <div v-bind:style="style_list()">
@@ -37,8 +39,8 @@
             <tr>
               <th>ID</th>
               <!-- <th>ID Projeto</th> -->
-              <th>Data</th>
-              <th>Título</th>
+              <th data-priority="0">Data</th>
+              <th data-priority="0">Título</th>
               <th>Clientes</th>
               <th>Emissora</th>
               <th>Programa</th>
@@ -46,7 +48,7 @@
               <!-- <th>Dt. Cadastro</th> -->
               <!-- <th>Status</th> -->
               <!-- <th>ID matéria</th> -->
-              <th style="width: 40px"></th>
+              <th style="width: 40px"  data-priority="1"></th>
             </tr>
           </thead>
         </table>
