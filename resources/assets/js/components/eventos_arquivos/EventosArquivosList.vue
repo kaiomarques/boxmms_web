@@ -94,7 +94,7 @@
           <thead>
             <tr>
               <th>ID</th>
-              <th data-priority="0">Programa</th>
+              <th data-priority="1">Programa</th>
               <th>Data</th>
               <th data-priority="1">Hora Início</th>
               <th>Tempo</th>

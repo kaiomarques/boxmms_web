@@ -61226,6 +61226,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -67974,7 +67976,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "section",
-          { staticClass: "col-xs-12" },
+          { staticClass: "col-lg-12" },
           [
             _vm.form != null && _vm.form.id_evento_pai != null
               ? _c("finaliza_evento", {
@@ -67990,92 +67992,134 @@ var render = function() {
           1
         ),
         _vm._v(" "),
-        _c("div", { staticClass: "col-xs-5" }, [
+        _c("div", { staticClass: "col-xs-12 col-lg-5" }, [
           _c("div", { staticClass: "box box-primary" }, [
-            _c("div", { staticClass: "box-body" }, [
-              _c(
-                "div",
-                {
-                  staticStyle: {
-                    "max-height": "300px",
-                    "overflow-y": "scroll"
-                  },
-                  attrs: { id: "arquivos-container" }
-                },
-                [
-                  _c(
-                    "table",
-                    {
-                      staticClass:
-                        "table table-striped table-bordered transcricoes"
+            _c(
+              "div",
+              { staticClass: "box-bodyS", staticStyle: { overflow: "auto" } },
+              [
+                _c(
+                  "div",
+                  {
+                    staticStyle: {
+                      "max-height": "300px",
+                      "overflow-y": "scroll"
                     },
-                    [
-                      _c("thead", [
-                        _c("tr", [
-                          _c("th", { attrs: { colspan: "3" } }, [
-                            _vm._v(
-                              "\n                     Programa\n                     "
-                            ),
-                            _vm.form != null && _vm.form.meta != null
-                              ? _c("span", [
-                                  _vm._v(
-                                    ": " +
-                                      _vm._s(_vm.form.meta.programa) +
-                                      " - " +
-                                      _vm._s(_vm.form.meta.emissora)
-                                  )
-                                ])
-                              : _vm._e()
+                    attrs: { id: "arquivos-container" }
+                  },
+                  [
+                    _c(
+                      "table",
+                      {
+                        staticClass:
+                          "table table-striped table-bordered transcricoes"
+                      },
+                      [
+                        _c("thead", [
+                          _c("tr", [
+                            _c("th", { attrs: { colspan: "3" } }, [
+                              _vm._v(
+                                "\n                     Programa\n                     "
+                              ),
+                              _vm.form != null && _vm.form.meta != null
+                                ? _c("span", [
+                                    _vm._v(
+                                      ": " +
+                                        _vm._s(_vm.form.meta.programa) +
+                                        " - " +
+                                        _vm._s(_vm.form.meta.emissora)
+                                    )
+                                  ])
+                                : _vm._e()
+                            ])
                           ])
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _vm.form != null && _vm.form.arquivos != null
-                        ? _c(
-                            "tbody",
-                            _vm._l(_vm.form.arquivos, function(item, index) {
-                              return _c(
-                                "tr",
-                                {
-                                  key: index,
-                                  class:
-                                    _vm.current_video != null &&
-                                    _vm.current_video.id == item.id
-                                      ? "bg-light-blue-active {{ item.id }}"
-                                      : "",
-                                  style:
-                                    item.utilizado == true
-                                      ? "background-color: rgb(175 235 185)"
-                                      : "",
-                                  attrs: { video_id: item.id }
-                                },
-                                [
-                                  _c("input", {
-                                    staticClass: "hora_inicio_seg",
-                                    attrs: { type: "hidden" },
-                                    domProps: { value: item.hora_inicio_seg }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    staticClass: "utilizado",
-                                    attrs: {
-                                      type: "hidden",
-                                      nome: "utilizado"
-                                    },
-                                    domProps: { value: item.utilizado }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("td", [_vm._v(_vm._s(item.nome))]),
-                                  _vm._v(" "),
-                                  _c("td", { staticStyle: { width: "30px" } }, [
-                                    item.temClientes
-                                      ? _c(
+                        ]),
+                        _vm._v(" "),
+                        _vm.form != null && _vm.form.arquivos != null
+                          ? _c(
+                              "tbody",
+                              _vm._l(_vm.form.arquivos, function(item, index) {
+                                return _c(
+                                  "tr",
+                                  {
+                                    key: index,
+                                    class:
+                                      _vm.current_video != null &&
+                                      _vm.current_video.id == item.id
+                                        ? "bg-light-blue-active {{ item.id }}"
+                                        : "",
+                                    style:
+                                      item.utilizado == true
+                                        ? "background-color: rgb(175 235 185)"
+                                        : "",
+                                    attrs: { video_id: item.id }
+                                  },
+                                  [
+                                    _c("input", {
+                                      staticClass: "hora_inicio_seg",
+                                      attrs: { type: "hidden" },
+                                      domProps: { value: item.hora_inicio_seg }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      staticClass: "utilizado",
+                                      attrs: {
+                                        type: "hidden",
+                                        nome: "utilizado"
+                                      },
+                                      domProps: { value: item.utilizado }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("td", [_vm._v(_vm._s(item.nome))]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      { staticStyle: { width: "30px" } },
+                                      [
+                                        item.temClientes
+                                          ? _c(
+                                              "a",
+                                              {
+                                                staticStyle: {
+                                                  cursor: "pointer"
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.abrir_clientes(
+                                                      item,
+                                                      index
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c("i", {
+                                                  staticClass: "fa fa-bell",
+                                                  style:
+                                                    _vm.current_video != null &&
+                                                    _vm.current_video.id ==
+                                                      item.id
+                                                      ? "color: white"
+                                                      : ""
+                                                })
+                                              ]
+                                            )
+                                          : _vm._e()
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      { staticStyle: { width: "30px" } },
+                                      [
+                                        _c(
                                           "a",
                                           {
+                                            staticClass: "play_video",
                                             staticStyle: { cursor: "pointer" },
                                             on: {
                                               click: function($event) {
-                                                return _vm.abrir_clientes(
+                                                return _vm.openVideo(
                                                   item,
                                                   index
                                                 )
@@ -68083,174 +68127,214 @@ var render = function() {
                                             }
                                           },
                                           [
-                                            _c("i", {
-                                              staticClass: "fa fa-bell",
-                                              style:
-                                                _vm.current_video != null &&
-                                                _vm.current_video.id == item.id
-                                                  ? "color: white"
-                                                  : ""
+                                            _c("span", {
+                                              staticClass:
+                                                "glyphicon glyphicon-play-circle"
                                             })
                                           ]
                                         )
-                                      : _vm._e()
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("td", { staticStyle: { width: "30px" } }, [
-                                    _c(
-                                      "a",
-                                      {
-                                        staticClass: "play_video",
-                                        staticStyle: { cursor: "pointer" },
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.openVideo(item, index)
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _c("span", {
-                                          staticClass:
-                                            "glyphicon glyphicon-play-circle"
-                                        })
                                       ]
                                     )
-                                  ])
-                                ]
-                              )
-                            }),
-                            0
-                          )
-                        : _vm._e()
-                    ]
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _vm.current_video != null
-                ? _c("div", [
-                    _vm.show_video
-                      ? _c("video", {
-                          attrs: {
-                            id: "video_main",
-                            src: _vm.current_video.url_load,
-                            width: "99%",
-                            height:
-                              _vm.current_video.url_load.indexOf(".mp3") > -1
-                                ? 100
-                                : 330,
-                            preload: "auto",
-                            controls: "controls"
-                          },
-                          on: { timeupdate: _vm.setCurrentTime }
-                        })
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _c("div", [
-                      _c("b", [_vm._v("Vídeo em reprodução:")]),
-                      _vm._v(
-                        "\n               " +
-                          _vm._s(_vm.current_video.nome) +
-                          "\n             "
-                      )
+                                  ]
+                                )
+                              }),
+                              0
+                            )
+                          : _vm._e()
+                      ]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _vm.current_video != null
+                  ? _c("div", { staticStyle: { margin: "2px" } }, [
+                      _vm.show_video
+                        ? _c("video", {
+                            attrs: {
+                              id: "video_main",
+                              src: _vm.current_video.url_load,
+                              width: "99%",
+                              preload: "auto",
+                              controls: "controls"
+                            },
+                            on: { timeupdate: _vm.setCurrentTime }
+                          })
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("div", [
+                        _c("b", [_vm._v("Vídeo em reprodução:")]),
+                        _vm._v(
+                          "\n               " +
+                            _vm._s(_vm.current_video.nome) +
+                            "\n             "
+                        )
+                      ])
                     ])
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.current_video != null &&
-              (_vm.current_video.tipo == null ||
-                _vm.current_video.tipo == "pai" ||
-                _vm.current_video.tipo == "join")
-                ? _c("table", { staticClass: "table" }, [
-                    _c("tr", [
-                      _c("td", [
-                        _c("label", [_vm._v("Tempo Atual:")]),
-                        _vm._v(" "),
-                        _c("input", {
-                          staticClass: "t_readonly",
-                          staticStyle: { width: "70px" },
-                          attrs: {
-                            type: "text",
-                            name: "tx_currentTime",
-                            id: "tx_currentTime",
-                            readonly: "readonly"
-                          },
-                          domProps: { value: _vm.duracao_atual }
-                        }),
-                        _vm._v(" "),
-                        _c("input", {
-                          attrs: { type: "hidden", id: "txtDuracao" },
-                          domProps: { value: _vm.current_video.duracao }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _vm._m(0),
-                      _vm._v(" "),
-                      _vm._m(1),
-                      _vm._v(" "),
-                      _vm._m(2)
-                    ])
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.current_video != null &&
-              (_vm.current_video.tipo == null ||
-                _vm.current_video.tipo == "pai" ||
-                _vm.current_video.tipo == "join")
-                ? _c("table", { staticClass: "table" }, [
-                    _c("tr", [
-                      _c("td", { staticStyle: { width: "40px" } }, [
-                        _vm._v("Início:")
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("input", {
-                          staticStyle: { width: "99%" },
-                          attrs: {
-                            type: "range",
-                            name: "rg_start",
-                            id: "rg_start",
-                            min: "0",
-                            max: _vm.max_video_time,
-                            onchange: "obj_corteaudiovideo.sendTime(this)"
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _vm._m(3)
-                    ]),
-                    _vm._v(" "),
-                    _c("tr", [
-                      _c("td", { staticStyle: { width: "40px" } }, [
-                        _vm._v("Fim:")
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("input", {
-                          staticStyle: { width: "99%" },
-                          attrs: {
-                            type: "range",
-                            name: "rg_end",
-                            id: "rg_end",
-                            min: "0",
-                            max: _vm.max_video_time,
-                            onchange: "obj_corteaudiovideo.sendTime(this)"
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _vm._m(4)
-                    ]),
-                    _vm._v(" "),
-                    _c("tr", [
-                      _c("td", { attrs: { colspan: "3" } }, [
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.current_video != null &&
+                (_vm.current_video.tipo == null ||
+                  _vm.current_video.tipo == "pai" ||
+                  _vm.current_video.tipo == "join")
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "col-xs-12",
+                        staticStyle: {
+                          "padding-bottom": "10px",
+                          "padding-left": "0px",
+                          "padding-top": "10px"
+                        }
+                      },
+                      [
                         _c(
                           "div",
                           {
-                            staticClass: "col-xs-12 input-group",
-                            staticStyle: { "padding-top": "10px" }
+                            staticClass: "col-xs-12 col-lg-4",
+                            staticStyle: { "padding-left": "5px" }
                           },
                           [
+                            _c(
+                              "div",
+                              {
+                                staticStyle: {
+                                  width: "fit-content",
+                                  margin: "0 auto",
+                                  display: "block"
+                                }
+                              },
+                              [
+                                _c("label", [_vm._v("Tempo Atual:")]),
+                                _vm._v(" "),
+                                _c("input", {
+                                  staticClass: "t_readonly",
+                                  staticStyle: { width: "70px" },
+                                  attrs: {
+                                    type: "text",
+                                    name: "tx_currentTime",
+                                    id: "tx_currentTime",
+                                    readonly: "readonly"
+                                  },
+                                  domProps: { value: _vm.duracao_atual }
+                                }),
+                                _vm._v(" "),
+                                _c("input", {
+                                  attrs: { type: "hidden", id: "txtDuracao" },
+                                  domProps: { value: _vm.current_video.duracao }
+                                })
+                              ]
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm._m(0),
+                        _vm._v(" "),
+                        _vm._m(1)
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.current_video != null &&
+                (_vm.current_video.tipo == null ||
+                  _vm.current_video.tipo == "pai" ||
+                  _vm.current_video.tipo == "join")
+                  ? _c("div", [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "col-xs-12",
+                          staticStyle: { padding: "0" }
+                        },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "col-xs-2",
+                              staticStyle: {
+                                "padding-left": "5px",
+                                "padding=right": "0"
+                              }
+                            },
+                            [_vm._v("Início:")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "col-xs-7",
+                              staticStyle: { padding: "0" }
+                            },
+                            [
+                              _c("input", {
+                                staticStyle: { width: "99%" },
+                                attrs: {
+                                  type: "range",
+                                  name: "rg_start",
+                                  id: "rg_start",
+                                  min: "0",
+                                  max: _vm.max_video_time,
+                                  onchange: "obj_corteaudiovideo.sendTime(this)"
+                                }
+                              })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _vm._m(2)
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "col-lg-12",
+                          staticStyle: { padding: "0" }
+                        },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "col-xs-2",
+                              staticStyle: {
+                                "padding-left": "5px",
+                                "padding=right": "0"
+                              }
+                            },
+                            [_vm._v("Fim:")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "col-xs-7",
+                              staticStyle: { padding: "0" }
+                            },
+                            [
+                              _c("input", {
+                                staticStyle: { width: "99%" },
+                                attrs: {
+                                  type: "range",
+                                  name: "rg_end",
+                                  id: "rg_end",
+                                  min: "0",
+                                  max: _vm.max_video_time,
+                                  onchange: "obj_corteaudiovideo.sendTime(this)"
+                                }
+                              })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _vm._m(3)
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "col-lg-12",
+                          staticStyle: { "padding-bottom": "12px" }
+                        },
+                        [
+                          _c("div", { staticClass: "col-xs-12 input-group" }, [
                             _c("input", {
                               directives: [
                                 {
@@ -68293,19 +68377,17 @@ var render = function() {
                                 },
                                 [
                                   _c("i", { staticClass: "fa fa-cut" }),
-                                  _vm._v(
-                                    " Gerar Recorte\n                     "
-                                  )
+                                  _vm._v(" Gerar Recorte\n                 ")
                                 ]
                               )
                             ])
-                          ]
-                        )
-                      ])
+                          ])
+                        ]
+                      )
                     ])
-                  ])
-                : _vm._e()
-            ])
+                  : _vm._e()
+              ]
+            )
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "box box-info" }, [
@@ -68500,10 +68582,10 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "col-xs-7" }, [
+        _c("div", { staticClass: "col-xs-12 col-lg-7" }, [
           _c("div", { staticClass: "box box-primary" }, [
             _c("div", { staticClass: "box-body" }, [
-              _vm._m(5),
+              _vm._m(4),
               _vm._v(" "),
               _vm.current_video != null && _vm.current_text_list != null
                 ? _c(
@@ -68637,7 +68719,7 @@ var render = function() {
           _vm.current_video != null && _vm.current_video.tipo == "cut"
             ? _c("div", { staticClass: "box box-default" }, [
                 _c("div", { staticClass: "box-body" }, [
-                  _vm._m(6),
+                  _vm._m(5),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-xs-12" }, [
                     _c("div", { staticClass: "form-group" }, [
@@ -68751,7 +68833,7 @@ var render = function() {
               { staticClass: "modal-dialog", attrs: { role: "document" } },
               [
                 _c("div", { staticClass: "modal-content" }, [
-                  _vm._m(7),
+                  _vm._m(6),
                   _vm._v(" "),
                   _c("div", { staticClass: "modal-body" }, [
                     _vm.meta_dados_visualizar
@@ -68793,123 +68875,142 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("input", {
-        staticClass: "btn btn-default btn-xs",
-        staticStyle: { width: "120px" },
-        attrs: {
-          type: "button",
-          name: "bt_catch_start",
-          onclick: "obj_corteaudiovideo.catchTime('start')",
-          id: "bt_catch_start",
-          value: "Capturar Início",
-          "data-toggle": "tooltip",
-          title: "Pega o tempo atual e indica como o início do corte"
-        }
-      }),
-      _vm._v(" "),
-      _c("br"),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "btn btn-default btn-xs",
-        staticStyle: { width: "120px" },
-        attrs: {
-          type: "button",
-          name: "bt_catch_end",
-          id: "bt_catch_end",
-          onclick: "obj_corteaudiovideo.catchTime('end')",
-          value: "Capturar Fim",
-          "data-toggle": "tooltip",
-          title: "Pega o tempo atual e indica como o fim do corte"
-        }
-      })
-    ])
+    return _c(
+      "div",
+      { staticClass: "col-xs-12 col-lg-4", staticStyle: { padding: "0" } },
+      [
+        _c(
+          "div",
+          {
+            staticStyle: {
+              width: "fit-content",
+              margin: "0 auto",
+              display: "block"
+            }
+          },
+          [
+            _c("input", {
+              staticClass: "btn btn-default btn-xs",
+              staticStyle: { width: "120px" },
+              attrs: {
+                type: "button",
+                name: "bt_catch_start",
+                onclick: "obj_corteaudiovideo.catchTime('start'T)",
+                id: "bt_catch_start",
+                value: "Capturar Início",
+                "data-toggle": "tooltip",
+                title: "Pega o tempo atual e indica como o início do corte"
+              }
+            }),
+            _vm._v(" "),
+            _c("input", {
+              staticClass: "btn btn-default btn-xs",
+              staticStyle: { width: "120px" },
+              attrs: {
+                type: "button",
+                name: "bt_catch_end",
+                id: "bt_catch_end",
+                onclick: "obj_corteaudiovideo.catchTime('end')",
+                value: "Capturar Fim",
+                "data-toggle": "tooltip",
+                title: "Pega o tempo atual e indica como o fim do corte"
+              }
+            })
+          ]
+        )
+      ]
+    )
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-default btn-xs",
+    return _c(
+      "div",
+      { staticClass: "col-xs-12 col-lg-4", staticStyle: { padding: "0" } },
+      [
+        _c("label", { staticStyle: { float: "right" } }, [
+          _vm._v("Velocidade:")
+        ]),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            staticStyle: { float: "right" },
+            attrs: {
+              name: "video_velocidade",
+              id: "video_velocidade",
+              onchange: "obj_corteaudiovideo.setaVelocidade(this.value)"
+            }
+          },
+          [
+            _c("option", { attrs: { value: "1" } }, [_vm._v("Normal")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "1.25" } }, [_vm._v("1,25")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "1.5" } }, [_vm._v("1,5")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "2" } }, [_vm._v("2")])
+          ]
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "col-xs-3",
+        staticStyle: {
+          "padding-left": "2%",
+          "padding-right": "2%",
+          "padding-top": "1px",
+          "padding-bottom": "1px"
+        }
+      },
+      [
+        _c("input", {
+          staticStyle: { width: "100%" },
           attrs: {
-            type: "button",
-            title: "Pausa o vídeo ou áudio",
-            "data-toggle": "tooltip",
-            id: "btPausar",
-            onclick: "obj_corteaudiovideo.pauseVideo()"
+            type: "text",
+            id: "sp_start",
+            name: "sp_start",
+            onchange: "obj_corteaudiovideo.changeTextTime(this)"
           }
-        },
-        [
-          _c("span", { staticClass: "glyphicon glyphicon-pause" }),
-          _vm._v(" Pausa\n                 ")
-        ]
-      )
-    ])
+        })
+      ]
+    )
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("label", [_vm._v("Velocidade:")]),
-      _vm._v(" "),
-      _c("br"),
-      _vm._v(" "),
-      _c(
-        "select",
-        {
+    return _c(
+      "div",
+      {
+        staticClass: "col-xs-3",
+        staticStyle: {
+          "padding-left": "2%",
+          "padding-right": "2%",
+          "padding-top": "1px",
+          "padding-bottom": "1px"
+        }
+      },
+      [
+        _c("input", {
+          staticStyle: { width: "100%" },
           attrs: {
-            name: "video_velocidade",
-            id: "video_velocidade",
-            onchange: "obj_corteaudiovideo.setaVelocidade(this.value)"
+            type: "text",
+            id: "sp_end",
+            name: "sp_end",
+            onchange: "obj_corteaudiovideo.changeTextTime(this)"
           }
-        },
-        [
-          _c("option", { attrs: { value: "1" } }, [_vm._v("Normal")]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "1.25" } }, [_vm._v("1,25")]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "1.5" } }, [_vm._v("1,5")]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "2" } }, [_vm._v("2")])
-        ]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { staticStyle: { width: "75px" } }, [
-      _c("input", {
-        staticStyle: { width: "70px" },
-        attrs: {
-          type: "text",
-          id: "sp_start",
-          name: "sp_start",
-          onchange: "obj_corteaudiovideo.changeTextTime(this)"
-        }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { staticStyle: { width: "75px" } }, [
-      _c("input", {
-        staticStyle: { width: "70px" },
-        attrs: {
-          type: "text",
-          id: "sp_end",
-          name: "sp_end",
-          onchange: "obj_corteaudiovideo.changeTextTime(this)"
-        }
-      })
-    ])
+        })
+      ]
+    )
   },
   function() {
     var _vm = this
@@ -72382,7 +72483,7 @@ var staticRenderFns = [
             _c("tr", [
               _c("th", [_vm._v("ID")]),
               _vm._v(" "),
-              _c("th", { attrs: { "data-priority": "0" } }, [
+              _c("th", { attrs: { "data-priority": "1" } }, [
                 _vm._v("Programa")
               ]),
               _vm._v(" "),
