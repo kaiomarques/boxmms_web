@@ -15,7 +15,7 @@ public_html/hot
 
 # Laravel + VueJs Specifics
 public/js/app.js
-public//css/app.css
+public/css/app.css
 public/mix-manifest.json
 
 storage/*.key
