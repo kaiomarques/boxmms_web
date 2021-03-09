@@ -3,7 +3,7 @@
     <div class="col-xs-12" style="margin-top: 10px">
       <div v-if="loading">..Carregando</div>
 
-      <section class="col-xs-12">
+      <section class="col-lg-12">
         <finaliza_evento
           v-if="form != null && form.id_evento_pai != null"
           :id="form.id_evento_pai"
@@ -13,9 +13,9 @@
         ></finaliza_evento>
       </section>
 
-      <div class="col-xs-5">
+      <div class="col-xs-12 col-lg-5">
         <div class="box box-primary">
-          <div class="box-body">
+          <div class="box-bodyS" style="overflow:auto">
             <div id="arquivos-container" style="max-height: 300px; overflow-y: scroll">
               <table class="table table-striped table-bordered transcricoes">
                 <thead>
@@ -64,13 +64,14 @@
                 </tbody>
               </table>
             </div>
-            <div v-if="current_video != null">
+            <div v-if="current_video != null" style="margin:2px" id="bloco_nome_video">
+              <!--  v-bind:height="current_video.url_load.indexOf('.mp3') > -1 ? 100 : 330" -->
               <video
                 id="video_main"
                 v-if="show_video"
                 v-bind:src="current_video.url_load"
                 width="99%"
-                v-bind:height="current_video.url_load.indexOf('.mp3') > -1 ? 100 : 330"
+                
                 preload="auto"
                 v-on:timeupdate="setCurrentTime"
                 controls="controls"
@@ -82,12 +83,19 @@
               </div>
             </div>
 
-            <table
+            <!--table
               class="table"
               v-if="current_video != null && ( current_video.tipo == null || current_video.tipo == 'pai' || current_video.tipo == 'join' )"
+            -->
+
+            <div class="col-xs-12" id="bloco_de_captura"
+              v-if="current_video != null && ( current_video.tipo == null || current_video.tipo == 'pai' || current_video.tipo == 'join' )"
+              style="padding-bottom: 10px;padding-left: 0px;padding-top: 10px;"
             >
-              <tr>
-                <td>
+
+              <!-- --------- TEMPO ATUAL --------- -->
+              <div class="col-xs-12 col-lg-4" style="padding-left:5px;padding-right:0" >
+                <div style="width: 82px;margin: 0 auto;display: block;">
                   <label>Tempo Atual:</label>
                   <input
                     type="text"
@@ -95,16 +103,17 @@
                     id="tx_currentTime"
                     class="t_readonly"
                     readonly="readonly"
-                    style="width: 70px"
+                    style="width: 70px;padding:0"
                     :value="duracao_atual"
                   />
 
-                  <input type="hidden" id="txtDuracao" v-bind:value="current_video.duracao" />
-                </td>
+                  <input type="hidden" id="txtDuracao" v-bind:value="current_video.duracao" />  
+                </div>
+              </div>
 
-
-                
-                <td>
+              <!-- --------- BLOCO DE BOTÃO DE INÍCIO E FIM --------- -->  
+              <div class="col-xs-12 col-lg-4" style="padding:0;padding-top:5px">
+                <div style="width: fit-content;margin: 0 auto;display: block;">
                   <input
                     type="button"
                     name="bt_catch_start"
@@ -116,7 +125,6 @@
                     class="btn btn-default btn-xs"
                     style="width: 120px"
                   />
-                  <br />
                   <input
                     type="button"
                     name="bt_catch_end"
@@ -128,118 +136,121 @@
                     class="btn btn-default btn-xs"
                     style="width: 120px"
                   />
-                </td>
+                </div>
+              </div>
 
-                <td>
-                  <button
-                    type="button"
-                    class="btn btn-default btn-xs"
-                    title="Pausa o vídeo ou áudio"
-                    data-toggle="tooltip"
-                    id="btPausar"
-                    onclick="obj_corteaudiovideo.pauseVideo()"
-                  >
-                    <span class="glyphicon glyphicon-pause"></span> Pausa
-                  </button>
-                </td>
-                <td>
+              <!-- div class="col-xs-12 col-lg-4">
+                <button
+                  type="button"
+                  class="btn btn-default btn-xs"
+                  title="Pausa o vídeo ou áudio"
+                  data-toggle="tooltip"
+                  id="btPausar"
+                  onclick="obj_corteaudiovideo.pauseVideo()"
+                >
+                  <span class="glyphicon glyphicon-pause"></span> Pausa
+                </button>
+              </div -->
+
+              <!-- --------- BLOCO DE VELOCIDADE --------- -->
+              <div class="col-xs-12 col-lg-4" style="padding-left:5px;padding-right:0" >
+                <div style="width: 72px;margin: 0 auto;display: block;">
                   <label>Velocidade:</label>
-                  <br />
                   <select
                     name="video_velocidade"
                     id="video_velocidade"
                     onchange="obj_corteaudiovideo.setaVelocidade(this.value)"
+                                        style="width: 70px"
                   >
                     <option value="1">Normal</option>
                     <option value="1.25">1,25</option>
                     <option value="1.5">1,5</option>
                     <option value="2">2</option>
                   </select>
-                </td>
-              </tr>
-            </table>
+                </div>
+              </div>
+          
+          </div>
 
             <!-- && current_video.tipo == 'join' -->
-
-            <table
-              class="table"
-              v-if="current_video != null && ( current_video.tipo == null || current_video.tipo == 'pai' || current_video.tipo == 'join' ) "
+          
+          
+          <div
+            v-if="current_video != null && ( current_video.tipo == null || current_video.tipo == 'pai' || current_video.tipo == 'join' ) "
+            id="bloco_inicio_fim" class="col-xs-12 col-lg-12"
             >
-              <tr>
-                <td style="width: 40px">Início:</td>
-                <td>
-                  <input
-                    type="range"
-                    name="rg_start"
-                    id="rg_start"
-                    min="0"
-                    v-bind:max="max_video_time"
-                    style="width: 99%"
-                    onchange="obj_corteaudiovideo.sendTime(this)"
-                  />
-                </td>
-                <td style="width: 75px">
+            <div class="col-xs-12"  style="padding: 0;">
+              <div class="col-xs-2" style="padding-left: 5px;padding=right:0">Início:</div>
+              <div class="col-xs-7" style="padding: 0;">
+                <input
+                  type="range"
+                  name="rg_start"
+                  id="rg_start"
+                  min="0"
+                  v-bind:max="max_video_time"
+                  style="width: 99%"
+                  onchange="obj_corteaudiovideo.sendTime(this)"
+                />
+              </div>
+              <div class="col-xs-3" style="padding-left: 2%;padding-right: 2%;padding-top: 1px;padding-bottom: 1px;">
                   <input
                     type="text"
                     id="sp_start"
                     name="sp_start"
-                    style="width: 70px"
+                    style="width: 100%"
                     onchange="obj_corteaudiovideo.changeTextTime(this)"
                   />
-                </td>
-              </tr>
-              <tr>
-                <td style="width: 40px">Fim:</td>
+              </div>
+            </div>
+            <div class="col-xs-12 col-lg-12"  style="padding: 0;">
+              <div class="col-xs-2"  style="padding-left: 5px;padding=right:0">Fim:</div>
 
-                <td>
-                  <input
-                    type="range"
-                    name="rg_end"
-                    id="rg_end"
-                    min="0"
-                    v-bind:max="max_video_time"
-                    style="width: 99%"
-                    onchange="obj_corteaudiovideo.sendTime(this)"
-                  />
-                </td>
-                <td style="width: 75px">
-                  <input
-                    type="text"
-                    id="sp_end"
-                    name="sp_end"
-                    style="width: 70px"
-                    onchange="obj_corteaudiovideo.changeTextTime(this)"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td colspan="3">
-                  <div class="col-xs-12 input-group" style="padding-top: 10px">
-                    <input
-                      type="text"
-                      placeholder="Nome do recorte"
-                      id="nome_projeto"
-                      v-model="nome_projeto"
-                      class="form-control"
-                      maxlength="100"
-                    />
-                    <span class="input-group-btn">
-                      <button
-                        type="button"
-                        v-on:click="gera_corte"
-                        class="btn btn-info btn-sm pull-right"
-                        v-on:disabled="!enableCorte"
-                      >
-                        <i class="fa fa-cut"></i> Gerar Recorte
-                      </button>
-                    </span>
-                  </div>
-                </td>
-              </tr>
-            </table>
+              <div class="col-xs-7"  style="padding: 0;">
+                <input
+                  type="range"
+                  name="rg_end"
+                  id="rg_end"
+                  min="0"
+                  v-bind:max="max_video_time"
+                  style="width: 99%"
+                  onchange="obj_corteaudiovideo.sendTime(this)"
+                />
+              </div>
+              <div class="col-xs-3" style="padding-left: 2%;padding-right: 2%;padding-top: 1px;padding-bottom: 1px;">
+                <input
+                  type="text"
+                  id="sp_end"
+                  name="sp_end"
+                  style="width: 100%"
+                  onchange="obj_corteaudiovideo.changeTextTime(this)"
+                />
+              </div>
+            </div>
+            <div class="col-xs-12 col-lg-12" style="padding-bottom: 12px;padding-left: 0;padding-right: 0;padding-top: 5px;">
+              <div class="col-xs-12 input-group">
+                <input
+                  type="text"
+                  placeholder="Nome do recorte"
+                  id="nome_projeto"
+                  v-model="nome_projeto"
+                  class="form-control"
+                  maxlength="100"
+                />
+                <span class="input-group-btn">
+                  <button
+                    type="button"
+                    v-on:click="gera_corte"
+                    class="btn btn-info btn-sm pull-right"
+                    v-on:disabled="!enableCorte"
+                  >
+                    <i class="fa fa-cut"></i> Gerar Recorte
+                  </button>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
-
+      </div>
         <div class="box box-info">
           <div class="box-body">
             <table
@@ -323,7 +334,7 @@
         </div>
       </div>
 
-      <div class="col-xs-7">
+      <div class="col-xs-12 col-lg-7">
         <div class="box box-primary">
           <div class="box-body">
             <div class="box-header with-border">
