@@ -300,7 +300,8 @@ export default {
                     },
                     targets: 2
                   },
-                  { responsivePriority: 0, targets: 1 },
+                  { responsivePriority: 1, targets: 1 },
+                  { responsivePriority: 2, targets: 2 },
                   { responsivePriority: 0, targets: -1 },
                   // {
                   //   // The `data` parameter refers to the data for the cell (defined by the
