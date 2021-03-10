@@ -94,14 +94,14 @@
           <thead>
             <tr>
               <th>ID</th>
-              <th data-priority="0">Programa</th>
+              <th>Programa</th>
               <th>Data</th>
-              <th data-priority="0">Hora Início</th>
+              <th>Hora Início</th>
               <th>Tempo</th>
               <th>ID Matéria Gerada</th>
               <th>Título Matéria</th>
               <!-- <th>Cliente(s)</th> -->
-              <th data-priority="1"></th>
+              <th></th>
             </tr>
           </thead>
         </table>
@@ -300,6 +300,8 @@ export default {
                     },
                     targets: 2
                   },
+                  { responsivePriority: 0, targets: 1 },
+                  { responsivePriority: 0, targets: -1 },
                   // {
                   //   // The `data` parameter refers to the data for the cell (defined by the
                   //   // `data` option, which defaults to the column being worked with, in
