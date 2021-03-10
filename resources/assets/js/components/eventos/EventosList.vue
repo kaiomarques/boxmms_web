@@ -512,7 +512,10 @@ export default {
                 return '<a href="#!"><i class="fa fa-cut"></i> Recortes</a>';
               },
               targets: 8
-            }
+            },            
+            { responsivePriority: 1, targets: 2 },
+            { responsivePriority: 2, targets: 1 },
+            { responsivePriority: 0, targets: -1 }
           ]
         });
 
