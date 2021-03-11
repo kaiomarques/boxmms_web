@@ -96,6 +96,11 @@
                   <span class="glyphicon glyphicon-play-circle"></span>
                 </a>
               </td>
+              <td style="width: 30px">
+                <a style="cursor:pointer" v-bind:download="item.nome" target="_blank" v-bind:href="item.url">
+                  <span class="glyphicon glyphicon-download"></span>
+                </a>
+              </td>
             </tr>
           </tbody>
         </table>
