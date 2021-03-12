@@ -49,6 +49,7 @@ if ( $must_reload ){
 
 <script src="{{ config('app.base_assets', '/') }}js/sweetalert/sweetalert2.all.min.js"></script>
 
+<script src="{{ config('app.base_assets', '/') }}js/fileDownload/jquery.fileDownload.js"></script>
       
 <script src="{{ config('app.base_assets', '/') }}js/jquery-migrate-3.0.0.js?g=000009"></script>
 
@@ -100,4 +101,15 @@ if ( $must_reload ){
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button);
+
+  $(function () {
+
+    //setup syntax highlighter on all pages
+    SyntaxHighlighter.all();
+
+    $('a.toggle-source').click(function () {
+        $(this).next().toggle('slow');
+    });
+  });
+
 </script>

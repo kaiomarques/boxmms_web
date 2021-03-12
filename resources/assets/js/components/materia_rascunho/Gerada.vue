@@ -97,7 +97,11 @@
                 </a>
               </td>
               <td style="width: 30px">
-                <a style="cursor:pointer" v-bind:download="item.nome" target="_blank" v-bind:href="item.url">
+                <a 
+                  v-bind:href="item.url"
+                  style="cursor:pointer" 
+                  v-bind:download="item.nome" 
+                  class="fileDownloadPromise" >
                   <span class="glyphicon glyphicon-download"></span>
                 </a>
               </td>
@@ -207,6 +211,15 @@ export default {
     obj_api.call("materia_gerada/" + this.id, "get", {}, function(retorno) {
       self.form = retorno.data;
     });
+
+      $(document).on("click", "a.fileDownloadPromise", function () {
+      $.fileDownload($(this).prop('href'))
+          .done(function (e) { alert('File download a success!'); })
+          .fail(function (e) { alert('File download failed! message' + e); })
+          ;
+
+      return false; //this is critical to stop the click event which will trigger a normal file download
+  });
   },
   methods: {
     onEnviado() {
