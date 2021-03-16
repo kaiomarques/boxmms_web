@@ -55,7 +55,7 @@
                       </a>
                     </td>
 
-                    <td style="width: 30px">ddd
+                    <td style="width: 30px">
                       <a class="play_video" style="cursor:pointer" v-on:click="openVideo(item, index)">
                         <span class="glyphicon glyphicon-play-circle"></span>
                       </a>

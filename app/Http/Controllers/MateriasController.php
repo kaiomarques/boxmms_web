@@ -46,6 +46,7 @@ class MateriasController extends Controller
         $materias = $this->materiasService->handleListarMateriasQuery($query);
 
         return array(
+            "_query" => $query,
             "qtde"=> $materias->count(),
             "total"=> $materias->getPaginacao()->getTotal(),
             "data" => $materias->items(), 
