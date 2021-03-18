@@ -250,16 +250,21 @@ class MateriaRascunhoService{
             }
             
            $arquivos  = DB::select($sql);
-           
-           for ( $ii = 0; $ii< count($arquivos); $ii++ ) {
-                $item_arquivo = &$arquivos[$ii];
-                if($item_arquivo-> status == 2) {
-                    $item_arquivo->url =  $item_arquivo->url_externa;    
-                } else {
-                    $item_arquivo->url =  $PATH_SISTEMA_MIDIACLIP . "RTV/".$ano."/".$mes."/". 
-                    $item_arquivo->nome;
+
+            $stauts = 1;
+
+            while($status == 1) {
+                for ( $ii = 0; $ii< count($arquivos); $ii++ ) {
+                    $item_arquivo = &$arquivos[$ii];
+                    if($item_arquivo-> status == 2) {
+                        $item_arquivo->url =  $item_arquivo->url_externa;    
+                    } else {
+                        $item_arquivo->url =  $PATH_SISTEMA_MIDIACLIP . "RTV/".$ano."/".$mes."/". 
+                        $item_arquivo->nome;
+                    }
                 }
-           }
+                $status = $item_arquivo-> status;
+            }
            
            $item->arquivos = $arquivos;
            
