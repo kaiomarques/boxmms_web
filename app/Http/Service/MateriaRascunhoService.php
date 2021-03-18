@@ -251,7 +251,7 @@ class MateriaRascunhoService{
             
            $arquivos  = DB::select($sql);
 
-            $stauts = 1;
+            $status = 1;
 
             while($status == 1) {
                 for ( $ii = 0; $ii< count($arquivos); $ii++ ) {
