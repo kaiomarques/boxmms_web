@@ -248,12 +248,11 @@ class MateriaRascunhoService{
                     $PATH_SISTEMA_MIDIACLIP = $URL_ARQUIVOS_MATERIA;
                 }
             }
-            
-           $arquivos  = DB::select($sql);
 
             $status = 1;
 
             while($status == 1) {
+                $arquivos  = DB::select($sql);
                 for ( $ii = 0; $ii< count($arquivos); $ii++ ) {
                     $item_arquivo = &$arquivos[$ii];
                     if($item_arquivo-> status == 2) {
