@@ -268,7 +268,6 @@ class MateriaRascunhoService{
            $item->arquivos = $arquivos;
            
            return $item;
-                    
         }
         
         return array();

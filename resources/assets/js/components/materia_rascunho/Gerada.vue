@@ -71,6 +71,7 @@
 
       <div class="col-xs-12">
         <video
+          class = "visualizar"
           v-if="this.index_arquivo != null"
           v-bind:src="form.arquivos[this.index_arquivo].url"
           width="99%"
@@ -211,6 +212,25 @@ export default {
       self.form = retorno.data;
     });
 
+    $(document).ready(function () {
+        $("video.visualizar").oncanplaythrough = function () {
+          $('.video-run').fadeIn(200);
+          $('.video-run').click(function () {
+              $(".video .background").fadeOut(200);
+              $('.video-run').fadeOut(200);
+              $('.video-play-pause').fadeIn(200);
+              $('.video-play-pause').on('click',function () {
+                  if (video.paused) {
+                      video.play();
+                  }
+                  else {
+                      video.pause();
+                  }
+              })
+              video.play();
+          });
+        }
+    });
   },
   methods: {
     onEnviado() {
