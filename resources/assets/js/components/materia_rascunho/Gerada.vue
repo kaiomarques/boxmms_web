@@ -222,6 +222,18 @@ export default {
     openFile(item, index) {
       console.log("Estou aqui? " + index);
       var self = this;
+
+      $.ajax(item.url, {
+        statusCode: {
+          404: function() {
+            alert('Not working');
+          },
+          /*200: function() {
+            alert('Working');
+          }*/
+        }
+      });
+
       self.index_arquivo = null;
       self.show_modal = true;
       setTimeout(function() {
