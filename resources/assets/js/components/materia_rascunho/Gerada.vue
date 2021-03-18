@@ -222,7 +222,7 @@ export default {
     openFile(item, index) {
       console.log("Estou aqui? " + index);
       var self = this;
-
+      alert("Entrou aqui: " + item.url);
       $.ajax(item.url, {
         statusCode: {
           404: function() {
