@@ -1200,10 +1200,10 @@ export default {
           self.texto_transcricao = self.textoDaTranscricao();
           self.setaPalavrasChave();s
           
-          $("#video_main").on('mouseenter',function () {
+          $("#bloco_nome_video").on('mouseenter', 'video',function () {
             $(this).attr("controls", 1); 
           });
-          $("#video_main").on('mouseleave',function () {
+          $("#bloco_nome_video").on('mouseleave', 'video',function () {
             $(this).removeAttr("controls"); 
           });
         });
