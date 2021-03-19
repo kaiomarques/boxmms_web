@@ -707,6 +707,13 @@ export default {
 
     document.addEventListener('keyup', doc_keyUp, false);
 
+          $("#bloco_nome_video").on('mouseenter', 'video',function () {
+            $(this).attr("controls", 1); 
+          });
+          $("#bloco_nome_video").on('mouseleave', 'video',function () {
+            $(this).removeAttr("controls"); 
+          });
+
   },
   computed: {},
   methods: {
@@ -1199,13 +1206,6 @@ export default {
           self.current_text_list = JSON.parse(item.json);
           self.texto_transcricao = self.textoDaTranscricao();
           self.setaPalavrasChave();
-          
-          $("#bloco_nome_video").on('mouseenter', 'video',function () {
-            $(this).attr("controls", 1); 
-          });
-          $("#bloco_nome_video").on('mouseleave', 'video',function () {
-            $(this).removeAttr("controls"); 
-          });
         });
       }
 
