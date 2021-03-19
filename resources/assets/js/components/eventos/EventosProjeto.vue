@@ -707,13 +707,6 @@ export default {
 
     document.addEventListener('keyup', doc_keyUp, false);
 
-          $("#bloco_nome_video").on('mouseenter', 'video',function () {
-            $(this).attr("controls", 1); 
-          });
-          $("#bloco_nome_video").on('mouseleave', 'video',function () {
-            $(this).removeAttr("controls"); 
-          });
-
   },
   computed: {},
   methods: {
@@ -1221,8 +1214,15 @@ export default {
           self.obj_video.play();
         }
 
+        $("#bloco_nome_video").on('mouseenter', '#video_main',function () {
+          $(this).attr("controls", 1); 
+        });
+        $("#bloco_nome_video").on('mouseleave', '#video_main',function () {
+          $(this).removeAttr("controls"); 
+        });
+
       }, 1300);
-      
+    
 
     },
 
