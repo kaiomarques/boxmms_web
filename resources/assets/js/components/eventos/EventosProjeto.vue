@@ -1198,9 +1198,7 @@ export default {
           console.log("eventos_arquivos_simples para bvuscar json do arquivo");
           self.current_text_list = JSON.parse(item.json);
           self.texto_transcricao = self.textoDaTranscricao();
-          self.setaPalavrasChave();
-
-          alert($("#video_main").length);
+          self.setaPalavrasChave();s
           
           $("#video_main").on('mouseenter',function () {
             $(this).attr("controls", 1); 
