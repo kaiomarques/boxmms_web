@@ -1199,6 +1199,8 @@ export default {
           self.current_text_list = JSON.parse(item.json);
           self.texto_transcricao = self.textoDaTranscricao();
           self.setaPalavrasChave();
+
+          alert($("#video_main").length);
           
           $("#video_main").mouseenter(function () {
             $(this).attr("controls", 1); 
