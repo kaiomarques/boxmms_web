@@ -74,7 +74,6 @@
                 
                 preload="auto"
                 v-on:timeupdate="setCurrentTime"
-                controls="controls"
               ></video>
 
               <div>
@@ -707,6 +706,7 @@ export default {
     }
 
     document.addEventListener('keyup', doc_keyUp, false);
+
   },
   computed: {},
   methods: {
@@ -1199,6 +1199,13 @@ export default {
           self.current_text_list = JSON.parse(item.json);
           self.texto_transcricao = self.textoDaTranscricao();
           self.setaPalavrasChave();
+          
+          $("#video_main").mouseenter(function () {
+            $(this).attr("controls", 1); 
+          });
+          $("#video_main").mouseleave(function () {
+            $(this).removeAttr("controls"); 
+          });
         });
       }
 
@@ -1213,7 +1220,10 @@ export default {
         if (self.obj_video != null) {
           self.obj_video.play();
         }
+
       }, 1300);
+      
+
     },
 
     setaPalavrasChave() {

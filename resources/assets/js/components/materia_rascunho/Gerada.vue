@@ -213,7 +213,6 @@ export default {
     });
 
       $("video.visualizar").on('hover', function () {
-        alert("Teste");
          $(this).attr("controls", 1); 
       });
         
