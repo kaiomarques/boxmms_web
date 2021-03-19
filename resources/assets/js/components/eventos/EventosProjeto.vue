@@ -1202,10 +1202,10 @@ export default {
 
           alert($("#video_main").length);
           
-          $("#video_main").mouseenter(function () {
+          $("#video_main").on('mouseenter',function () {
             $(this).attr("controls", 1); 
           });
-          $("#video_main").mouseleave(function () {
+          $("#video_main").on('mouseleave',function () {
             $(this).removeAttr("controls"); 
           });
         });
