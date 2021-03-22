@@ -252,8 +252,8 @@ class MateriaRascunhoService{
             
             $status = 0;
 
-            while($status != 2) {
-                if($status == 1) sleep(2);
+            //while($status != 2) {
+                //if($status == 1) sleep(2);
                 $arquivos  = DB::select($sql);                
                 for ( $ii = 0; $ii< count($arquivos); $ii++ ) {
                     $item_arquivo = &$arquivos[$ii];
@@ -264,8 +264,8 @@ class MateriaRascunhoService{
                         $item_arquivo->nome;
                     }
                 }
-                $status = $item_arquivo-> status;
-            }
+                //$status = $item_arquivo-> status;
+            //}
            
            $item->arquivos = $arquivos;
            
