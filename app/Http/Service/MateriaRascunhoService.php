@@ -249,10 +249,10 @@ class MateriaRascunhoService{
                 }
             }
 
-            $status = 1;
+            $arquivos  = DB::select($sql);
+            //$status = 1;
 
-            while($status == 1) {
-                $arquivos  = DB::select($sql);
+            //while($status == 1) {                
                 for ( $ii = 0; $ii< count($arquivos); $ii++ ) {
                     $item_arquivo = &$arquivos[$ii];
                     if($item_arquivo-> status == 2) {
@@ -262,8 +262,8 @@ class MateriaRascunhoService{
                         $item_arquivo->nome;
                     }
                 }
-                $status = $item_arquivo-> status;
-            }
+                //$status = $item_arquivo-> status;
+            //}
            
            $item->arquivos = $arquivos;
            
