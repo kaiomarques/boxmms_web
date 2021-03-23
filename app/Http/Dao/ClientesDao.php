@@ -47,7 +47,7 @@ class ClientesDao {
         return "select "
                ."`c`.`id_registro_importado` AS `idOrigem` "
                ."from {$this->getTabelaClientes()} as `c` "
-               ."where `c`.`id` = ? AND `c`.`ativo` = 1"
+               ."where `c`.`id` = ? AND `c`.`ativo` = 1 "
                ."LIMIT 1 ";
     }
 }
