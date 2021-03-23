@@ -243,29 +243,27 @@ class MateriaRascunhoService{
             $EH_INTEGRADOR = \App\Http\Dao\ConfigDao::getValor("EH_INTEGRADOR");
             if ( $EH_INTEGRADOR ){
                 
-                $URL_ARQUIVOS_MATERIA = \App\Http\Dao\ConfigDao::getValor("URL_ARQUIVOS_MATERIA");
+                $URL_ARQUIVOS_MATERIA = \App\Http\Dao\ConfigDao::getValor("URL_ARQUIVOS_MATERsIA");
                 if ( $URL_ARQUIVOS_MATERIA != ""){
                     $PATH_SISTEMA_MIDIACLIP = $URL_ARQUIVOS_MATERIA;
                 }
             }
 
-            
-            $status = 0;
-
-            //while($status != 2) {
-                //if($status == 1) sleep(2);
-                $arquivos  = DB::select($sql);                
+            for($i=0; $i <= 2; $i++) {
+                if($i > 0) sleep(3);
+                $arquivos  = DB::select($sql);
                 for ( $ii = 0; $ii< count($arquivos); $ii++ ) {
                     $item_arquivo = &$arquivos[$ii];
                     if($item_arquivo-> status == 2) {
-                        $item_arquivo->url =  $item_arquivo->url_externa;    
+                        $item_arquivo->url =  $item_arquivo->url_externa;
                     } else {
                         $item_arquivo->url =  $PATH_SISTEMA_MIDIACLIP . "RTV/".$ano."/".$mes."/". 
                         $item_arquivo->nome;
                     }
                 }
-                //$status = $item_arquivo-> status;
-            //}
+                foreach($arquivos as $arquivo) if($arquivo->status == 1) continue;
+                break;
+            }
            
            $item->arquivos = $arquivos;
            
@@ -276,7 +274,6 @@ class MateriaRascunhoService{
                         
         
     }
-    
     
     
 }
