@@ -79,6 +79,8 @@
         <div class="form-group">
           <label>Mídia</label>
           <select
+            id = "veiculo_id"
+            name = "veiculo_id"
             v-model="data_filtro.id_veiculo"
             v-on:change="change_veiculo"
             class="form-control"

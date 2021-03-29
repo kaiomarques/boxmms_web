@@ -200,6 +200,7 @@ export default {
         data["status"] = this.data_filtro.status;
         data["palavra"] = this.data_filtro.palavras;
         data["praca_id"] = this.data_filtro.id_praca;
+        data["veiculo_id"] = this.data_filtro.id_veiculo;
         data["id_emissora"] = this.data_filtro.id_emissora;
         data["id_evento_status"] = this.data_filtro.id_evento_status;
 

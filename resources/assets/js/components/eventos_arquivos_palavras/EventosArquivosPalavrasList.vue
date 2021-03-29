@@ -36,6 +36,7 @@
             <div class="form-group">
               <label>Mídia</label>
               <select
+                id="veiculo_id"
                 v-model="id_veiculo"
                 v-on:change="change_veiculo"
                 class="form-control"

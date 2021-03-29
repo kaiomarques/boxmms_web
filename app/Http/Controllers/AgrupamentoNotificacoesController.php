@@ -41,8 +41,7 @@ class AgrupamentoNotificacoesController extends Controller
         if ($request->input("filtro")  != "") {
             $str_filt = str_replace("'", "''", $request->input("filtro"));
             $filtro .= " and ( palavras like '%".$str_filt."%'  ) ";
-        }
-               
+        }  
         $dt_inicio = $request->input("dt_inicio");
         $dt_fim = $request->input("dt_fim");
         $id_programa = $request->input("id_programa");
@@ -52,6 +51,7 @@ class AgrupamentoNotificacoesController extends Controller
         $limit =  $request->input("limit");
         //$tinder =  $request->input("tinder");
         $status =  $request->input("status");
+        $midia =  $request->input("veiculo_id");
         $id_evento_arquivo =  $request->input("id_evento_arquivo");
         $status_evento =  $request->input("status_evento");
                
@@ -79,7 +79,11 @@ class AgrupamentoNotificacoesController extends Controller
         if ($id_evento_arquivo != "") {
             $filtro .= " and p.id_evento_arquivo = ". $id_evento_arquivo;
         }
-                
+        
+        if ($midia != "" && $midia != -1) {
+            $filtro .= " (`pro`.`id` IS NULL OR `pro`.`id_meio_comunicacao` = {$midia}) ";
+        }
+
         if (trim($id_programa) != "" && $id_programa != "-1" && $id_programa != "0") {
             $filtro .= " and p.id_programa = " . $id_programa;
         }
@@ -158,7 +162,7 @@ class AgrupamentoNotificacoesController extends Controller
             $order_type = $request->input("order_type");
         }
                
-        $sql = "select p.*, arq.id_evento, pro.nome as programa, emi.nome as emissora, '' as blnk, '' as user_link, concat('row_data_', p.id) as id_row  "
+        $sql = "select p.*, arq.id_evento, pro.nome as programa, emi.nome as emissora, '' as blnk, `pro`.`id_meio_comunicacao`, '' as user_link, concat('row_data_', p.id) as id_row  "
                         . " from agrupamento_notificacoes p "
                         . " inner join eventos_arquivos arq on arq.id = p.id_evento_arquivo "
                         . " inner join eventos eve on eve.id = arq.id_evento "
@@ -170,6 +174,7 @@ class AgrupamentoNotificacoesController extends Controller
         if ($limit != "") {
             $sql .= " limit 0, ". $limit;
         }
+        //var_dump(sql);die;
         $itens = DB::select($sql);
                 
                 
@@ -184,6 +189,7 @@ class AgrupamentoNotificacoesController extends Controller
         
     public function index2(Request $request)
     {              
+
         $DB_MIDIACLIP = \App\Http\Dao\ConfigDao::getSchemaMidiaClip();
 
         $original = new QueryNotificacoesOriginal($DB_MIDIACLIP);
@@ -202,6 +208,7 @@ class AgrupamentoNotificacoesController extends Controller
         $id_praca = $request->input("praca_id");
         $id_programa = $request->input("id_programa");
         $id_emissora = $request->input("id_emissora");
+        $id_midia = $request->input("id_midia");
         $id_evento_status = $request->input("id_evento_status");
         $veiculo_id = $request->input("veiculo_id");
         $page = $request->input("draw");
@@ -211,8 +218,8 @@ class AgrupamentoNotificacoesController extends Controller
         $inicio = $request->input("start");
         $acima_de =  $request->input("acima_de");
         $tinder =  $request->input("tinder");
-        //var_dump($tinder);die;
         $status =  $request->input("status");
+        //var_dump($id_evento_status);die;
         $status_evento =  $request->input("status_evento");
         $palavras = $request->input("palavra"); 
         $cliente = $request->input("cliente_nome");  
@@ -234,8 +241,8 @@ class AgrupamentoNotificacoesController extends Controller
             ->daEmissora($id_emissora)
             ->doStatus($id_evento_status)
             ->daPraca($id_praca)
-            ->comStatusDasNotificacoes($status)
-            ->comStatusDosEventos($status_evento)
+            //->comStatusDasNotificacoes($status)
+            //->comStatusDosEventos($status_evento)
             //->tinder($tinder)
             ->adicionaPalavras($palavras)
             ->adicionaCliente($cliente)
@@ -275,11 +282,10 @@ class AgrupamentoNotificacoesController extends Controller
         $sql = $union
             ->count(false)
             ->limit($pagesize, $inicio)
-            ->sql();
-
-        //echo $sql;die;    
+            ->sql();    
 
         $itens = DB::select($sql);
+
         
         return array(
             "qtde"=> $total_itens, "total"=> $total_itens,

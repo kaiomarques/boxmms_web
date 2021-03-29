@@ -159,7 +159,7 @@ class QueryNotificacoes
 
     public function doStatus($id_evento_status)
     {
-        if (isset($id_evento_status) && !empty($id_evento_status))
+        if (isset($id_evento_status) && !empty($id_evento_status) && $id_evento_status != -1)
             $this->statusDosEventos = $id_evento_status;
 
         return $this;
@@ -278,7 +278,7 @@ class QueryNotificacoes
 
     private function setFiltroMidia()
     {
-        if (isset($this->midia) && is_numeric($this->midia)) {
+        if (isset($this->midia) && is_numeric($this->midia) && $this->midia != -1) {
             array_push($this->filtrosWhere, "(`pro`.`id` IS NULL OR `pro`.`id_meio_comunicacao` = {$this->midia})");
             array_push($this->filtrosWhere, "(`emi`.`id` IS NULL OR `emi`.`id_veiculo` = {$this->midia})");
         }
