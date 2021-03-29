@@ -31,7 +31,6 @@ class AgrupamentoNotificacoesController extends Controller
         $order = " id ";
         $order_type = "desc";
               
-              
         $user = Auth::user();
         $header = $request->header();
         $id_user = join($header["apiauth"], ",");
@@ -51,7 +50,7 @@ class AgrupamentoNotificacoesController extends Controller
         $limit =  $request->input("limit");
         //$tinder =  $request->input("tinder");
         $status =  $request->input("status");
-        $midia =  $request->input("veiculo_id");
+        $midia      =  $request->input("veiculo_id");
         $id_evento_arquivo =  $request->input("id_evento_arquivo");
         $status_evento =  $request->input("status_evento");
                
@@ -81,7 +80,7 @@ class AgrupamentoNotificacoesController extends Controller
         }
         
         if ($midia != "" && $midia != -1) {
-            $filtro .= " (`pro`.`id` IS NULL OR `pro`.`id_meio_comunicacao` = {$midia}) ";
+            $filtro .= " and (`pro`.`id` IS NULL OR `pro`.`id_meio_comunicacao` = {$midia}) ";
         }
 
         if (trim($id_programa) != "" && $id_programa != "-1" && $id_programa != "0") {

@@ -192,6 +192,7 @@ export default {
         data["palavra"] = this.data_filtro.palavra;
         data["id_emissora"] = this.data_filtro.id_emissora;
         data["id_evento_status"] = this.data_filtro.id_evento_status;
+        data["veiculo_id"] = this.data_filtro.id_veiculo;
 
         this.data_filtro.filtro_dtinicio = $("#filtro_dtinicio").val();
         this.data_filtro.filtro_dtfim = $("#filtro_dtfim").val();
