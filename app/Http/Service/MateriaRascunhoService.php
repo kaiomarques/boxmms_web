@@ -238,7 +238,7 @@ class MateriaRascunhoService{
                     " and av.tabela in ( 'materia_radio_tv_jornal' , 'materia_radiotv_jornal') ";
             
             
-            $PATH_SISTEMA_MIDIACLIP = config("app.url_midiaclip") . "arquivos/";
+            $PATH_SISTEMA_MIDIACLIP = config("app.PATH_URL_VIDEOS");
             
             $EH_INTEGRADOR = \App\Http\Dao\ConfigDao::getValor("EH_INTEGRADOR");
             if ( $EH_INTEGRADOR ){
@@ -266,6 +266,7 @@ class MateriaRascunhoService{
             }
            
            $item->arquivos = $arquivos;
+           $item->arquivo_sql = $sql;
            
            return $item;
         }
