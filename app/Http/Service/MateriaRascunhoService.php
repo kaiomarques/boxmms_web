@@ -243,7 +243,7 @@ class MateriaRascunhoService{
             $EH_INTEGRADOR = \App\Http\Dao\ConfigDao::getValor("EH_INTEGRADOR");
             if ( $EH_INTEGRADOR ){
                 
-                $URL_ARQUIVOS_MATERIA = \App\Http\Dao\ConfigDao::getValor("URL_ARQUIVOS_MATERsIA");
+                $URL_ARQUIVOS_MATERIA = \App\Http\Dao\ConfigDao::getValor("URL_ARQUIVOS_MATERIA");
                 if ( $URL_ARQUIVOS_MATERIA != ""){
                     $PATH_SISTEMA_MIDIACLIP = $URL_ARQUIVOS_MATERIA;
                 }
