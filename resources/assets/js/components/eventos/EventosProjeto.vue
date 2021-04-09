@@ -643,7 +643,7 @@ export default {
             self.form.arquivos[o].id.toString() ==
             self.id_load_arquivo.toString()
           ) {
-            //self.openVideo(self.form.arquivos[o], o);
+            self.openVideo(self.form.arquivos[o], o);
 
             if (
               self.tempo_inicio != null &&
