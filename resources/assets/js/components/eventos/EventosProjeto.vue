@@ -1160,7 +1160,7 @@ export default {
 
     openVideo(item, index) {
       var self = this;
-      $("#video_main:not([video_id="+this.video_id+"])").remove();
+      //$("#video_main:not([video_id="+this.video_id+"])").remove();
 
       this.show_video = false;
 
