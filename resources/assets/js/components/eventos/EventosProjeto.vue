@@ -69,6 +69,7 @@
               <video
                 id="video_main"
                 v-if="show_video"
+                v-bind:video_id="current_video.id"
                 v-bind:src="current_video.url_load"
                 width="99%"
                 
@@ -642,7 +643,7 @@ export default {
             self.form.arquivos[o].id.toString() ==
             self.id_load_arquivo.toString()
           ) {
-            self.openVideo(self.form.arquivos[o], o);
+            //self.openVideo(self.form.arquivos[o], o);
 
             if (
               self.tempo_inicio != null &&
@@ -1159,6 +1160,7 @@ export default {
 
     openVideo(item, index) {
       var self = this;
+      $("#video_main:not([video_id="+this.video_id+"])").remove();
 
       this.show_video = false;
 
