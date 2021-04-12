@@ -1160,8 +1160,7 @@ export default {
 
     openVideo(item, index) {
       var self = this;
-      $(this).siblings().remove();
-
+      $("#video_main[video_id="+this.video_id+"]").siblings().remove();
       this.show_video = false;
 
       if (self.obj_video != null) {
