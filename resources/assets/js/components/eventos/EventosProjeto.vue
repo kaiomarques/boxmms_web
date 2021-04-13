@@ -1163,7 +1163,8 @@ export default {
       
       this.show_video = false;
       //$("#video_main").not("[video_id="+item.id+"]").remove();
-      $("#video_main[video_id="+item.id+"]").siblings().remove();
+      $("video[video_id="+item.id+"]").siblings().remove();
+      $("audio").remove();
       
       if (self.obj_video != null) {
         self.obj_video.pause();
