@@ -1160,9 +1160,11 @@ export default {
 
     openVideo(item, index) {
       var self = this;
-      $("#video_main[video_id="+this.video_id+"]").siblings().remove();
+      
       this.show_video = false;
-
+      //$("#video_main").not("[video_id="+item.id+"]").remove();
+      $("#video_main[video_id="+item.id+"]").siblings().remove();
+      
       if (self.obj_video != null) {
         self.obj_video.pause();
       }
@@ -1208,6 +1210,9 @@ export default {
       }
 
       setTimeout(function() {
+        //$("#video_main").not("[video_id="+item.id+"]").remove();
+        $("#video_main[video_id="+item.id+"]").siblings().remove();
+
         self.show_video = true;
         self.obj_video = document.getElementById("video_main");
 
