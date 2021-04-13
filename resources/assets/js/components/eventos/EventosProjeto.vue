@@ -1166,12 +1166,12 @@ export default {
       
       this.show_video = false;
       
-      var allVideos = document.querySelectorAll('video');
+      self.obj_video = $("#video_main")[0];
 
-      allVideos.forEach(function(video){
-        video.pause();
-      });
-
+      if (self.obj_video != null) {
+        self.obj_video.pause();
+      }
+      
       this.current_text_list = null;
       this.texto_transcricao = "";
 
@@ -1214,9 +1214,10 @@ export default {
 
       setTimeout(function() {
         self.show_video = true;
-        self.obj_video = document.getElementById("video_main");
+        self.obj_video = $("#video_main")[0];
 
         if (self.obj_video != null) {
+          self.obj_video.pause();
           self.obj_video.play();
         }
 
