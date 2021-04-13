@@ -1124,8 +1124,11 @@ export default {
     click_time(item) {
       if (this.obj_video == null) {
         this.obj_video = document.getElementById("video_main");
+        this.obj_video = $("#video_main")[0];
+        console.log(this.obj_video);
       }
 
+      this.obj_video.pause();
       this.obj_video.currentTime = item.start_time;
       this.obj_video.play();
     },
@@ -1162,21 +1165,12 @@ export default {
       var self = this;
       
       this.show_video = false;
-      //$("#video_main").not("[video_id="+item.id+"]").remove();
-      //$("video[video_id="+item.id+"]").siblings().pause();
       
       var allVideos = document.querySelectorAll('video');
 
       allVideos.forEach(function(video){
         video.pause();
       });
-
-
-      //$("video, audio").stop();
-      
-      /*if (self.obj_video != null) {
-        self.obj_video.pause();
-      }*/
 
       this.current_text_list = null;
       this.texto_transcricao = "";
