@@ -1165,7 +1165,14 @@ export default {
       //$("#video_main").not("[video_id="+item.id+"]").remove();
       //$("video[video_id="+item.id+"]").siblings().pause();
       
-      $("video, audio").stop();
+      var allVideos = document.querySelectorAll('video');
+
+      allVideos.forEach(function(video){
+        video.pause();
+      });
+
+
+      //$("video, audio").stop();
       
       /*if (self.obj_video != null) {
         self.obj_video.pause();
