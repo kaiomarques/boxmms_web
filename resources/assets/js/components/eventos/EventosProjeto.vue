@@ -1125,7 +1125,7 @@ export default {
       if (this.obj_video == null) {
         this.obj_video = document.getElementById("video_main");
         this.obj_video = $("#video_main")[0];
-        console.log(this.obj_video);
+        console.log("Vídeo: " +  this.obj_video.lenght + "| " + this.obj_video);
       }
 
       this.obj_video.pause();
