@@ -1164,7 +1164,8 @@ export default {
       this.show_video = false;
       //$("#video_main").not("[video_id="+item.id+"]").remove();
       //$("video[video_id="+item.id+"]").siblings().pause();
-      //$("video, audio").pause();
+      
+      $("video, audio").stop();
       
       /*if (self.obj_video != null) {
         self.obj_video.pause();
