@@ -196,7 +196,7 @@
     <div class="box box-primary">
             <div class="box-body">
                 <div class="box-header with-border">
-                <h3 class="box-title">Texto transcrito</h3>
+                <h3 class="box-title">;;;;</h3>
                 </div>
                 <div id="divTexto" class="col-xs-12" v-if="current_video != null && current_text_list != null " style="max-height: 500px; overflow-y: scroll;">
                         

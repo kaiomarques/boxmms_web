@@ -582,6 +582,7 @@ export default {
     };
   },
   mounted() {
+
     console.log("seleciona projeto? ");
     if (this.interval_id != null) {
       clearInterval(this.interval_id);
@@ -1217,7 +1218,6 @@ export default {
         self.obj_video = $("#video_main")[0];
 
         if (self.obj_video != null) {
-          self.obj_video.pause();
           self.obj_video.play();
         }
 
@@ -1228,7 +1228,7 @@ export default {
           $(this).removeAttr("controls"); 
         });
 
-      }, 1300);
+      }, 2300);
     
 
     },
