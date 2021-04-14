@@ -1214,6 +1214,7 @@ export default {
       }
 
       setTimeout(function() {
+        console.log("2300 de tempo de espera");
         self.show_video = true;
         self.obj_video = $("#video_main")[0];
 
