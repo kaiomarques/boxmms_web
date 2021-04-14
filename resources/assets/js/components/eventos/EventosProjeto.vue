@@ -1125,8 +1125,8 @@ export default {
     click_time(item) {
       if (this.obj_video == null) {
         this.obj_video = document.getElementById("video_main");
-        this.obj_video = $("#video_main")[0];
-        console.log("Vídeo: " +  $("#video_main").lenght + "| " + this.obj_video);
+        //this.obj_video = $("#video_main")[0];
+        console.log("Vídeo: " +  $("#video_main").attr("src"));
       }
 
       this.obj_video.pause();
@@ -1169,8 +1169,17 @@ export default {
       
       self.obj_video = $("#video_main")[0];
 
+        console.log("[2] Tentativa de play");
+        console.log("[2]Item: " + item.url_load);
+        console.log("[2]Vídeo: " +  $("#video_main").attr("src"));
+        console.log("[2]Vídeo: " +  $("#video_main").attr("src"));
+        //console.log("[2]Video Main:" + JSON.stringify(self.obj_video.attr("src")));
+
       if (self.obj_video != null) {
         self.obj_video.pause();
+        /*while(item.url_load != $("#video_main").attr("src")) {
+            $("#video_main").attr("src",item.url_load);
+        }*/
       }
       
       this.current_text_list = null;
@@ -1213,21 +1222,26 @@ export default {
         this.modo_materia = false;
       }
 
+
       setTimeout(function() {
-        console.log("2300 de tempo de espera");
         self.show_video = true;
         self.obj_video = $("#video_main")[0];
-
+      
         if (self.obj_video != null) {
           self.obj_video.play();
         }
-
+        
         $("#bloco_nome_video").on('mouseenter', '#video_main',function () {
           $(this).attr("controls", 1); 
         });
         $("#bloco_nome_video").on('mouseleave', '#video_main',function () {
           $(this).removeAttr("controls"); 
         });
+
+        console.log("[1] Tentativa de play");
+        console.log("[1]Item: " + item.url_load);
+        console.log("[1]Vídeo: " +  $("#video_main").attr("src"));
+        console.log("[1]Video Main:" + JSON.stringify(self.obj_video.attr("src")));
 
       }, 2300);
     
