@@ -1164,22 +1164,17 @@ export default {
 
     openVideo(item, index) {
       var self = this;
-      
       this.show_video = false;
+
+      var transcricao_carregada = false;
+      var video_carregado = false;
+      var text_list;
+      var texto_transcricao;
       
       self.obj_video = $("#video_main")[0];
 
-        console.log("[2] Tentativa de play");
-        console.log("[2]Item: " + item.url_load);
-        console.log("[2]Vídeo: " +  $("#video_main").attr("src"));
-        console.log("[2]Vídeo: " +  $("#video_main").attr("src"));
-        //console.log("[2]Video Main:" + JSON.stringify(self.obj_video.attr("src")));
-
       if (self.obj_video != null) {
         self.obj_video.pause();
-        while(item.url_load != $("#video_main").attr("src")) {
-            $("#video_main").attr("src",item.url_load);
-        }
       }
       
       this.current_text_list = null;
@@ -1202,28 +1197,34 @@ export default {
       }
       this.current_video = item;
       this.current_video_index = index;
-      if (item.json != null) {
+      /*if (item.json != null) {
         this.current_text_list = JSON.parse(item.json);
         this.texto_transcricao = this.textoDaTranscricao();
         this.setaPalavrasChave();
-      } else {
+      } else {*/
         obj_api.call("eventos_arquivos_simples/" + item.id, "get", {}, function(
           retorno
         ) {
+          transcricao_carregada = true;
           item.json = retorno.item.json;
           console.log("eventos_arquivos_simples para bvuscar json do arquivo");
-          self.current_text_list = JSON.parse(item.json);
-          self.texto_transcricao = self.textoDaTranscricao();
-          self.setaPalavrasChave();
-        });
-      }
+          
+          text_list = JSON.parse(item.json);
+          texto_transcricao = self.textoDaTranscricao();
+
+          carregarVideo(text_list, texto_transcricao);
+
+        }
+      );
+      /*}*/
 
       if (item.tipo == null || item.tipo == "pai" || item.tipo == "join") {
         this.modo_materia = false;
       }
 
 
-      setTimeout(function() {
+      function carregarVideo(text_list, texto_transcricao) {
+        video_carregado = true;
         self.show_video = true;
         self.obj_video = $("#video_main")[0];
       
@@ -1238,12 +1239,20 @@ export default {
           $(this).removeAttr("controls"); 
         });
 
-        console.log("[1] Tentativa de play");
+        self.current_text_list = text_list;
+        self.texto_transcricao = texto_transcricao;
+        self.setaPalavrasChave();
+
+        /*console.log("[1] Tentativa de play");
         console.log("[1]Item: " + item.url_load);
         console.log("[1]Vídeo: " +  $("#video_main").attr("src"));
-        console.log("[1]Video Main:" + JSON.stringify(self.obj_video.attr("src")));
+        console.log("[1]Video Main:" + JSON.stringify(self.obj_video.attr("src")));*/
 
-      }, 2300);
+        self.current_text_list = text_list;
+        self.texto_transcricao = texto_transcricao;
+        self.setaPalavrasChave();
+
+      }
     
 
     },
