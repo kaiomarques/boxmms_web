@@ -1177,9 +1177,9 @@ export default {
 
       if (self.obj_video != null) {
         self.obj_video.pause();
-        /*while(item.url_load != $("#video_main").attr("src")) {
+        while(item.url_load != $("#video_main").attr("src")) {
             $("#video_main").attr("src",item.url_load);
-        }*/
+        }
       }
       
       this.current_text_list = null;
