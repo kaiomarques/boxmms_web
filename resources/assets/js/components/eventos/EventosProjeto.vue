@@ -1189,12 +1189,16 @@ export default {
           this.clientes = obj.clientes;
         }
       }
-
+      
       if (item.duracao != undefined && item.duracao != null) {
         this.max_video_time = obj_corteaudiovideo.ConverteTextoParaSegundos(
           item.duracao
         );
       }
+      
+      if(this.max_video_time === 0 || this.max_video_time === undefined && this.max_video_time === null) 
+        this.max_video_time = 299;
+      
       this.current_video = item;
       this.current_video_index = index;
       /*if (item.json != null) {
