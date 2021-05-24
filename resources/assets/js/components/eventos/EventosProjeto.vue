@@ -1163,6 +1163,7 @@ export default {
     },
 
     openVideo(item, index) {
+
       var self = this;
       this.show_video = false;
 
@@ -1190,15 +1191,16 @@ export default {
         }
       }
       
-      if (item.duracao != undefined && item.duracao != null) {
+      /*if (item.duracao != undefined && item.duracao != null) {
         this.max_video_time = obj_corteaudiovideo.ConverteTextoParaSegundos(
-          item.duracao
+          299
         );
       }
       
       if(this.max_video_time === 0 || this.max_video_time === undefined && this.max_video_time === null) 
-        this.max_video_time = 299;
+        this.max_video_time = 299;*/
       
+      this.max_video_time = 300;
       this.current_video = item;
       this.current_video_index = index;
       /*if (item.json != null) {
@@ -1209,13 +1211,13 @@ export default {
         obj_api.call("eventos_arquivos_simples/" + item.id, "get", {}, function(
           retorno
         ) {
+  
           transcricao_carregada = true;
           item.json = retorno.item.json;
           console.log("eventos_arquivos_simples para bvuscar json do arquivo");
           
           text_list = JSON.parse(item.json);
           texto_transcricao = self.textoDaTranscricao();
-
           carregarVideo(text_list, texto_transcricao);
 
         }
