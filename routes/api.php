@@ -65,6 +65,7 @@ Route::group([
         Route::get('/midiaclip_cadastros', 'MidiaClipController@index');
         Route::post('/materia_new', 'EventosArquivosController@gerarMateria');
         Route::post('/recorte_delete', 'EventosArquivosController@destroy');
+        Route::post('/recorte_delete_all', 'EventosArquivosController@destroy_all');
         Route::get('/materia_gerada/{id}', 'MateriaRascunhoController@show_materia_gerada');
         Route::get('/materia_rascunho_del/{id}', 'MateriaRascunhoController@destroy');                
                 

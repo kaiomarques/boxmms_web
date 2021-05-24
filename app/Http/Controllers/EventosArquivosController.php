@@ -902,8 +902,35 @@ class EventosArquivosController extends Controller
         }
 
         return array("msg"=>"sucesso", "code" =>  1 , "success" => $ret, "results"=> $reg);
-                
-           
-               
     }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy_all(Request $request)
+    {
+        $ids = $request->input("id");
+
+        $regs = EventosArquivos::whereIn("id",$ids);
+        $ret = null;
+
+        if (! is_null($regs)) {
+            foreach($regs as $reg) {
+                $path = \App\Http\Service\EventoService::getPathEvento($reg->id_evento, true);
+                
+                if (file_exists($path. DIRECTORY_SEPARATOR . $reg->nome) && $reg->nome != "") {
+                    unlink($path. DIRECTORY_SEPARATOR . $reg->nome);
+                }
+            }
+        }
+        $ret = $regs->delete();   
+
+        return array("msg"=>"sucesso", "code" =>  1 , "success" => $ret, "results"=> $regs);
+    }
+
+
 }

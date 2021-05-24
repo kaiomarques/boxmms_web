@@ -282,6 +282,24 @@
                 v-if="form != null && form.arquivos_cortados != undefined  && form.arquivos_cortados != null "
                 class="table table-striped table-bordered recortes"
               >
+                <thead  v-if="form.arquivos_cortados.length > 0 " >
+                  <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th><input type="checkbox" id="checkAll_recortes" v-on:click="check_all()"></th>
+                    <th></th>
+                    <th>
+                      <a style="cursor:pointer" v-on:click="removeAllVideos()">
+                        <span
+                          style="color: red"
+                          class="glyphicon glyphicon-remove-circle"
+                        ></span>
+                        </a>
+                    </th>
+                  </tr>
+                </thead>
                 <tbody>
                   <tr
                     v-for="(item,index) in form.arquivos_cortados"
@@ -582,7 +600,6 @@ export default {
     };
   },
   mounted() {
-
     console.log("seleciona projeto? ");
     if (this.interval_id != null) {
       clearInterval(this.interval_id);
@@ -707,11 +724,19 @@ export default {
         }
     }
 
+    /*$("#checkAll_recortes").click(function(){
+        alert("Teste");
+        $('input:checkbox.chk_recorte').not(this).prop('checked', this.checked);
+    });*/
+
     document.addEventListener('keyup', doc_keyUp, false);
 
   },
   computed: {},
   methods: {
+    check_all() {
+      $('input:checkbox.chk_recorte').prop('checked', $("#checkAll_recortes").is(":checked"));
+    },
     atualizaArquivos() {
       const self = this;
 
@@ -860,6 +885,45 @@ export default {
               if (retorno2.code == 1) {
                 self.form.arquivos_cortados.splice(index, 1);
                 self.loading2 = false;
+              }
+            });
+          }
+        }
+      );
+    },
+    removeAllVideos() {
+      var self = this;
+
+      this.loading2 = true;
+
+      var ids = [];
+
+      $.each($(".chk_recorte"), function(index, element) {
+        ids.push(element.value);
+      });
+
+      obj_alert.confirm(
+        "Atenção",
+        "Deseja remover TODOS os recorte?",
+        "question",
+        function(result) {
+          if (result.value) {
+            obj_api.call("recorte_delete_all", "POST", { id: ids }, function(
+              retorno2
+            ) {
+              /*if (
+                self.current_video != null &&
+                self.current_video.id.toString() == item.id.toString()
+              ) {
+                self.current_video = null;
+              }*/
+
+              if (retorno2.code == 1) {
+                $.each($(".chk_recorte"), function(index, element) {
+                  ids.push(element.value);
+                  self.form.arquivos_cortados.splice(element.id, 1);
+                  self.loading2 = false;
+                });
               }
             });
           }
