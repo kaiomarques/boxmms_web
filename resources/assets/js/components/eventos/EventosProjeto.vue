@@ -217,7 +217,7 @@ input[type=range]:focus::-ms-fill-upper {
                     id="bt_catch_start"
                     value="Capturar Início"
                     data-toggle="tooltip"
-                    title="Pega o tempo atual e indica como o início do corte"
+                    title="(CTRL + ALT + I)"
                     class="btn btn-default btn-xs"
                     style="width: 120px"
                   />
@@ -228,7 +228,7 @@ input[type=range]:focus::-ms-fill-upper {
                     onclick="obj_corteaudiovideo.catchTime('end')"
                     value="Capturar Fim"
                     data-toggle="tooltip"
-                    title="Pega o tempo atual e indica como o fim do corte"
+                    title="(CTRL + ALT + F)"
                     class="btn btn-default btn-xs"
                     style="width: 120px"
                   />
