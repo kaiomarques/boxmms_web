@@ -79,7 +79,7 @@
       ></agrupamento_notificacoes_form>
     </div>
 
-    <div class="modal" id="myModal" tabindex="-1" role="dialog" v-if="show_modal">
+    <!--div class="modal" id="myModal" tabindex="-1" role="dialog" v-if="show_modal">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -98,13 +98,13 @@
           </div>
         </div>
       </div>
-    </div>
+    </div -->
   </div>
 </template>
 
 <script>
 import Util from "../../library/Util";
-import visualizar from "./Visualizar";
+/*import visualizar from "./Visualizar";*/
 /*import filtro_geral from "../geral/filtro_geral";*/
 import evento_projeto from "../eventos/EventosProjeto.vue";
 import evento_transcricao from "../eventos/EventosTranscricao.vue";
@@ -112,7 +112,7 @@ import evento_transcricao from "../eventos/EventosTranscricao.vue";
 export default {
   components: {
     //filtro_geral: filtro_geral,
-    visualizar: visualizar,
+    //visualizar: visualizar,
     evento_projeto: evento_projeto,
     evento_transcricao: evento_transcricao
   },
@@ -194,7 +194,7 @@ export default {
 
       return data;
     },
-    visualizar(datarow) {
+    /*visualizar(datarow) {
       this.id = datarow.id;
       this.show_modal = true;
 
@@ -203,7 +203,7 @@ export default {
       }, 200);
 
       // data-toggle="modal" data-target="#myModal"
-    },
+    },*/
     closeModal() {
       this.show_modal = false;
     },
@@ -387,7 +387,7 @@ export default {
       filtro["status"] = this.prop_status;
     }
 
-    obj_api.call("lista_spot", "POST", filtro, function(
+    obj_api.call("lista_campanhas", "POST", filtro, function(
       retorno
     ) {
       var dataSet = retorno.data;
@@ -407,7 +407,7 @@ export default {
             columns: [
               { data: "id" },
               { data: "nome" },
-              { data: "s3_path" }
+              { data: "id_cliente" }
             ],
             order: [[0, "desc"]],
           });
@@ -425,7 +425,7 @@ export default {
       });
 
       self.table = table;
-      $("#table_data tbody").on("click", "a", function() {
+      /*$("#table_data tbody").on("click", "a", function() {
         var tip = $(this).attr("tip");
         var data = table.row($(this).parents("tr")).data();
 
@@ -436,7 +436,7 @@ export default {
         if (tip == "recorte") {
           self.editar(data);
         }
-      });
+      });*/
     });
     self.button_new_text = '<i class="fa fa-user" ></i> CADASTRAR';
   }
