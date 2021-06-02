@@ -68,6 +68,8 @@
                             Route::get('/tinder', 'HomeController@index' );
                             Route::get('/tinderlist', 'HomeController@index' );
                             Route::get('/configurar', 'HomeController@index' );
+                            Route::get('/campanhas', 'HomeController@index' );
+                            Route::get('/spots', 'HomeController@index' );
                             Route::get('/home', 'HomeController@index' )->name("home");
                             
                             Route::get('/ajustapasta', 'ProjetoController@ajustapasta');

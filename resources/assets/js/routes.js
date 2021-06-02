@@ -28,6 +28,9 @@ import MateriaRascunhoList from './components/materia_rascunho/MateriaRascunhoLi
 import MateriaRascunho from './components/materia_rascunho/ListRascunho';
 import MateriaSalva from './components/materia_rascunho/ListSalvas';
 
+import CampanhaList from './components/campanhas/CampanhaList';
+
+import SpotList from './components/spots/SpotList';
 
 import AgrupamentoNotificacoesForm from './components/agrupamento_notificacoes/AgrupamentoNotificacoesForm'
 import AgrupamentoNotificacoesList from './components/agrupamento_notificacoes/AgrupamentoNotificacoesList'
@@ -134,6 +137,7 @@ Vue.component('materia_rascunho_list', MateriaRascunhoList);
 Vue.component('agrupamento_notificacoes_form', AgrupamentoNotificacoesForm);
 Vue.component('agrupamento_notificacoes_list', AgrupamentoNotificacoesList);
 
+//Vue.component('spots_list', AgrupamentoNotificacoesList);
 
 //Vue.component('eventos_arquivos_visualizar', EventosArquivosVisualizar);
 
@@ -281,7 +285,6 @@ var routes_geral = [
         icon: "fa fa-database"
     },
 
-
     {
         path: base_path + 'configurar',
         name: 'configurar',
@@ -291,6 +294,23 @@ var routes_geral = [
         icon: "fa fa-cogs"
     },
 
+    {
+        path: base_path + 'campanhas',
+        name: 'campanhas',
+        component: CampanhaList,
+        title: "Campanhas",
+        menu: true,
+        icon: "fa fa-bullhorn"
+    },
+
+    {
+        path: base_path + 'spots',
+        name: 'spots',
+        component: SpotList,
+        title: "Spots",
+        menu: true,
+        icon: "fa fa-film"
+    },
 
     {
         path: base_path,

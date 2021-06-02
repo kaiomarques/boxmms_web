@@ -126,6 +126,10 @@ Route::group([
         Route::put("topicos/{id}/palavras", "TopicosController@salvaPalavras");
         Route::post("topicos/match", "TopicosController@match");
 
+        Route::post('/lista_campanhas', 'CampanhasController@index');
+
+        Route::post('/lista_spot', 'SpotsController@index');
+
         //v1
         //Route::get('/clientes', 'TranscricaoController@getClientes');
     });
