@@ -3,10 +3,10 @@
     <div v-bind:style="style_list()">
       <div style="padding-top: 10px">
         <div class="col-xs-1" style="padding-top: 20px">
-          <button class="btn btn-primary btn-lg pull-right" v-on:click="reload_table_search">
+          <button class="btn btn-primary btn-lg" v-on:click="reload_table_search">
             <i class="fa fa-search" v-if="!loading"></i>
             <i class="fa fa-spinner" v-if="loading"></i>
-            Filtrar
+            Criar
           </button>
           <button
             v-if="mostra_add"
@@ -14,20 +14,6 @@
             v-on:click="open_form"
             v-html="button_new_text"
           ></button>
-        </div>
-
-        <div class="col-xs-12">
-          <div class="col-xs-4">
-            <label>Palavras Chaves</label>
-            <input
-              type="text"
-              class="form-control"
-              name="filtro_palavra"
-              id="filtro_palavra"
-              v-model="data_filtro.palavra"
-              placeholder="Palavra Chave"
-            />
-          </div>
         </div>
       </div>
 
@@ -78,41 +64,16 @@
         v-bind:onBack="onBack"
       ></agrupamento_notificacoes_form>
     </div>
-
-    <!--div class="modal" id="myModal" tabindex="-1" role="dialog" v-if="show_modal">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Trecho</h5>
-          </div>
-          <div class="modal-body">
-            <visualizar :id_load="id"></visualizar>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              v-on:click="closeModal"
-              data-dismiss="modal"
-            >Fechar</button>
-          </div>
-        </div>
-      </div>
-    </div -->
   </div>
 </template>
 
 <script>
 import Util from "../../library/Util";
-/*import visualizar from "./Visualizar";*/
-/*import filtro_geral from "../geral/filtro_geral";*/
 import evento_projeto from "../eventos/EventosProjeto.vue";
 import evento_transcricao from "../eventos/EventosTranscricao.vue";
 
 export default {
   components: {
-    //filtro_geral: filtro_geral,
-    //visualizar: visualizar,
     evento_projeto: evento_projeto,
     evento_transcricao: evento_transcricao
   },
@@ -194,16 +155,6 @@ export default {
 
       return data;
     },
-    /*visualizar(datarow) {
-      this.id = datarow.id;
-      this.show_modal = true;
-
-      setTimeout(function() {
-        $("#myModal").modal({ show: true });
-      }, 200);
-
-      // data-toggle="modal" data-target="#myModal"
-    },*/
     closeModal() {
       this.show_modal = false;
     },
@@ -237,9 +188,6 @@ export default {
       this.tempo_seg = datarow.tempo_seg;
 
       this.action = "form";
-
-      //console.log("Vue recebeu o javascript:" + datarow.id);
-      //  console.log( datarow );
     },
     onSave() {
       this.refresh_table();
@@ -291,7 +239,7 @@ export default {
 
       var id_operador = $("#id_operador").val();
 
-      obj_api.call(
+      /*obj_api.call(
         "agrupamento_status",
         "POST",
         { ids: ids.join(",") },
@@ -325,15 +273,9 @@ export default {
 
             var campodid = "div_evento_palavras_" + data2[i].id.toString();
             $("#" + campodid).html(data2[i].palavras);
-            /*console.log(
-              "atualizando palavra? ",
-              campodid,
-              document.getElementById(campodid),
-              data2[i].palavras
-            ); */
           }
         }
-      );
+      );*/
     },
 
     refresh_table() {
@@ -425,18 +367,6 @@ export default {
       });
 
       self.table = table;
-      /*$("#table_data tbody").on("click", "a", function() {
-        var tip = $(this).attr("tip");
-        var data = table.row($(this).parents("tr")).data();
-
-        if (tip == "trecho") {
-          self.visualizar(data);
-        }
-
-        if (tip == "recorte") {
-          self.editar(data);
-        }
-      });*/
     });
     self.button_new_text = '<i class="fa fa-user" ></i> CADASTRAR';
   }
