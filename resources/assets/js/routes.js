@@ -31,6 +31,7 @@ import MateriaSalva from './components/materia_rascunho/ListSalvas';
 import CampanhaList from './components/campanhas/CampanhaList';
 
 import SpotList from './components/spots/SpotList';
+import SpotForm from './components/spots/SpotForm.vue'
 
 import AgrupamentoNotificacoesForm from './components/agrupamento_notificacoes/AgrupamentoNotificacoesForm'
 import AgrupamentoNotificacoesList from './components/agrupamento_notificacoes/AgrupamentoNotificacoesList'
@@ -54,6 +55,9 @@ Vue.component('search_queries_form', SearchQueriesForm);
 Vue.component('search_queries_list', SearchQueriesList);
 Vue.component('cliente_configuracao_list', ClienteConfiguracaoList);
 Vue.component('cliente_configuracao_form', ClienteConfiguracaoForm);
+
+Vue.component('spot_list', SpotList);
+Vue.component('spot_form', SpotForm);
 
 
 Vue.component('search_queries_list_cad_table', SearchQueriesListCadTable);

@@ -129,6 +129,7 @@ Route::group([
         Route::post('/lista_campanhas', 'CampanhasController@index');
 
         Route::post('/lista_spot', 'SpotsController@index');
+        Route::put("lista_spot/{id}/", "SpotsController@editar");
 
         //v1
         //Route::get('/clientes', 'TranscricaoController@getClientes');
