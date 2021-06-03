@@ -35,6 +35,7 @@
               <th>ID</th>
               <th>Nome</th>
               <th>Id Cliente</th>
+              <th></th>
             </tr>
           </thead>
         </table>
@@ -42,15 +43,16 @@
     </div>
     <div v-if="action =='form'" class="col-xs-12">
       <spot_form
-        v-bind:id_load="id"
-        :nome_cliente="nome_cliente"
+        v-bind:id_load="id_spot"
+        v-bind:nome="nome"
+        v-bind:s3_path="s3_path"
         v-bind:onSave="onSave"
         :onEdit="onEdit"
         show_back_button="true"
         v-bind:onBack="onBack"
       ></spot_form>
     </div>
-    <div v-if="action =='editar_elastic'" class="col-xs-12">
+    <!-- div v-if="action =='editar_elastic'" class="col-xs-12">
       <section class="col-lg-12">
         <section class="col-lg-9" style="padding-left: 0px; margin-left: 0px">
           <h1 style="padding-left: 0px; margin-left: 0px">Elastic Search - {{nome_cliente}}</h1>
@@ -62,15 +64,9 @@
           </a>
         </section>
       </section>
-      <!--elastic_queries_list_cad_table
-        v-bind:id_load="id"
-        :nome_cliente="nome_cliente"
-        show_back_button="true"
-        v-bind:onBack="onBack"
-      ></elastic_queries_list_cad_table -->
-    </div>
+    </div -->
 
-    <div v-if="action =='editar_palavra'" class="col-xs-12">
+    <!-- div v-if="action =='editar_palavra'" class="col-xs-12">
       <section class="col-lg-12">
         <section class="col-lg-9" style="padding-left: 0px; margin-left: 0px">
           <h1 style="padding-left: 0px; margin-left: 0px">Filtro Geral - {{nome_cliente}}</h1>
@@ -83,15 +79,15 @@
         </section>
       </section>
 
-      <!-- section class="col-lg-12">
+      <section class="col-lg-12">
         <tab_palavras_chave
           v-bind:id_load="id"
           :nome_cliente="nome_cliente"
           show_back_button="true"
           v-bind:onBack="onBack"
         ></tab_palavras_chave>
-      </section -->
-    </div>
+      </section>
+    </div -->
   </div>
 </template>
 
@@ -108,8 +104,9 @@ export default {
   data: function() {
     return {
       action: "list",
-      id: "",
-      nome_cliente: "",
+      id_spot: "",
+      nome: "",
+      s3_path: "",
       table: null,
       filtro_titulo: "",
       filtro_status: "",
@@ -122,22 +119,20 @@ export default {
   methods: {
     onBack(objPost) {
       //Clicou no back button.
-      this.id = ""; //Voltando para a lista
+      this.id_spot = ""; //Voltando para a lista
       this.action = "list";
     },
 
     open_form() {
-      this.id = "";
+      this.id_spot = "";
       this.action = "form";
     },
 
     editar(datarow) {
-      this.id = datarow.id;
-      this.nome_cliente = datarow.nome;
+      this.nome = datarow.nome;
+      this.id_spot = datarow.id;
+      this.s3_path = datarow.s3_path;
       this.action = "form";
-
-      console.log("Vue recebeu o javascript:" + datarow.id);
-      //  console.log( datarow );
     },
     onSave() {
       this.refresh_table();
@@ -174,7 +169,7 @@ export default {
         var filtro = this.getObjFiltro();
 
         obj_api.call("lista_spot", "POST", filtro, function(retorno) {
-          console.log(retorno);
+          console.log("Teste: " + retorno);
           var dataSet = retorno.data;
 
           self.table.clear().draw();
@@ -221,37 +216,17 @@ export default {
           columns: [
               { data: "id" },
               { data: "nome" },
-              { data: "s3_path" }
+              { data: "s3_path" },
+              { data: "blnk" }
           ],
           order: [[1, "asc"]],
 
           columnDefs: [
-            // {
-            //   // The `data` parameter refers to the data for the cell (defined by the
-            //   // `data` option, which defaults to the column being worked with, in
-            //   // this case `data: 0`.
-            //   render: function(data, type, row) {
-            //     return data != null &&  data == 1 ? "Sim" : "Não";
-            //   },
-            //   targets: 2
-            // },
-            //   {
-            //   // The `data` parameter refers to the data for the cell (defined by the
-            //   // `data` option, which defaults to the column being worked with, in
-            //   // this case `data: 0`.
-            //   render: function(data, type, row) {
-            //     return data != null &&  data == 1 ? "Sim" : "Não";
-            //   },
-            //   targets: 3
-            // },
             {
-              // The `data` parameter refers to the data for the cell (defined by the
-              // `data` option, which defaults to the column being worked with, in
-              // this case `data: 0`.
               render: function(data, type, row) {
                 return '<a href="#!" class="pull-right"><i class="fa fa-cogs"></i> Visualizar</a>';
               },
-              targets: 2
+              targets: 3
             }
           ]
         });
@@ -261,7 +236,6 @@ export default {
         $("#table_data tbody").on("click", "a", function() {
           var data = table.row($(this).parents("tr")).data();
           self.editar(data);
-          //alert( data[0] +"'s salary is: "+ data[ 5 ] );
         });
       });
 

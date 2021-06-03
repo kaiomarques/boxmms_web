@@ -50,22 +50,6 @@
             </div>
           </div>
         </div>
-                <div class="row">
-          <div class="col-xs-6">
-            <div class="form-group">
-              <label>Arquivo</label>
-              <input
-                id="s3_path"
-                name="s3_path"
-                v-model="s3_path"
-                type="text"
-                class="form-control"
-                :disabled="!palavras_texto_enabled"
-              />
-            </div>
-          </div>
-        </div>
-
         <div class="row">
           <div class="col-xs-6">
             <div class="form-group">
@@ -75,6 +59,7 @@
                 name="id_cliente"
                 v-model="id_cliente"
                 class="form-control"
+                v-on:change="cliente_alterado"
                 :disabled="!cliente_enabled"
               >
                 <option v-if="carregando_cliente" :value="0">Carregando...</option>
@@ -133,8 +118,7 @@ export default {
     "post_type",
     "show_back_button",
     "onBack",
-    //"nome",
-    //"s3_path",
+    "nome_cliente",
     "onSave",
     "onEdit"
   ],
@@ -146,7 +130,6 @@ export default {
       id: "",
       id_cliente: "",
       nome: "",
-      s3_path: "",
       carregando_cliente: false,
       cliente_enabled: true,
       show_info_message: false,
@@ -176,37 +159,33 @@ export default {
   },
   mounted() {
     let self = this;
-    
+
     if (this.show_back_button != null && this.show_back_button != undefined) {
       this.botao_voltar_visible = this.show_back_button;
     }
 
     if (this.id_load == null || this.id_load == "") {
       this.id_load = 0;
-      this.nome = "";
-      this.s3_path = "";
+      this.nome_cliente = "";
     }
 
     this.loading = true;
     this.carregando_cliente = true;
     this.id_cliente = 0;
-    this.nome = "";
-    this.s3_path = "";
     this.cliente_enabled = false;
 
-    if(this.id_load != "" && this.id_load != null && this.id_load != undefined) {
-      obj_api.call("spot/"+this.id_load, "GET", null, function(response) {
-        self.loading = false;
-        self.carregando_cliente = false;
-        if (self.id_load) {
-          self.nome = response.data[0].nome;
-          self.s3_path = response.data[0].s3_path;
-        } else {
-          self.id_cliente = null;
-          self.cliente_enabled = true;
-        }
-      });
-    }
+    obj_api.call("clientes", "GET", { todos: 1 }, function(response) {
+      self.clientes = response.data;
+      self.loading = false;
+      self.carregando_cliente = false;
+      if (self.id_load) {
+        self.id_cliente = self.id_load;
+        self.cliente_alterado();
+      } else {
+        self.id_cliente = null;
+        self.cliente_enabled = true;
+      }
+    });
   },
   methods: {
     isAttributeEquals(obj, obj2, attribute) {
@@ -359,7 +338,7 @@ export default {
         self.palavras_texto_enabled = true;
       });
     },
-    /*cliente_alterado() {
+    cliente_alterado() {
       var self = this;
 
       if (!self.id_cliente) {
@@ -371,9 +350,8 @@ export default {
       self.nome_cliente = cliente.nome;
       self.topicos = [];
       self.carregaTopicos();
-    },*/
+    },
     carregaTopicos() {
-      alert("Carregar?");
       var self = this;
 
       if (!self.id_cliente) {
@@ -406,8 +384,9 @@ export default {
     carregaForm(item) {
       var self = this;
       self.id = item.id;
-      self.nome = item.nome;
-      self.s3_path = item.s3_path;
+      self.id_cliente = item.id_cliente;
+      self.consulta_comum = item.consulta_comum;
+      self.consulta_elastic = item.consulta_elastic;
     },
     editar_elastic() {
       console.log("onEdit?", this.onEdit);
@@ -442,7 +421,8 @@ export default {
       }
     },
     salvar() {
-      //if (!this.validar()) return false;s
+      //if (!this.validar()) return false;
+
       let self = this;
       var data = {
         cliente_id: this.id_cliente,

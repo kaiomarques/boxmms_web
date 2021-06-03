@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Dao\ImageDao;
-use App\Http\Dao\PostsDao;
+use App\Http\Dao\SpotsDao;
 use DateTime;
 use App\Http\Dao\Queries\QueryNotificacoesOriginal;
 use App\Http\Dao\Queries\QueryNotificacoesPorPalavrasChave;
@@ -19,7 +19,6 @@ use App\Http\Dao\Queries\QueryNotificacoesUnion;
 
 class SpotsController extends Controller
 {
-
     
     /**
      * Display a listing of the resource.
@@ -42,5 +41,33 @@ class SpotsController extends Controller
         );
                     
         return $saida;
+    }
+
+    public function getById($id) {
+        $sql = "
+        SELECT 
+            id, nome, s3_path, created_at 
+        FROM boxmmsdb.spots
+        WHERE id = {$id}";
+
+        $itens = DB::select($sql);
+                
+        $saida = array(
+            "qtde"=> count($itens),
+            "data" => $itens, 
+            "sql"=> $sql
+        );
+
+        return $saida;
+    }
+
+        /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function salvar(Request $request)
+    {
+
     }
 }

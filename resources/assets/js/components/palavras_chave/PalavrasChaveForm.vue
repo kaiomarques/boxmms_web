@@ -3,7 +3,7 @@
 
 <section class="col-lg-12">
 	<section class="col-lg-9" style="padding-left: 0px; margin-left: 0px">
-      <h1 style="padding-left: 0px; margin-left: 0px">Palavras Chave
+      <h1 style="padding-left: 0px; margin-left: 0px">Palavras Chaves
 
       </h1>
       <ol class="breadcrumb" style="display: none">
@@ -143,22 +143,22 @@ Vue.component('palavras_chave_list', PalavrasChaveList );
 
                 let self = this;
    
-                            if ( this.show_back_button != null && this.show_back_button != undefined  ){
-                                     this.botao_voltar_visible = this.show_back_button;
-                            }
+                      if ( this.show_back_button != null && this.show_back_button != undefined  ){
+                                this.botao_voltar_visible = this.show_back_button;
+                      }
 
 
-                          if ( this.id_load == null || this.id_load == ""){
-                            return;
-                          }
+                    if ( this.id_load == null || this.id_load == ""){
+                      return;
+                    }
 
 
-                          var url =  "palavras_chave/" + this.id_load; console.log("monted post url: " + url );
-                          var method = "get";
+                    var url =  "palavras_chave/" + this.id_load; console.log("monted post url: " + url );
+                    var method = "get";
 
-                          this.disableButton = true;
+                    this.disableButton = true;
 
-                          var data = { }
+                    var data = { }
 
 
 			              var fn_return = function (retorno){
@@ -172,14 +172,9 @@ Vue.component('palavras_chave_list', PalavrasChaveList );
 
 
 
-                                 self.disableButton = false;
-
+                      self.disableButton = false;
 			              }
-
 			              obj_api.call(url, method, data , fn_return);
-
-
-
          },
          methods:{
 		 
