@@ -26,7 +26,7 @@ class SpotsDao
      * @return TopicosColecao
      */
 
-    public function match(string $sinopse, string $conteudo) {
+    /*public function match(string $sinopse, string $conteudo) {
         $result =  DB::select($this->matchQuery(), [$sinopse, $conteudo]);
         $topicos = new TopicosColecao();
         
@@ -35,9 +35,9 @@ class SpotsDao
         }
 
         return $topicos;
-    }
+    }*/
 
-    private function listaTopicosPorClienteQuery()
+/*    private function listaTopicosPorClienteQuery()
     { 
         return (new StringBuilder())
             ->appendLine("SELECT ")
@@ -50,8 +50,8 @@ class SpotsDao
             ->appendLine("          ORDER BY nome ASC ")
             ->toString();
     }
-
-    public function listaTopicosPorCliente($clienteId)
+*/
+/*  public function listaTopicosPorCliente($clienteId)
     {
         $result =  DB::select($this->listaTopicosPorClienteQuery(), [$clienteId]);
         $topicos = array();
@@ -62,12 +62,12 @@ class SpotsDao
 
         return $topicos;
     }
-
+*/
     /**
      * @param int $topicoId
      * @return TopicoPalavrasColecao
      */
-    public function listaPalavras($topicoId) {
+/*    public function listaPalavras($topicoId) {
         $result =  DB::select($this->listaPalavrasQuery(), [$topicoId]);
         $palavras = array();
         foreach($result as $item) {
@@ -76,12 +76,12 @@ class SpotsDao
 
         return new TopicoPalavrasColecao($palavras);
     }
-
+*/
     /**
      * @param int $topicoId
      * @param TopicoPalavrasColecao $palavras
      */
-    public function adicionaPalavras($topicoId, TopicoPalavrasColecao $palavras)
+    public function adicionaSpot($topicoId, TopicoPalavrasColecao $palavras)
     {
         if (!isset($palavras)) return;
 

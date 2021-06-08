@@ -127,10 +127,19 @@ Route::group([
         Route::post("topicos/match", "TopicosController@match");
 
         Route::post('/lista_campanhas', 'CampanhasController@index');
+        Route::get('/campanhas', 'CampanhasController@select');
+
+        Route::get('/select_canais', 'CanaisController@selectAll');
+
 
         Route::post('/lista_spot', 'SpotsController@index');
-        Route::put("lista_spot/{id}/", "SpotsController@editar");
+        
         Route::get('/spot/{id}', 'SpotsController@getById');
+        Route::post('/spot/update/{id}', 'SpotsController@update');
+        Route::get('/select_spots', 'SpotsController@select');
+
+        Route::get('/campanha/{id}', 'CampanhasController@getById');
+        Route::post('/campanha/update/{id}', 'CampanhasController@update');
 
         //v1
         //Route::get('/clientes', 'TranscricaoController@getClientes');

@@ -2,15 +2,22 @@
   <div>
     <div v-bind:style="style_list()">
       <div style="padding-top: 10px">
-        <div class="col-xs-1" style="padding-top: 20px">
-          <button class="btn btn-primary btn-lg" v-on:click="reload_table_search">
-            <i class="fa fa-search" v-if="!loading"></i>
-            <i class="fa fa-spinner" v-if="loading"></i>
-            Criar
-          </button>
+        <div class="col-md-9">
+          <div class="form-group">
+            <label>Filtrar</label>
+            <input
+              type="text"
+              class="form-control"
+              v-model="filtro_titulo"
+              placeholder="Digite para pesquisar"
+            />
+          </div>
+        </div>
+        <div class="col-md-3" style="padding-top: 20px">
+          <button class="btn btn-primary btn-lg" v-on:click="reload_table_search">Filtrar</button>
           <button
-            v-if="mostra_add"
             class="btn btn-default btn-lg"
+            v-if="show_new_button"
             v-on:click="open_form"
             v-html="button_new_text"
           ></button>
@@ -27,348 +34,219 @@
             <tr>
               <th>ID</th>
               <th>Nome</th>
-              <th>Link</th>
+              <th></th>
             </tr>
           </thead>
         </table>
       </div>
     </div>
-
     <div v-if="action =='form'" class="col-xs-12">
-      <evento_transcricao
-        v-bind:id_load="id_evento"
-        v-bind:id_load_arquivo="id_evento_arquivo"
+      <campanha_form
+        v-bind:id_load="id_spot"
+        v-bind:nome="nome"
+        v-bind:s3_path="s3_path"
         v-bind:onSave="onSave"
+        :onEdit="onEdit"
         show_back_button="true"
         v-bind:onBack="onBack"
-        v-bind:tempo_inicio="tempo_seg"
-        v-bind:onSelectFilho="onSelectFilho"
-      ></evento_transcricao>
+      ></campanha_form>
     </div>
+    <!-- div v-if="action =='editar_elastic'" class="col-xs-12">
+      <section class="col-lg-12">
+        <section class="col-lg-9" style="padding-left: 0px; margin-left: 0px">
+          <h1 style="padding-left: 0px; margin-left: 0px">Elastic Search - {{nome_cliente}}</h1>
+        </section>
 
-    <div v-if="action =='projeto' && item_filho != null " class="col-xs-12">
-      <evento_projeto
-        v-bind:id_load="item_filho.id"
-        v-bind:id_load_arquivo="id_evento_arquivo"
-        v-bind:tempo_inicio="tempo_seg"
-        show_back_button="true"
-        v-bind:onBack="onBackProjeto"
-      ></evento_projeto>
-    </div>
+        <section class="col-lg-3" style="padding-top: 30px">
+          <a href="#" v-on:click="onEdit('form')">
+            <i class="fa fa-arrow-left"></i> Voltar para configuração
+          </a>
+        </section>
+      </section>
+    </div -->
 
-    <div v-if="action =='form' && false" class="col-xs-12">
-      <agrupamento_notificacoes_form
-        v-bind:id_load="id"
-        v-bind:onSave="onSave"
-        show_back_button="true"
-        v-bind:onBack="onBack"
-      ></agrupamento_notificacoes_form>
-    </div>
+    <!-- div v-if="action =='editar_palavra'" class="col-xs-12">
+      <section class="col-lg-12">
+        <section class="col-lg-9" style="padding-left: 0px; margin-left: 0px">
+          <h1 style="padding-left: 0px; margin-left: 0px">Filtro Geral - {{nome_cliente}}</h1>
+        </section>
+
+        <section class="col-lg-3" style="padding-top: 30px">
+          <a href="#" v-on:click="onEdit('form')">
+            <i class="fa fa-arrow-left"></i> Voltar para configuração
+          </a>
+        </section>
+      </section>
+
+      <section class="col-lg-12">
+        <tab_palavras_chave
+          v-bind:id_load="id"
+          :nome_cliente="nome_cliente"
+          show_back_button="true"
+          v-bind:onBack="onBack"
+        ></tab_palavras_chave>
+      </section>
+    </div -->
   </div>
 </template>
 
 <script>
-import Util from "../../library/Util";
-import evento_projeto from "../eventos/EventosProjeto.vue";
-import evento_transcricao from "../eventos/EventosTranscricao.vue";
+//import TabPalavrasChave from "./TabPalavrasChave";
+//import ElasticQueriesListCadTable from "../elastic_queries/ElasticQueriesListCadTable";
 
 export default {
   components: {
-    evento_projeto: evento_projeto,
-    evento_transcricao: evento_transcricao
+    //tab_palavras_chave: TabPalavrasChave,
+    //elastic_queries_list_cad_table: ElasticQueriesListCadTable
   },
-  props: {
-    prop_status: {
-      type: String,
-      default() {
-        return null;
-      }
-    }
-  },
+
   data: function() {
     return {
       action: "list",
-      id: "",
-
-      id_evento: null,
-      id_evento_arquivo: null,
-      tempo_seg: null,
-      item_filho: null,
-
+      id_spot: "",
+      nome: "",
+      s3_path: "",
       table: null,
       filtro_titulo: "",
       filtro_status: "",
 
       show_new_button: true,
 
-      show_modal: false,
-      loading: false,
-      mostra_add: false,
-
-      tempo_seg: -1,
-      interval: null,
-      o_interval: null,
-
-      data_filtro: {
-        id_cliente: null,
-
-        nome_cliente: "",
-        id_programa: null,
-        id_emissora: null,
-        id_evento_status: null,
-        palavra: "",
-
-        filtro_dtinicio: "",
-        filtro_dtfim: "",
-        status: ""
-      },
-
       button_new_text: "" //<i class=\"fa fa-file\" ></i> NOVA POST"
     };
   },
   methods: {
-    getObjFiltro() {
-      var data = {
-        dt_inicio: Util.BrDateToUS($("#filtro_dtinicio").val()),
-        dt_fim: Util.BrDateToUS($("#filtro_dtfim").val())
-      };
-
-      if (this.prop_status != null) {
-        this.data_filtro.status = this.prop_status;
-      }
-
-      if (this.data_filtro != null) {
-        data["id_programa"] = this.data_filtro.id_programa;
-        data["cliente_nome"] = this.data_filtro.cliente_nome;
-        data["status"] = this.data_filtro.status;
-        data["palavra"] = this.data_filtro.palavra;
-        data["id_emissora"] = this.data_filtro.id_emissora;
-        data["id_evento_status"] = this.data_filtro.id_evento_status;
-        data["veiculo_id"] = this.data_filtro.id_veiculo;
-
-        this.data_filtro.filtro_dtinicio = $("#filtro_dtinicio").val();
-        this.data_filtro.filtro_dtfim = $("#filtro_dtfim").val();
-      }
-
-      console.log("filtro?");
-      console.log(data);
-
-      return data;
-    },
-    closeModal() {
-      this.show_modal = false;
-    },
     onBack(objPost) {
       //Clicou no back button.
-      this.id = ""; //Voltando para a lista
+      this.id_spot = ""; //Voltando para a lista
       this.action = "list";
-    },
-
-    onBackProjeto(form) {
-      this.id = ""; //Voltando para a lista
-      this.action = "list";
-      //this.action = "form";
-    },
-
-    onSelectFilho(item, index) {
-      this.item_filho = item;
-      this.action = "projeto";
     },
 
     open_form() {
-      this.id = "";
+      this.id_spot = "";
       this.action = "form";
     },
 
     editar(datarow) {
-      this.id = datarow.id;
-
-      this.id_evento_arquivo = datarow.id_evento_arquivo;
-      this.id_evento = datarow.id_evento;
-      this.tempo_seg = datarow.tempo_seg;
-
+      this.nome = datarow.nome;
+      this.id_spot = datarow.id;
+      this.s3_path = datarow.s3_path;
       this.action = "form";
     },
     onSave() {
       this.refresh_table();
     },
-    callEventosBloqueados() {
-      var self = this;
-
-      if (self.interval == null) {
-        window.o_interval = setInterval(function() {
-          //code goes here that will be run every 5 seconds.
-          self.getEventosBloqueados();
-          self.interval = 1;
-        }, 15000);
-      }
-    },
-
-    getEventosBloqueados() {
-      var self = this;
-      console.log("getEventosBloqueados " + this.$route.name);
-
-      if (
-        this.$route.name != "notificacoes2" &&
-        this.$route.name != "home" &&
-        window.o_interval != null &&
-        window.o_interval != undefined
-      ) {
-        clearInterval(window.o_interval);
-        console.log("clear interval");
-        return;
-      }
-
-      if (self.table == null) {
-        return;
-      }
-
-      if (self.action != "list") {
-        return;
-      }
-
-      var ids = new Array();
-      $(".hd_input_id").each(function() {
-        var input = $(this); // This is the jquery object of the input, do what you will
-        ids[ids.length] = input.val();
-      });
-
-      if (ids.length <= 0) {
-        return;
-      }
-
-      var id_operador = $("#id_operador").val();
-
-      /*obj_api.call(
-        "agrupamento_status",
-        "POST",
-        { ids: ids.join(",") },
-        function(response) {
-          //console.log(response);
-          var data2 = response.data;
-
-          for (var i = 0; i < data2.length; i++) {
-            $("#row_data_" + data2[i].id.toString()).removeClass(
-              "background_bloqueado"
-            );
-            $("#row_data_" + data2[i].id.toString()).removeClass(
-              "background_azul"
-            );
-
-            if (
-              data2[i].status == 2 &&
-              (data2[i].bloqueado_por_id == null ||
-                data2[i].bloqueado_por_id.toString() != id_operador)
-            ) {
-              $("#row_data_" + data2[i].id.toString()).addClass(
-                "background_bloqueado"
-              );
-            } else {
-              if (data2[i].status_notificacao == 3) {
-                $("#row_data_" + data2[i].id.toString()).addClass(
-                  "background_azul"
-                );
-              }
-            }
-
-            var campodid = "div_evento_palavras_" + data2[i].id.toString();
-            $("#" + campodid).html(data2[i].palavras);
-          }
-        }
-      );*/
-    },
 
     refresh_table() {
-      var page = this.table.page.info().page;
-      this.reload_table_search(page);
+      if (this.table != null) {
+        this.table.ajax.reload(null, false); // user paging is not reset on reload
+      }
+    },
+    onEdit(tipo) {
+      this.action = tipo;
+    },
+    getObjFiltro() {
+      var data = { filtro: this.filtro_titulo };
+      return data;
     },
 
     reload_table_search(page) {
       var self = this;
       self.loading = true;
+
+      // this.filtro_dtinicio = $("#filtro_dtinicio").val();
+      // this.filtro_dtfim = $("#filtro_dtfim").val();
+
       if (this.table != null) {
+        /* var url =
+                      window.URL_API + "eventos?ret=api&filtro=" + this.filtro_titulo;
+
+                    this.table.ajax.url(url);
+
+                    this.table.ajax.reload(); */
+
         var filtro = this.getObjFiltro();
 
-        obj_api.call(
-          "agrupamento_notificacoes_filtro",
-          "POST",
-          filtro,
-          function(retorno) {
-            var dataSet = retorno.data;
+        obj_api.call("lista_spot", "POST", filtro, function(retorno) {
+          console.log("Teste: " + retorno);
+          var dataSet = retorno.data;
 
-            self.table.clear().draw();
-            self.table.rows.add(dataSet); // Add new data
+          self.table.clear().draw();
+          self.table.rows.add(dataSet); // Add new data
 
-            if (page != null && page != undefined && page > 0) {
-              // self.table.displayStart = page; //fnPageChange(page, true); //this.table.displayStart
-              self.table.columns.adjust().draw(); // Redraw the DataTable
-            } else {
-              self.table.columns.adjust().draw();
-            }
-            self.loading = false;
+          if (page != null && page != undefined && page > 0) {
+            // self.table.displayStart = page; //fnPageChange(page, true); //this.table.displayStart
+            self.table.columns.adjust().draw(); // Redraw the DataTable
+          } else {
+            self.table.columns.adjust().draw();
           }
-        );
+          self.loading = false;
+        });
       }
     },
 
     style_list() {
-      if (this.action == "form" || this.action == "projeto") {
+      if (this.action != "list") {
         return "display:none";
       }
       return "";
+    },
+
+    load_data() {
+      let self = this;
+
+      self.button_new_text = '<i class="fa fa-user" ></i> Cadastrar';
+
+      var filtro = { filtro: this.filtro_titulo };
+
+      obj_api.call("lista_campanhas", "POST", filtro, function(retorno) {
+        var dataSet = retorno.data;
+        var table = obj_datatable.dataTable("#table_data", {
+          //"dom" : "Bfrtip",
+          pageLength: obj_datatable.getPageLength(),
+          pagingType: "full_numbers",
+          language: obj_datatable.getLanguage(),
+          responsive: true,
+          processing: true,
+          lengthChange: false,
+          searching: false,
+          data: dataSet,
+          columns: [
+              { data: "id" },
+              { data: "nome" },
+              { data: "blank" }
+            ],
+            order: [[0, "desc"]],
+            columnDefs: [
+              {
+                render: function(data, type, row) {
+                  return '<a href="#!" class="pull-right"><i class="fa fa-cogs"></i> Visualizar</a>';
+                },
+                targets: 2
+              }
+            ]
+        });
+
+        self.table = table;
+
+        $("#table_data tbody").on("click", "a", function() {
+          var data = table.row($(this).parents("tr")).data();
+          self.editar(data);
+        });
+      });
+
+      $(document).ready(function() {
+        console.log("URL: " + window.URL_API + "search_queries");
+        console.log("Type: " + self.type);
+      });
     }
   },
   computed: {},
   mounted() {
     let self = this;
 
-    self.button_new_text = '<i class="fa fa-user" ></i> CADASTRAR';
-    var filtro = {}; //this.data_filtro;
-
-    if (this.prop_status != null) {
-      filtro["status"] = this.prop_status;
-    }
-
-    obj_api.call("lista_campanhas", "POST", filtro, function(
-      retorno
-    ) {
-      var dataSet = retorno.data;
-
-      var table = obj_datatable.dataTable("#table_data", {
-        //"dom" : "Bfrtip",
-            pageLength: obj_datatable.getPageLength(),
-            pagingType: "full_numbers",
-            language: obj_datatable.getLanguage(),
-            responsive: true,
-            processing: true,
-            lengthChange: false,
-            searching: false,
-            rowId: "id_row",
-
-            data: dataSet,
-            columns: [
-              { data: "id" },
-              { data: "nome" },
-              { data: "id_cliente" }
-            ],
-            order: [[0, "desc"]],
-          });
-      
-      
-
-      self.callEventosBloqueados();
-
-      setTimeout(function() {
-        self.getEventosBloqueados();
-      }, 1000);
-
-      table.on("draw", function() {
-        self.getEventosBloqueados();
-      });
-
-      self.table = table;
-    });
-    self.button_new_text = '<i class="fa fa-user" ></i> CADASTRAR';
+    self.button_new_text = '<i class="fa fa-user" ></i> Cadastrar';
+    this.load_data();
   }
 };
 </script>

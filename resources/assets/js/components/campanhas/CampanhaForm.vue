@@ -1,8 +1,5 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
-<link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet"/>
-
 <template>
+
   <div>
     <section class="container">
       <section class="col-lg-9" style="padding-left: 0px; margin-left: 0px">
@@ -36,7 +33,7 @@
 
     <form class="box" enctype="multipart/form-data" method="PUT" action="#">
       <div class="box-header with-border">
-        <h3>Spot</h3>
+        <h3>Campanha</h3>
       </div>
       <div class="box-body">
         <div class="row">
@@ -55,27 +52,78 @@
           </div>
         </div>
 
-
-
         <div class="row">
           <div class="col-xs-6">
             <div class="form-group">
-              <label>Arquivo</label>
-
-              <a :href="s3_path" v-if="s3_path">Link</a>
-
-              
+              <label>Spot</label>
+              <multiselect 
+                name="id_spot"
+                v-model="id_spot"
+                :options="spots"
+                :multiple = true
+                placeholder = "Selecione..."
+                :loading="!cliente_enabled"
+                :internal-search="false"
+                label="name"
+                language="pt-BR"
+                track-by="key"
+            ></multiselect>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-xs-6">
             <div class="form-group">
-              <input type="file" name="s3_path" class="file" />
+              <label>Adicionar Cliente</label>
+              <multiselect 
+                name="id_cliente"
+                v-model="id_cliente"
+                :options="clientes"
+                placeholder = "Selecione..."
+                :loading="!cliente_enabled"
+                :internal-search="false"
+                label="name"
+                language="pt-BR"
+                track-by="key"
+              ></multiselect >
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-6">
+            <div class="form-group">
+              <label>Adicionar Emissoras</label>
+              <multiselect 
+                name="id_emissora"
+                v-model="id_emissora"
+                :options="emissoras"
+                :multiple = true
+                placeholder = "Selecione..."
+                :loading="!emissora_enabled"
+                :internal-search="false"
+                label="name"
+                language="pt-BR"
+                track-by="id_emissora"
+              ></multiselect >
             </div>
           </div>
         </div>
 
+
+        <div class="row">
+          <div class="col-xs-6">
+            <div class="form-group">
+              <label>Período Inicial</label>
+              <input
+                type="text"
+                class="form-control"
+                id="filtro_dtinicio"
+                v-model="filtro_dtinicio"
+                placeholder="Data Início"
+              />
+            </div>
+          </div>
+        </div>
 
         <div class="row">
           <div class="col-xs-12">
@@ -87,14 +135,6 @@
                   v-bind:disabled="disableButton"
                   v-on:click.prevent="salvar()"
                 >{{publicar_titulo}}</button>
-
-                <!-- <button
-                  type="submit"
-                  class="btn btn-danger"
-                  v-bind:disabled="disableButton"
-                  v-if="id!='' && parseInt(id) > 0"
-                  v-on:click="excluir()"
-                >Excluir</button> -->
               </div>
             </div>
           </div>
@@ -105,8 +145,25 @@
 </template>
 
 <script>
+  export default {
+    // OR register locally
+    components: { Multiselect },
+    data () {
+      return {
+        value: null,
+        options: ['list', 'of', 'options']
+      }
+    }
+  }
+</script>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<script>
 import checkbox_int from "../../library/checkbox/checkbox_int";
 import vueSelect from "../../library/vue-select/src/Select";
+//import vueMultiSelect from "../../library/vue-multiselect/src/Select";
+
+
 
 export default {
   props: [
@@ -120,30 +177,36 @@ export default {
     "onEdit"
   ],
   components: {
-    checkbox_int
-    ,vueSelect
+    checkbox_int, 
+    vueSelect
   },
   data: function() {
     return {
       id: "",
-      id_cliente: "",
+      id_cliente: [],
       nome: "",
+      id_emissora: [],
+      id_campanha:[],
       s3_path: "",
-      campanha_enabled: true,
-      canal_enabled: true,
       nome_enabled: true,
+      spot_enabled: true,
+      cliente_enabled: true,
+      emissora_enabled: true,
       show_info_message: false,
       campanhas: [],
       canais: [],
-      carregando_topico: false,
-      carregando_campanhas: true,
-      carregando_canais: true,
-      topicos: [],
+      spots: [],
+      clientes: [],
+      emissoras: [],
+      carregando_spots: false,
+      carregando_clientes: false,
+      carregando_canais: false,
+      carregando_emissoras: false,
       topicos_enabled: false,
       palavras_texto: "",
       palavras_texto_enabled: true,
       palavras_carregadas: [],
-      id_spot: "",
+      id_spot: [],
       consulta_comum: "",
       consulta_elastic: "",
       grid_palavras: null,
@@ -161,6 +224,8 @@ export default {
     };
   },
   mounted() {
+    
+
     let self = this;
     
     if (this.show_back_button != null && this.show_back_button != undefined) {
@@ -175,55 +240,92 @@ export default {
 
     this.loading = true;
     this.carregando_campanha = true;
-    this.id_campanha = 0;
-    this.id_canal = 0;
     this.nome = "";
     this.s3_path = "";
-    this.campanha_enabled = false;
-    this.canal_enabled = false;
+    self.nome = "";
 
-    obj_api.call("select_campanhas", "GET", null, function(response) {
-      self.campanha_enabled = true;
-      //self.campanhas = response.data;
+    obj_api.call("clientes", "GET", null, function(response) {
 
       $.each(response.data,function (index, value) {
-        self.campanhas.push({ value: value.id, label: value.nome });
+        self.clientes.push({ key: value.id, name: value.nome });
       });
 
       self.loading = false;
-      self.carregando_campanhas = false;
+      self.carregando_clientes = false;
+      self.cliente_enabled = true;
       if (self.id_load) {
-        self.id_campanha = self.id_load;
+        //self.id_cliente = self.id_load;
         //self.cliente_alterado();
       } else {
-        self.id_campanha = null;
-        self.campanha_enabled = true;
+        self.id_cliente = null;
+        self.cliente_enabled = true;
       }
     });
 
+    obj_api.call("select_spots", "GET", null, function(response) {
+      $.each(response.data,function (index, value) {
+        self.spots.push({ key: value.id, name: value.nome });
+      });
 
-    if (self.id_load) {
-      self.nome = "Carregando...";
-      self.nome_enabled = false;
-    }
+      self.loading = false;
+      self.carregando_spots = false;
+      self.spot_enabled = true;
+      if (self.id_load) {
+        //self.id_spot = self.id_load;
+        //self.cliente_alterado();
+      } else {
+        self.id_spot = null;
+        self.spot_enabled = true;
+      }
+    });
+
+    obj_api.call("emissoras", "GET", null, function(response) {
+      $.each(response.data,function (index, value) {
+        self.emissoras.push({ id_emissora: value.id, name: value.nome });
+      });
+      self.loading = false;
+      self.carregando_emissoras = false;
+      self.emissora_enabled = true;
+      if (self.id_load) {
+        //self.id_emissora = self.id_load;
+        //self.cliente_alterado();
+      } else {
+        self.id_emissora = null;
+        self.emissora_enabled = true;
+      }
+    });
 
     if(this.id_load != "" && this.id_load != null && this.id_load != undefined) {
-      obj_api.call("spot/"+this.id_load, "GET", null, function(response) {
+      this.nome_enabled = false;
+      obj_api.call("campanha/" + this.id_load, "GET", null, function(response) {
         self.loading = false;
+        
         if (self.id_load) {
-          self.nome_enabled = true;
           self.nome = response.data[0].nome;
-          self.s3_path = response.data[0].s3_path;
-          self.id_campanha = response.data[0].id_campanha;
-          self.id_canal = response.data[0].id_canal;
+          self.id_cliente = self.clientes.find(cliente => cliente.key === response.data[0].id_cliente);
+
+          //var ids_emissoras = [];
+
+
+          $.each(response.emissora_data, function (index,value) {
+            self.id_emissora.push(self.emissoras.find(emissora => emissora.id_emissora === value.id_emissora));
+          });
+
+          $.each(response.spot_data, function (index,value) {
+            self.id_spot.push(self.spots.find(spot => spot.key === value.id_spot));
+          });
+
+          self.nome_enabled = true;
+          self.spot_enabled = true;
+          self.cliente_enabled = true;
         } else {
           self.id_cliente = null;
-          self.cliente_enabled = true;
+          self.nome_enabled = true;
         }
       });
     }
   },
-  methods: {
+  'methods': {
     isAttributeEquals(obj, obj2, attribute) {
       return (
         attribute &&
@@ -387,37 +489,6 @@ export default {
       self.topicos = [];
       self.carregaTopicos();
     },*/
-    carregaTopicos() {
-      alert("Carregar?");
-      var self = this;
-
-      if (!self.id_cliente) {
-        return;
-      }
-
-      var cliente = self.clienteSelecionado();
-
-      self.loading = true;
-      self.carregando_topico = true;
-      self.id_spot = 0;
-      self.topicos_enabled = false;
-      self.disableButton = true;
-
-      obj_api.call(
-        "midiaclip_cadastros?acao=topicos&id_cliente=" + cliente.id,
-        "GET",
-        {},
-        function(response) {
-          self.carregando_topico = false;
-          self.topicos = response.data;
-          self.topicos_enabled = true;
-          self.loading = false;
-          self.id_spot = null;
-
-          self.disableButton = false;
-        }
-      );
-    },
     carregaForm(item) {
       var self = this;
       self.id = item.id;
@@ -457,18 +528,20 @@ export default {
       }
     },
     salvar() {
+      alert(JSON.stringify(this.id_cliente));
+
       let self = this;
-      var url = window.URL_API + "spot/update/"+this.id_load;
+      var url = window.URL_API + "campanha/update/"+this.id_load;
 
       self.show_info_message = true;
-      self.message_text = "Salvando spot. Por favor, aguarde.";
+      self.message_text = "Salvando mudanças. Por favor, aguarde.";
 
       var arquivo = new FormData();
-      arquivo.append('file', $('.file').prop('files')[0]); 
       arquivo.append('nome', this.nome);
-      if(this.id_load != null) arquivo.append('id', this.id_load);
-      arquivo.append('id_campanha', self.id_campanha);
-      if(self.id_canal != null) arquivo.append('add_canal', self.id_canal);
+      arquivo.append('id', this.id_load);
+      arquivo.append('id_emissoras', JSON.stringify(this.id_emissora));
+      arquivo.append('id_cliente', JSON.stringify(this.id_cliente));
+      arquivo.append('id_spots', JSON.stringify(this.id_spot));
 
       $.ajax({
           url: url,
@@ -484,7 +557,12 @@ export default {
           processData: false,
 
           success: function (data) {
-            //document.location.reload(true);
+            data = JSON.parse(data);
+            if(data.msg == "sucesso!") {
+              document.location.reload(true);
+            } else {
+              alert("Erro");
+            }
           }
       });
 

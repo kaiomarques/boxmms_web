@@ -2,6 +2,7 @@
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Multiselect from 'vue-multiselect'
 import Alert from './components/alert'
 
 
@@ -29,6 +30,7 @@ import MateriaRascunho from './components/materia_rascunho/ListRascunho';
 import MateriaSalva from './components/materia_rascunho/ListSalvas';
 
 import CampanhaList from './components/campanhas/CampanhaList';
+import CampanhaForm from './components/campanhas/CampanhaForm';
 
 import SpotList from './components/spots/SpotList';
 import SpotForm from './components/spots/SpotForm.vue'
@@ -51,6 +53,7 @@ import ElasticQueriesListCadTable from './components/elastic_queries/ElasticQuer
 
 import SearchQueriesListCadTable from './components/search_queries/SearchQueriesListCadTable.vue'
 
+Vue.component('multiselect', Multiselect);
 Vue.component('search_queries_form', SearchQueriesForm);
 Vue.component('search_queries_list', SearchQueriesList);
 Vue.component('cliente_configuracao_list', ClienteConfiguracaoList);
@@ -59,10 +62,10 @@ Vue.component('cliente_configuracao_form', ClienteConfiguracaoForm);
 Vue.component('spot_list', SpotList);
 Vue.component('spot_form', SpotForm);
 
+Vue.component('campanha_form', CampanhaForm);
 
 Vue.component('search_queries_list_cad_table', SearchQueriesListCadTable);
 //import EventosArquivosVisualizar from './components/eventos_arquivos/EventosArquivosVisualizar'
-
 
 /*
 import PageNewsletter from './components/news/PageNewsletter'

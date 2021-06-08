@@ -34,7 +34,9 @@
             <tr>
               <th>ID</th>
               <th>Nome</th>
-              <th>Id Cliente</th>
+              <th>Campanha</th>
+              <th>Canal</th>
+              <th>Link</th>
               <th></th>
             </tr>
           </thead>
@@ -216,24 +218,35 @@ export default {
           columns: [
               { data: "id" },
               { data: "nome" },
+              { data: "campanha_nome"},
+              { data: "canal_nome" },
               { data: "s3_path" },
               { data: "blnk" }
           ],
           order: [[1, "asc"]],
 
           columnDefs: [
+          {
+              render: function(data, type, row) {
+                if(data != null && data != "") {
+                  return '<a href="'+data+'" class="pull-right"><i class="fa fa-download"></i> Link</a>';
+                }
+                return '<span class="pull-right">Sem arquivo</span>';
+              },
+              targets: 4
+            },            
             {
               render: function(data, type, row) {
-                return '<a href="#!" class="pull-right"><i class="fa fa-cogs"></i> Visualizar</a>';
+                return '<a href="#!" class="pull-right visualizar_form"><i class="fa fa-cogs"></i> Visualizar</a>';
               },
-              targets: 3
+              targets: 5
             }
           ]
         });
 
         self.table = table;
 
-        $("#table_data tbody").on("click", "a", function() {
+        $("#table_data tbody").on("click", "a.visualizar_form", function() {
           var data = table.row($(this).parents("tr")).data();
           self.editar(data);
         });
