@@ -449,7 +449,7 @@ export default {
       if(this.id_load != null) arquivo.append('id', this.id_load);
       arquivo.append('id_campanha', self.id_campanha);
       if(self.id_canal != null) arquivo.append('add_canal', self.id_canal);
-
+      
       $.ajax({
           url: url,
           data: arquivo,

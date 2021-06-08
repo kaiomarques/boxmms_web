@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Service\ErrorsService;
 
+use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use App\AgrupamentoNotificacoes;
 use Illuminate\Support\Facades\DB;
@@ -54,8 +55,10 @@ class CampanhasController extends Controller
 
         $sql2 = "
         SELECT 
-            id_spot
-        FROM boxmmsdb.campanha_spot
+        campanha_spot.id as id_boxnet, campanha_spot.id_spot,
+        spots.nome as nome, spots.s3_path as s3_path
+        FROM boxmmsdb.campanha_spot 
+        INNER JOIN boxmmsdb.spots ON spots.id = campanha_spot.id_spot
         WHERE id_campanha = {$id}";
 
         $sql3 = "
@@ -98,82 +101,94 @@ class CampanhasController extends Controller
         $ids_emissoras = [];
         $id_cliente = null;
 
-        if(isset($_POST["data_inicial"]) && $_POST["data_inicial"] != null) {
-            $data_inicial = $_POST["data_inicial"];
-        }
-        
-        if(isset($_POST["data_final"]) && $_POST["data_final"] != null) {
-            $data_final = $_POST["data_final"];
-        }
-
-
-        if(isset($_POST["id_cliente"]) && $_POST["id_cliente"] != null) {
-            $id_cliente = json_decode($_POST["id_cliente"]);
-            $id_cliente = $id_cliente->key;
-        }
-        
-        if(count(json_decode($_POST["id_spots"])) > 0) {
-            foreach(json_decode($_POST["id_spots"]) as $obj) {
-                $ids_spots[] = $obj->key;
+        try {
+            DB::beginTransaction();
+            if(isset($_POST["data_inicial"]) && $_POST["data_inicial"] != null) {
+                $data_inicial = $_POST["data_inicial"];
             }
-        }
-
-        if (count(json_decode($_POST["id_emissoras"])) > 0) {
-            foreach (json_decode($_POST["id_emissoras"]) as $obj) {
-                $ids_emissoras[] = $obj->id_emissora;
+            
+            if(isset($_POST["data_final"]) && $_POST["data_final"] != null) {
+                $data_final = $_POST["data_final"];
             }
-        }
-
-        $nome = $_POST["nome"];
-
-        if(isset($_POST["id"]) && $_POST["id"] != null && $_POST["id"] != 0) {
-            $reg_campanha = Campanha::find($id);
-            $reg_campanha_spot = new CampanhaSpot;
-            $reg_campanha->nome = $nome;
-            $reg_campanha->id_cliente = $id_cliente;
-            $reg_campanha->periodo_inicial = $data_inicial;
-            $reg_campanha->periodo_final = $data_final;
-            $ret1 = $reg_campanha->save();
-        } else {
-            $reg_campanha = new Campanha;
-            $reg_campanha->nome = $nome;
-            $reg_campanha->id_cliente = $id_cliente;
-            $reg_campanha->periodo_inicial = $data_inicial;
-            $reg_campanha->periodo_final = $data_final;
-            $ret1 = $reg_campanha->save();
-            if ($ret1) {
-                foreach ($ids_spots as $id_spot) {
-                    $reg_campanha_spot =  new CampanhaSpot;
-                    $reg_campanha_spot->id_campanha = $reg_campanha->id;
-                    $reg_campanha_spot->id_spot = $id_spot;
-                    $ret2 = $reg_campanha_spot->save();
-                }
-                foreach ($ids_emissoras as $id_emissora) {
-                    $reg_campanha_spot_mailing =  new CampanhaSpotMailing;
-                    $reg_campanha_spot_mailing->id_emissora = $id_emissora;
-                    $reg_campanha_spot_mailing->id_campanha = $reg_campanha->id;
-                    $ret3 = $reg_campanha_spot_mailing->save();
+    
+    
+            if(isset($_POST["id_cliente"]) && $_POST["id_cliente"] != null) {
+                $id_cliente = json_decode($_POST["id_cliente"]);
+                $id_cliente = $id_cliente->key;
+            }
+            
+            if(count(json_decode($_POST["id_spots"])) > 0) {
+                foreach(json_decode($_POST["id_spots"]) as $obj) {
+                    $ids_spots[] = $obj->key;
                 }
             }
-        }
-        
-        $msg = "sucesso!";
-        $code = 1;
-        if (!isset($ret1)) {
+    
+            if (count(json_decode($_POST["id_emissoras"])) > 0) {
+                foreach (json_decode($_POST["id_emissoras"]) as $obj) {
+                    $ids_emissoras[] = $obj->id_emissora;
+                }
+            }
+    
+            $nome = $_POST["nome"];
+    
+            if(isset($_POST["id"]) && $_POST["id"] != null && $_POST["id"] != 0) {
+                $reg_campanha = Campanha::find($id);
+                $reg_campanha_spot = new CampanhaSpot;
+                $reg_campanha->nome = $nome;
+                $reg_campanha->id_cliente = $id_cliente;
+                $reg_campanha->periodo_inicial = $data_inicial;
+                $reg_campanha->periodo_final = $data_final;
+                $ret1 = $reg_campanha->save();
+            } else {
+                $reg_campanha = new Campanha;
+                $reg_campanha->nome = $nome;
+                $reg_campanha->id_cliente = $id_cliente;
+                $reg_campanha->periodo_inicial = $data_inicial;
+                $reg_campanha->periodo_final = $data_final;
+                $ret1 = $reg_campanha->save();
+                if ($ret1) {
+                    foreach ($ids_spots as $id_spot) {
+                        $reg_campanha_spot =  new CampanhaSpot;
+                        $reg_campanha_spot->id_campanha = $reg_campanha->id;
+                        $reg_campanha_spot->id_spot = $id_spot;
+                        $ret2 = $reg_campanha_spot->save();
+                    }
+                    foreach ($ids_emissoras as $id_emissora) {
+                        $reg_campanha_spot_mailing =  new CampanhaSpotMailing;
+                        $reg_campanha_spot_mailing->id_emissora = $id_emissora;
+                        $reg_campanha_spot_mailing->id_campanha = $reg_campanha->id;
+                        $ret3 = $reg_campanha_spot_mailing->save();
+                    }
+                }
+            }
+            DB::commit();
+            $msg = "sucesso!";
+            $code = 1;
+
+            $campanhaDados = $this->getById($reg_campanha->id);
+
+            $dadosParaEnvio = array (
+                "campaign" => $campanhaDados["data"][0]->nome,
+                "start_date" => $campanhaDados["data"][0]->periodo_inicial,
+                "end_date" => $campanhaDados["data"][0]->periodo_final,
+                "jsonstring_id_broadcaster" => $ids_emissoras
+            );
+
+            foreach($campanhaDados["spot_data"] as $spot_data) {
+                $dados = $dadosParaEnvio;
+                $dados["spot"] =  $spot_data->nome;
+                $dados["audio"] =  $spot_data->s3_path;
+                $dados["id_boxnet"] =  $spot_data->id_boxnet;
+                var_dump($dados);
+            }
+            die;
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            $msg = "Erro ao cadastrar a campanha";
             $code = 0;
-            $msg = "Erro ao cadastrar campanha";
         }
 
-        if(isset($_POST["id"]) && $_POST["id"] != null && $_POST["id"] != 0) {
-            if (!isset($ret2)) {
-                $code = 0;
-                $msg = "Erro ao cadastrar campanha-spot";
-            }
-            if (!isset($ret3)) {
-                $code = 0;
-                $msg = "Erro ao cadastrar emissora";
-            }     
-        }
         return array("msg"=>$msg, "code" =>  $code , "success" => [$ret1, $ret2, $ret3], "results"=> [$reg_campanha_spot, $reg_campanha_spot, $reg_campanha_spot_mailing]);
     }
 
@@ -198,5 +213,17 @@ class CampanhasController extends Controller
         );
                     
         return $saida;
+    }
+
+        /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function callSpyBox($parametros)
+    {
+        $url = "http://10.1.20.69/prototypeideas.spybox.api/Campaign";
+
+        return $response = Http::post($url, $parametros);
     }
 }

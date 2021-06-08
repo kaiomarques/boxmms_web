@@ -111,7 +111,7 @@ class SpotsController extends Controller
         $id = isset($_POST["id"])?$_POST["id"]:null;
         $id_campanha = $_POST['id_campanha'];
 
-        if($id == null) {
+        if($id == null || $id == 0) {
             $reg = new Spot;
         } else {
             $reg = Spot::find($id);
@@ -124,23 +124,6 @@ class SpotsController extends Controller
             $s3_path);
             $reg->s3_path = $s3_path;
         }
-
-        if(isset($_POST['add_canal'])) {
-            $id_canal = $_POST['add_canal'];
-            $campanhaSpot = CampanhaSpot::where(['id_spot' => $id, 'id_campanha' => $id_campanha]);
-
-            if( count($campanhaSpot->get()) > 0 ) {
-                //$campanhaSpot->id_canal = $id_canal;
-                $campanhaSpot->update(['id_canal' => $id_canal]);
-            } else {
-                $campanhaSpotInsert = new CampanhaSpot;
-                $campanhaSpotInsert->id_campanha = $id_campanha;
-                $campanhaSpotInsert->id_spot = $id;
-                $campanhaSpotInsert->id_canal = $id_canal;
-                $campanhaSpotInsert->save();
-            }
-        }
-
 
         $ret = $reg->save();
 
