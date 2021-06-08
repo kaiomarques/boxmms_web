@@ -6,12 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 class Campanha  extends Model{
     private $id;
     private $nome;
+    private $id_cliente;
+    private $periodo_inicial;
+    private $periodo_final;
 
     protected $table = 'campanhas';
     public $timestamps = false;
-    protected $fillable = ['dia',
+    protected $fillable = [
                     'id',
-                    'nome'];
+                    'nome',
+                    'id_cliente',
+                    'periodo_inicial',
+                    'periodo_final' 
+                ];
     protected $hidden = [];
    
 }

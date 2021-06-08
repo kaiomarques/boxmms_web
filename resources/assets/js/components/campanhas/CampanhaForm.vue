@@ -132,9 +132,9 @@
               <input
                 type="text"
                 class="form-control"
-                id="filtro_dtinicio"
-                v-model="filtro_dtinicio"
-                placeholder="Data Início"
+                id="filtro_dtfim"
+                v-model="filtro_dtfim"
+                placeholder="Data Fim"
               />
             </div>
           </div>
@@ -176,6 +176,7 @@
 <script>
 import checkbox_int from "../../library/checkbox/checkbox_int";
 import vueSelect from "../../library/vue-select/src/Select";
+import Util from "../../library/Util";
 //import vueMultiSelect from "../../library/vue-multiselect/src/Select";
 
 
@@ -213,6 +214,8 @@ export default {
       spots: [],
       clientes: [],
       emissoras: [],
+      filtro_dtinicio: "",
+      filtro_dtfim: "",
       carregando_spots: false,
       carregando_clientes: false,
       carregando_canais: false,
@@ -239,8 +242,6 @@ export default {
     };
   },
   mounted() {
-    
-
     let self = this;
     
     if (this.show_back_button != null && this.show_back_button != undefined) {
@@ -339,13 +340,8 @@ export default {
         }
       });
     }
-
-    $(document).ready(function() {
-      obj_editor.loadCalendar("#filtro_dtinicio");
-      obj_editor.loadCalendar("#filtro_dtfim");
-
-      self.load_data();
-    });
+    obj_editor.loadCalendar("#filtro_dtinicio");
+    obj_editor.loadCalendar("#filtro_dtfim");
   },
   'methods': {
     isAttributeEquals(obj, obj2, attribute) {
@@ -550,8 +546,6 @@ export default {
       }
     },
     salvar() {
-      alert(JSON.stringify(this.id_cliente));
-
       let self = this;
       var url = window.URL_API + "campanha/update/"+this.id_load;
 
@@ -564,6 +558,8 @@ export default {
       arquivo.append('id_emissoras', JSON.stringify(this.id_emissora));
       arquivo.append('id_cliente', JSON.stringify(this.id_cliente));
       arquivo.append('id_spots', JSON.stringify(this.id_spot));
+      arquivo.append('data_inicial', Util.BrDateToUS($("#filtro_dtinicio").val()));
+      arquivo.append('data_final', Util.BrDateToUS($("#filtro_dtfim").val()));
 
       $.ajax({
           url: url,

@@ -98,6 +98,15 @@ class CampanhasController extends Controller
         $ids_emissoras = [];
         $id_cliente = null;
 
+        if(isset($_POST["data_inicial"]) && $_POST["data_inicial"] != null) {
+            $data_inicial = $_POST["data_inicial"];
+        }
+        
+        if(isset($_POST["data_final"]) && $_POST["data_final"] != null) {
+            $data_final = $_POST["data_final"];
+        }
+
+
         if(isset($_POST["id_cliente"]) && $_POST["id_cliente"] != null) {
             $id_cliente = json_decode($_POST["id_cliente"]);
             $id_cliente = $id_cliente->key;
@@ -122,42 +131,49 @@ class CampanhasController extends Controller
             $reg_campanha_spot = new CampanhaSpot;
             $reg_campanha->nome = $nome;
             $reg_campanha->id_cliente = $id_cliente;
+            $reg_campanha->periodo_inicial = $data_inicial;
+            $reg_campanha->periodo_final = $data_final;
             $ret1 = $reg_campanha->save();
-        } else {   
+        } else {
             $reg_campanha = new Campanha;
             $reg_campanha->nome = $nome;
             $reg_campanha->id_cliente = $id_cliente;
+            $reg_campanha->periodo_inicial = $data_inicial;
+            $reg_campanha->periodo_final = $data_final;
             $ret1 = $reg_campanha->save();
-            if($ret1) {
-                foreach($ids_spots as $id_spot) {
+            if ($ret1) {
+                foreach ($ids_spots as $id_spot) {
                     $reg_campanha_spot =  new CampanhaSpot;
                     $reg_campanha_spot->id_campanha = $reg_campanha->id;
                     $reg_campanha_spot->id_spot = $id_spot;
                     $ret2 = $reg_campanha_spot->save();
                 }
-                foreach($ids_emissoras as $id_emissora) {
+                foreach ($ids_emissoras as $id_emissora) {
                     $reg_campanha_spot_mailing =  new CampanhaSpotMailing;
                     $reg_campanha_spot_mailing->id_emissora = $id_emissora;
                     $reg_campanha_spot_mailing->id_campanha = $reg_campanha->id;
                     $ret3 = $reg_campanha_spot_mailing->save();
                 }
             }
-            
         }
+        
         $msg = "sucesso!";
         $code = 1;
         if (!isset($ret1)) {
             $code = 0;
             $msg = "Erro ao cadastrar campanha";
         }
-        if (!isset($ret2)) {
-            $code = 0;
-            $msg = "Erro ao cadastrar campanha-spot";
+
+        if(isset($_POST["id"]) && $_POST["id"] != null && $_POST["id"] != 0) {
+            if (!isset($ret2)) {
+                $code = 0;
+                $msg = "Erro ao cadastrar campanha-spot";
+            }
+            if (!isset($ret3)) {
+                $code = 0;
+                $msg = "Erro ao cadastrar emissora";
+            }     
         }
-        if (!isset($ret3)) {
-            $code = 0;
-            $msg = "Erro ao cadastrar emissora";
-        }   
         return array("msg"=>$msg, "code" =>  $code , "success" => [$ret1, $ret2, $ret3], "results"=> [$reg_campanha_spot, $reg_campanha_spot, $reg_campanha_spot_mailing]);
     }
 
