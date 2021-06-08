@@ -101,7 +101,7 @@
         </div>
 
 
-<div class="progress" style="display:hidden">
+<div class="progress" style="display:none">
   <div class="progress-bar" role="progressbar" aria-valuenow="70"
   aria-valuemin="0" aria-valuemax="100" style="width:0%">
     <span class="sr-only">70% Complete</span>
