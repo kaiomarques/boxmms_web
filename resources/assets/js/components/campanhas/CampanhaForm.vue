@@ -126,6 +126,21 @@
         </div>
 
         <div class="row">
+          <div class="col-xs-6">
+            <div class="form-group">
+              <label>Período Final</label>
+              <input
+                type="text"
+                class="form-control"
+                id="filtro_dtinicio"
+                v-model="filtro_dtinicio"
+                placeholder="Data Início"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
           <div class="col-xs-12">
             <div class="form-group">
               <div class="btn-group pull-right">
@@ -324,6 +339,13 @@ export default {
         }
       });
     }
+
+    $(document).ready(function() {
+      obj_editor.loadCalendar("#filtro_dtinicio");
+      obj_editor.loadCalendar("#filtro_dtfim");
+
+      self.load_data();
+    });
   },
   'methods': {
     isAttributeEquals(obj, obj2, attribute) {

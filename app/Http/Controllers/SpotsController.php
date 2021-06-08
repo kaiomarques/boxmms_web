@@ -45,12 +45,8 @@ class SpotsController extends Controller
     {
         $sql = "
         SELECT 
-            s.id as id, s.nome as nome, s.s3_path, cs.id_campanha as id_campanha, 
-            c.nome as campanha_nome, cs.id_canal as id_canal, cc.nome as canal_nome 
-        FROM boxmmsdb.spots s
-            INNER JOIN boxmmsdb.campanha_spot cs ON cs.id_spot = s.id 
-            INNER JOIN boxmmsdb.campanhas c ON c.id = cs.id_campanha
-            INNER JOIN boxintegra.classes_cliente cc ON cc.id = cs.id_canal";
+            s.id as id, s.nome as nome, s.s3_path
+        FROM boxmmsdb.spots s";
 
         $itens = DB::select($sql);
                 
@@ -89,11 +85,9 @@ class SpotsController extends Controller
     public function getById($id) {
         $sql = "
         SELECT 
-            s.id as id, s.nome as nome, cs.id_campanha as id_campanha, 
-            cs.id_canal as id_canal 
+            s.id as id, s.nome as nome, s.s3_path
         FROM boxmmsdb.spots s
-            INNER JOIN boxmmsdb.campanha_spot cs ON cs.id_spot = s.id
-        WHERE s.id = {$id}";
+            WHERE s.id = {$id}";
 
         $itens = DB::select($sql);
                 

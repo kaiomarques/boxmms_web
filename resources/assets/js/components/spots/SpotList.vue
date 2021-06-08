@@ -34,8 +34,6 @@
             <tr>
               <th>ID</th>
               <th>Nome</th>
-              <th>Campanha</th>
-              <th>Canal</th>
               <th>Link</th>
               <th></th>
             </tr>
@@ -218,8 +216,6 @@ export default {
           columns: [
               { data: "id" },
               { data: "nome" },
-              { data: "campanha_nome"},
-              { data: "canal_nome" },
               { data: "s3_path" },
               { data: "blnk" }
           ],
@@ -233,13 +229,13 @@ export default {
                 }
                 return '<span class="pull-right">Sem arquivo</span>';
               },
-              targets: 4
+              targets: 2
             },            
             {
               render: function(data, type, row) {
                 return '<a href="#!" class="pull-right visualizar_form"><i class="fa fa-cogs"></i> Visualizar</a>';
               },
-              targets: 5
+              targets: 3
             }
           ]
         });

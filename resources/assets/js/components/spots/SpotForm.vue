@@ -182,26 +182,6 @@ export default {
     this.campanha_enabled = false;
     this.canal_enabled = false;
 
-    obj_api.call("select_campanhas", "GET", null, function(response) {
-      self.campanha_enabled = true;
-      //self.campanhas = response.data;
-
-      $.each(response.data,function (index, value) {
-        self.campanhas.push({ value: value.id, label: value.nome });
-      });
-
-      self.loading = false;
-      self.carregando_campanhas = false;
-      if (self.id_load) {
-        self.id_campanha = self.id_load;
-        //self.cliente_alterado();
-      } else {
-        self.id_campanha = null;
-        self.campanha_enabled = true;
-      }
-    });
-
-
     if (self.id_load) {
       self.nome = "Carregando...";
       self.nome_enabled = false;
@@ -484,7 +464,7 @@ export default {
           processData: false,
 
           success: function (data) {
-            //document.location.reload(true);
+            document.location.reload(true);
           }
       });
 
