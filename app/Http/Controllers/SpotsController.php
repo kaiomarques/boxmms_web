@@ -47,7 +47,7 @@ class SpotsController extends Controller
     {
         $sql = "
         SELECT 
-            s.id as id, s.nome as nome, CONCAT (" . $this->path . " , s.s3_path)
+            s.id as id, s.nome as nome, CONCAT (\"" . $this->path . "\" , s.s3_path)
         FROM boxmmsdb.spots s";
 
         $itens = DB::select($sql);
@@ -87,7 +87,7 @@ class SpotsController extends Controller
     public function getById($id) {
         $sql = "
         SELECT 
-            s.id as id, s.nome as nome, CONCAT (" . $this->path . " , s.s3_path)
+            s.id as id, s.nome as nome, CONCAT (\"" . $this->path . "\" , s.s3_path)
         FROM boxmmsdb.spots s
             WHERE s.id = {$id}";
 
