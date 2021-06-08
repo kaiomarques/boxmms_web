@@ -99,6 +99,15 @@
             </div>
           </div>
         </div>
+
+
+<div class="progress" style="display:hidden">
+  <div class="progress-bar" role="progressbar" aria-valuenow="70"
+  aria-valuemin="0" aria-valuemax="100" style="width:0%">
+    <span class="sr-only">70% Complete</span>
+  </div>
+</div>
+        
       </div>
     </form>
   </div>
@@ -162,7 +171,7 @@ export default {
   },
   mounted() {
     let self = this;
-    
+
     if (this.show_back_button != null && this.show_back_button != undefined) {
       this.botao_voltar_visible = this.show_back_button;
     }
@@ -367,67 +376,12 @@ export default {
       self.topicos = [];
       self.carregaTopicos();
     },*/
-    carregaTopicos() {
-      alert("Carregar?");
-      var self = this;
-
-      if (!self.id_cliente) {
-        return;
-      }
-
-      var cliente = self.clienteSelecionado();
-
-      self.loading = true;
-      self.carregando_topico = true;
-      self.id_spot = 0;
-      self.topicos_enabled = false;
-      self.disableButton = true;
-
-      obj_api.call(
-        "midiaclip_cadastros?acao=topicos&id_cliente=" + cliente.id,
-        "GET",
-        {},
-        function(response) {
-          self.carregando_topico = false;
-          self.topicos = response.data;
-          self.topicos_enabled = true;
-          self.loading = false;
-          self.id_spot = null;
-
-          self.disableButton = false;
-        }
-      );
-    },
     carregaForm(item) {
       var self = this;
       self.id = item.id;
       self.nome = item.nome;
       self.s3_path = item.s3_path;
     },
-    editar_elastic() {
-      console.log("onEdit?", this.onEdit);
-      if (this.onEdit != null) {
-        this.onEdit("editar_elastic");
-      }
-    },
-    editar_palavra() {
-      if (this.onEdit != null) {
-        this.onEdit("editar_palavra");
-      }
-    },
-
-    exibe_error(tipo) {},
-
-    getClassFirstSection() {
-      if (this.id != "") return "col-xs-9";
-
-      return "col-xs-12";
-    },
-
-    validar() {
-      return true;
-    },
-
     botao_voltar() {
       var self = this;
 
@@ -449,23 +403,35 @@ export default {
       if(this.id_load != null) arquivo.append('id', this.id_load);
       arquivo.append('id_campanha', self.id_campanha);
       if(self.id_canal != null) arquivo.append('add_canal', self.id_canal);
-      
+      $('.progress').show();
       $.ajax({
-          url: url,
-          data: arquivo,
-          type: 'POST',
-          headers: {
-            "Authorization": window.API_AUTHORIZATION,
-            "apiauth": window.API_MYAUTH
-          },
-          dataType: 'text', 
-          cache: false,
-          contentType: false,
-          processData: false,
+        xhr: function() {
+          var xhr = new window.XMLHttpRequest();
+          xhr.upload.addEventListener("progress", function(evt) {
+          if (evt.lengthComputable) {
+            var percentComplete = evt.loaded / evt.total;
+              $('.progress-bar').attr('aria-valuenow', percentComplete).css('width', percentComplete+'%');
+              console.log(percentComplete);
+            }
+          }, false);
 
-          success: function (data) {
-            document.location.reload(true);
-          }
+          return xhr;
+        },
+        url: url,
+        data: arquivo,
+        type: 'POST',
+        headers: {
+          "Authorization": window.API_AUTHORIZATION,
+          "apiauth": window.API_MYAUTH
+        },
+        dataType: 'text', 
+        cache: false,
+        contentType: false,
+        processData: false,
+
+        success: function (data) {
+          document.location.reload(true);
+        }
       });
 
 
