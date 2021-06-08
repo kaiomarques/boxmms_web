@@ -36,8 +36,10 @@ class SpotsController extends Controller
 
     var $path;
     var $spot_path;
+    var $url;
 
     public function __construct() {
+        $this->url = "http://boxmms.boxnet.com.br/files/";
         $this->path = "/var/www/boxmms/files/";
         $this->spot_path = "spots/";
         //$this->path = "c:/var/www/boxmms/files/spots/";
@@ -47,7 +49,7 @@ class SpotsController extends Controller
     {
         $sql = "
         SELECT 
-            s.id as id, s.nome as nome, CONCAT (\"" . $this->path . "\" , s.s3_path)
+            s.id as id, s.nome as nome,  s.s3_path
         FROM boxmmsdb.spots s";
 
         $itens = DB::select($sql);
@@ -87,7 +89,7 @@ class SpotsController extends Controller
     public function getById($id) {
         $sql = "
         SELECT 
-            s.id as id, s.nome as nome, CONCAT (\"" . $this->path . "\" , s.s3_path)
+            s.id as id, s.nome as nome, s.s3_path
         FROM boxmmsdb.spots s
             WHERE s.id = {$id}";
 
@@ -124,7 +126,7 @@ class SpotsController extends Controller
             $s3_path = $this->path . $this->spot_path . $_FILES["file"]["name"];
             move_uploaded_file($_FILES["file"]["tmp_name"],
             $s3_path);
-            $reg->s3_path = $this->spot_path . $_FILES["file"]["name"];
+            $reg->s3_path = $this->url . $this->spot_path . $_FILES["file"]["name"];
         }
 
         $ret = $reg->save();
