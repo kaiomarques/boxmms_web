@@ -37,8 +37,8 @@ class SpotsController extends Controller
     var $path;
 
     public function __construct() {
-        //$this->path = "/var/www/boxmms/files/spots/";
-        $this->path = "c:/var/www/boxmms/files/spots/";
+        $this->path = "/var/www/boxmms/files/spots/";
+        //$this->path = "c:/var/www/boxmms/files/spots/";
     }
 
     public function index(Request $request)
