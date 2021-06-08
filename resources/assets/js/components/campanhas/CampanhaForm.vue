@@ -331,6 +331,9 @@ export default {
             self.id_spot.push(self.spots.find(spot => spot.key === value.id_spot));
           });
 
+          self.filtro_dtinicio = Util.dateToBR(response.data[0].periodo_inicial);
+          self.filtro_dtfim = Util.dateToBR(response.data[0].periodo_final);
+
           self.nome_enabled = true;
           self.spot_enabled = true;
           self.cliente_enabled = true;

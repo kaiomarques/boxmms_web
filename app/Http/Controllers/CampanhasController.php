@@ -48,9 +48,9 @@ class CampanhasController extends Controller
     public function getById($id) {
         $sql = "
         SELECT 
-            id, nome, id_cliente
+            id, nome, id_cliente, periodo_inicial, periodo_final
         FROM boxmmsdb.campanhas
-        WHERE id = {$id}";
+            WHERE id = {$id}";
 
         $sql2 = "
         SELECT 
