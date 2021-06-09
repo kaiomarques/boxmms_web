@@ -347,7 +347,7 @@ export default {
           if(self.clientes.length > 0) {
             //alert("Opção 1: " + self.clientes);
             self.id_cliente = self.clientes.find(cliente => cliente.key === response.data[0].id_cliente);
-            alert(self.id_cliente);
+            alert(JSON.stringidy(self.id_cliente));
           }
 
           if(self.emissoras.length > 0) {
