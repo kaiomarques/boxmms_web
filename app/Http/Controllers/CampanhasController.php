@@ -179,9 +179,9 @@ class CampanhasController extends Controller
                 $dados["spot"] =  $spot_data->nome;
                 $dados["audio"] =  $spot_data->s3_path;
                 $dados["id_boxnet"] =  $spot_data->id_boxnet;
-                var_dump($dados);
+
+                //$this->callSpyBox($dados);
             }
-            die;
 
         } catch (Exception $e) {
             DB::rollBack();
@@ -220,7 +220,7 @@ class CampanhasController extends Controller
      *
      * @return Response
      */
-    public function callSpyBox($parametros)
+    private function callSpyBox($parametros)
     {
         $url = "http://10.1.20.69/prototypeideas.spybox.api/Campaign";
 
