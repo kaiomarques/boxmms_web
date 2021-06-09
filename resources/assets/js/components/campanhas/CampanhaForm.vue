@@ -275,6 +275,7 @@ export default {
       self.carregando_clientes = false;
       self.cliente_enabled = true;
       if (self.id_load) {
+          alert("Lista de clientes carregou, já tem os selecionados?" + self.cliente_selecionado);
           if(self.cliente_selecionado.length > 0) {
             //alert("self.cliente_selecionado: " + self.cliente_selecionado);
             //alert("self.clientes.find: " + self.clientes.find);
@@ -344,10 +345,9 @@ export default {
 
           self.cliente_selecionado = response.data[0].id_cliente;
 
+          alert("Cliente carregou, já tem a lista?" + self.clientes.length);
           if(self.clientes.length > 0) {
-            //alert("Opção 1: " + self.clientes);
             self.id_cliente = self.clientes.find(cliente => cliente.key === response.data[0].id_cliente);
-            alert(JSON.stringify(self.id_cliente));
           }
 
           if(self.emissoras.length > 0) {
