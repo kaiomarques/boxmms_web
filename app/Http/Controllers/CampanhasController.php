@@ -7,7 +7,6 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Service\ErrorsService;
 
-use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use App\AgrupamentoNotificacoes;
 use Illuminate\Support\Facades\DB;
@@ -180,7 +179,7 @@ class CampanhasController extends Controller
                 $dados["audio"] =  $spot_data->s3_path;
                 $dados["id_boxnet"] =  $spot_data->id_boxnet;
 
-                //$this->callSpyBox($dados);
+                $this->callSpyBox($dados);
             }
 
         } catch (Exception $e) {
@@ -224,6 +223,8 @@ class CampanhasController extends Controller
     {
         $url = "http://10.1.20.69/prototypeideas.spybox.api/Campaign";
 
-        return $response = Http::post($url, $parametros);
+        $response = Request::post($url, $parametros);
+
+        var_dump($response);die;
     }
 }
