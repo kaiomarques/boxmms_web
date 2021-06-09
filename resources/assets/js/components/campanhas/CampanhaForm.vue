@@ -276,10 +276,10 @@ export default {
       self.cliente_enabled = true;
       if (self.id_load) {
           if(self.cliente_selecionado.length > 0) {
-            alert("self.cliente_selecionado: " + self.cliente_selecionado);
-            alert("self.clientes.find: " + self.clientes.find);
+            //alert("self.cliente_selecionado: " + self.cliente_selecionado);
+            //alert("self.clientes.find: " + self.clientes.find);
             self.id_cliente = self.clientes.find(cliente => cliente.key === self.cliente_selecionado);
-            alert("self.id_cliente" + self.id_cliente);
+            //alert("self.id_cliente" + self.id_cliente);
           }
       } else {
         self.id_cliente = null;
@@ -345,9 +345,9 @@ export default {
           self.cliente_selecionado = response.data[0].id_cliente;
 
           if(self.clientes.length > 0) {
-            alert("Opção 1: " + self.clientes);
+            //alert("Opção 1: " + self.clientes);
             self.id_cliente = self.clientes.find(cliente => cliente.key === response.data[0].id_cliente);
-            alert(self.id_cliente);
+            //alert(self.id_cliente);
           }
 
           if(self.emissoras.length > 0) {
