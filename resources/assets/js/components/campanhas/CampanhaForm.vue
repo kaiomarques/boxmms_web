@@ -275,7 +275,7 @@ export default {
       self.carregando_clientes = false;
       self.cliente_enabled = true;
       if (self.id_load) {
-          if(self.cliente_selecionados.length > 0) {
+          if(self.cliente_selecionado.length > 0) {
             self.id_cliente = self.clientes.find(cliente => cliente.key === response.data[0].id_cliente);
           }
       } else {
