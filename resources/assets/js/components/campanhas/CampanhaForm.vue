@@ -279,7 +279,7 @@ export default {
             //alert("self.cliente_selecionado: " + self.cliente_selecionado);
             //alert("self.clientes.find: " + self.clientes.find);
             self.id_cliente = self.clientes.find(cliente => cliente.key === self.cliente_selecionado);
-            //alert("self.id_cliente" + self.id_cliente);
+            alert("self.id_cliente" + JSON.stringify(self.id_cliente));
           }
       } else {
         self.id_cliente = null;
