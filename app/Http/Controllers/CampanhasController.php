@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Service\ErrorsService;
 
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\AgrupamentoNotificacoes;
 use Illuminate\Support\Facades\DB;
@@ -159,33 +160,36 @@ class CampanhasController extends Controller
                         $ret3 = $reg_campanha_spot_mailing->save();
                     }
                 }
+                $campanhaDados = $this->getById($reg_campanha->id);
+
+                $dadosParaEnvio = array (
+                    "campaign" => $campanhaDados["data"][0]->nome,
+                    "start_date" => $campanhaDados["data"][0]->periodo_inicial,
+                    "end_date" => $campanhaDados["data"][0]->periodo_final,
+                    "jsonstring_id_broadcaster" => $ids_emissoras
+                );
+                foreach($campanhaDados["spot_data"] as $spot_data) {
+                    $dados = $dadosParaEnvio;
+                    $dados["spot"] =  $spot_data->nome;
+                    $dados["audio"] =  $spot_data->s3_path;
+                    $dados["id_boxnet"] =  $spot_data->id_boxnet;
+
+                    $this->callSpyBox($dados);
+                }
             }
             DB::commit();
             $msg = "sucesso!";
             $code = 1;
-
-            $campanhaDados = $this->getById($reg_campanha->id);
-
-            $dadosParaEnvio = array (
-                "campaign" => $campanhaDados["data"][0]->nome,
-                "start_date" => $campanhaDados["data"][0]->periodo_inicial,
-                "end_date" => $campanhaDados["data"][0]->periodo_final,
-                "jsonstring_id_broadcaster" => $ids_emissoras
-            );
-
-            foreach($campanhaDados["spot_data"] as $spot_data) {
-                $dados = $dadosParaEnvio;
-                $dados["spot"] =  $spot_data->nome;
-                $dados["audio"] =  $spot_data->s3_path;
-                $dados["id_boxnet"] =  $spot_data->id_boxnet;
-
-                $this->callSpyBox($dados);
-            }
-
         } catch (Exception $e) {
             DB::rollBack();
             $msg = "Erro ao cadastrar a campanha";
             $code = 0;
+        } catch (RequestException $e) {
+            if ($e->hasResponse()){
+                if ($e->getResponse()->getStatusCode() == '400') {
+                    echo "Got response 400";
+                }
+            }            
         }
 
         return array("msg"=>$msg, "code" =>  $code , "success" => [$ret1, $ret2, $ret3], "results"=> [$reg_campanha_spot, $reg_campanha_spot, $reg_campanha_spot_mailing]);
@@ -214,7 +218,7 @@ class CampanhasController extends Controller
         return $saida;
     }
 
-        /**
+    /**
      * Display a listing of the resource.
      *
      * @return Response
@@ -223,8 +227,11 @@ class CampanhasController extends Controller
     {
         $url = "http://10.1.20.69/prototypeideas.spybox.api/Campaign";
 
-        $response = Request::post($url, $parametros);
+        $response = new \GuzzleHttp\Client();
+        echo json_encode($parametros);
+        //die;
+        $response->post($url, $parametros);
 
-        var_dump($response);die;
+        //var_dump($response->getStatusCode);die;
     }
 }

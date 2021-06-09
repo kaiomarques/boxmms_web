@@ -419,7 +419,7 @@ export default {
           success: function (data) {
             data = JSON.parse(data);
             if(data.msg == "sucesso!") {
-              document.location.reload(true);
+              //document.location.reload(true);
             } else {
               alert("Erro");
             }
