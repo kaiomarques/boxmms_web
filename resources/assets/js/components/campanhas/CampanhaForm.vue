@@ -275,8 +275,9 @@ export default {
       self.carregando_clientes = false;
       self.cliente_enabled = true;
       if (self.id_load) {
-        //self.id_cliente = self.id_load;
-        //self.cliente_alterado();
+          if(self.cliente_selecionados.length > 0) {
+            self.id_cliente = self.clientes.find(cliente => cliente.key === response.data[0].id_cliente);
+          }
       } else {
         self.id_cliente = null;
         self.cliente_enabled = true;
@@ -329,7 +330,6 @@ export default {
         
         if (self.id_load) {
           self.nome = response.data[0].nome;
-          self.id_cliente = self.clientes.find(cliente => cliente.key === response.data[0].id_cliente);
 
           $.each(response.emissora_data, function (index,value) {
             self.emissoras_selecionadas.push(value.id_emissora);
@@ -338,6 +338,12 @@ export default {
           $.each(response.spot_data, function (index,value) {
             self.spots_selecionados.push(value.key);
           });
+
+          self.cliente_selecionado = response.data[0].id_cliente;
+
+          if(self.clientes.length > 0) {
+            self.id_cliente = self.clientes.find(cliente => cliente.key === response.data[0].id_cliente);
+          }
 
           if(self.emissoras.length > 0) {
             $.each(self.emissoras_selecionadas, function (index,id_emissora) {
