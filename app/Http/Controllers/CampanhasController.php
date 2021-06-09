@@ -166,7 +166,7 @@ class CampanhasController extends Controller
                     "campaign" => $campanhaDados["data"][0]->nome,
                     "start_date" => $campanhaDados["data"][0]->periodo_inicial,
                     "end_date" => $campanhaDados["data"][0]->periodo_final,
-                    "jsonstring_id_broadcaster" => $ids_emissoras
+                    "jsonstring_id_broadcaster" => "[".implode("," ,$ids_emissoras)."]"
                 );
                 foreach($campanhaDados["spot_data"] as $spot_data) {
                     $dados = $dadosParaEnvio;
@@ -228,10 +228,7 @@ class CampanhasController extends Controller
         $url = "http://10.1.20.69/prototypeideas.spybox.api/Campaign";
 
         $response = new \GuzzleHttp\Client();
-        echo json_encode($parametros);
-        //die;
-        $response->post($url, $parametros);
-
-        //var_dump($response->getStatusCode);die;
+        $json = json_encode($parametros);
+        $response->post($url, ['form_params' => $parametros]);
     }
 }
