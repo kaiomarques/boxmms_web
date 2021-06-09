@@ -276,10 +276,10 @@ export default {
       self.cliente_enabled = true;
       if (self.id_load) {
           alert("Lista de clientes carregou, já tem os selecionados?" + self.cliente_selecionado);
-          if(self.cliente_selecionado.length > 0) {
+          if(self.cliente_selecionado.length == 0) {
             //alert("self.cliente_selecionado: " + self.cliente_selecionado);
             //alert("self.clientes.find: " + self.clientes.find);
-            self.id_cliente = self.clientes.find(cliente => cliente.key === self.cliente_selecionado);
+            self.id_cliente = self.clientes.find(cliente => cliente.key == self.cliente_selecionado);
             alert("self.id_cliente" + JSON.stringify(self.id_cliente));
           }
       } else {
