@@ -75,7 +75,7 @@
           <div class="col-xs-6">
             <div class="form-group">
               <label>Adicionar Cliente</label>
-              <multiselect 
+              <vueselect 
                 name="id_cliente"
                 v-model="id_cliente"
                 :options="clientes"
@@ -85,7 +85,7 @@
                 label="name"
                 language="pt-BR"
                 track-by="key"
-              ></multiselect >
+              ></vueselect >
             </div>
           </div>
         </div>
