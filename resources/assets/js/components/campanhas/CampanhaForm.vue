@@ -345,7 +345,9 @@ export default {
           self.cliente_selecionado = response.data[0].id_cliente;
 
           if(self.clientes.length > 0) {
+            console.log("Opção 1: " + self.clientes);
             self.id_cliente = self.clientes.find(cliente => cliente.key === response.data[0].id_cliente);
+            console.log(self.id_cliente);
           }
 
           if(self.emissoras.length > 0) {
