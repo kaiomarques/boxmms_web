@@ -276,7 +276,10 @@ export default {
       self.cliente_enabled = true;
       if (self.id_load) {
           if(self.cliente_selecionado.length > 0) {
+            console.log("self.cliente_selecionado: " + self.cliente_selecionado);
+            console.log("self.clientes.find: " + self.clientes.find);
             self.id_cliente = self.clientes.find(cliente => cliente.key === self.cliente_selecionado);
+            console.log("self.id_cliente" + self.id_cliente);
           }
       } else {
         self.id_cliente = null;
