@@ -50,7 +50,7 @@ class SpotsController extends Controller
         $sql = "
         SELECT 
             s.id as id, s.nome as nome,  s.s3_path
-        FROM boxmmsdb.spots s";
+        FROM boxmmsdb.spots s ORDER BY s.id DESC";
 
         $itens = DB::select($sql);
                 

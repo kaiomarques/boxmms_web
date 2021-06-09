@@ -320,9 +320,6 @@ export default {
           self.nome = response.data[0].nome;
           self.id_cliente = self.clientes.find(cliente => cliente.key === response.data[0].id_cliente);
 
-          //var ids_emissoras = [];
-
-
           $.each(response.emissora_data, function (index,value) {
             self.id_emissora.push(self.emissoras.find(emissora => emissora.id_emissora === value.id_emissora));
           });
