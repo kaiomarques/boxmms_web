@@ -214,6 +214,11 @@ export default {
       spots: [],
       clientes: [],
       emissoras: [],
+
+      emissoras_selecionadas: [],
+      spots_selecionados: [],
+      cliente_selecionado: [],
+
       filtro_dtinicio: "",
       filtro_dtfim: "",
       carregando_spots: false,
@@ -287,8 +292,11 @@ export default {
       self.carregando_spots = false;
       self.spot_enabled = true;
       if (self.id_load) {
-        //self.id_spot = self.id_load;
-        //self.cliente_alterado();
+          if(self.spots_selecionados.length > 0) {
+            $.each(self.spots_selecionados, function (index,id_spot) {
+              self.id_spot.push(self.spots.find(spot => spot.id_spot === id_spot));
+            });
+          }
       } else {
         self.id_spot = null;
         self.spot_enabled = true;
@@ -303,8 +311,11 @@ export default {
       self.carregando_emissoras = false;
       self.emissora_enabled = true;
       if (self.id_load) {
-        //self.id_emissora = self.id_load;
-        //self.cliente_alterado();
+          if(self.emissoras_selecionadas.length > 0) {
+            $.each(self.emissoras_selecionadas, function (index,id_emissora) {
+              self.id_emissora.push(self.emissoras.find(emissora => emissora.id_emissora === id_emissora));
+            });
+          }
       } else {
         self.id_emissora = null;
         self.emissora_enabled = true;
@@ -325,13 +336,26 @@ export default {
             //console.log("Spots: " + self.spots.length);
           }
 
+
           $.each(response.emissora_data, function (index,value) {
-            self.id_emissora.push(self.emissoras.find(emissora => emissora.id_emissora === value.id_emissora));
+            self.emissoras_selecionadas.push(value.id_emissora);
           });
 
           $.each(response.spot_data, function (index,value) {
-            self.id_spot.push(self.spots.find(spot => spot.key === value.id_spot));
+            self.spots_selecionados.push(value.key);
           });
+
+          if(self.emissoras.length > 0) {
+            $.each(self.emissoras_selecionadas, function (index,id_emissora) {
+              self.id_emissora.push(self.emissoras.find(emissora => emissora.id_emissora === id_emissora));
+            });
+          }
+          
+          if(self.spots.length > 0) {
+            $.each(self.spots_selecionados, function (index,id_spot) {
+              self.id_spot.push(self.spots.find(spot => spot.id_spot === id_spot));
+            });
+          }
 
           self.filtro_dtinicio = Util.dateToBR(response.data[0].periodo_inicial);
           self.filtro_dtfim = Util.dateToBR(response.data[0].periodo_final);
@@ -349,199 +373,12 @@ export default {
     obj_editor.loadCalendar("#filtro_dtfim");
   },
   'methods': {
-    isAttributeEquals(obj, obj2, attribute) {
-      return (
-        attribute &&
-        obj[attribute] &&
-        obj2[attribute] &&
-        obj[attribute] == obj2[attribute]
-      );
-    },
-    collectionContains(collection, item, attribute) {
-      if (!collection || !Array.isArray(collection)) return false;
-
-      for (var i = 0; i < collection.length; i++) {
-        if (
-          this.isAttributeEquals(collection[i], item, attribute) ||
-          collection[i] == item
-        ) {
-          return true;
-        }
-      }
-
-      return false;
-    },
-    criaSet(collection, attribute) {
-      if (!collection || !Array.isArray(collection)) return [];
-
-      var result = [];
-
-      for (var i = 0; i < collection.length; i++) {
-        if (!this.collectionContains(result, collection[i], attribute)) {
-          result.push(collection[i]);
-        }
-      }
-
-      return result;
-    },
-    palavras() {
-      if (!this.palavras_texto) return [];
-
-      return this.criaSet(this.palavras_texto.split(","));
-    },
-    foiRemovida(palavra) {
-      return this.collectionContains(
-        this.palavrasRemovidas(),
-        { id: 0, nome: palavra },
-        "nome"
-      );
-    },
-    foiAdicionada(palavra) {
-      return this.collectionContains(
-        this.palavrasAdicionadas(),
-        { id: 0, nome: palavra },
-        "nome"
-      );
-    },
-    palavrasRemovidas() {
-      if (!this.palavras_carregadas) return [];
-
-      var palavrasAtuais = this.palavras();
-      var removidas = [];
-
-      for (var i = 0; i < this.palavras_carregadas.length; i++) {
-        var found = false;
-
-        for (var j = 0; j < palavrasAtuais.length; j++) {
-          if (palavrasAtuais[j] == this.palavras_carregadas[i].nome) {
-            found = true;
-            break;
-          }
-        }
-
-        if (!found) removidas.push(this.palavras_carregadas[i]);
-      }
-
-      return this.criaSet(removidas, "nome");
-    },
-    palavrasAdicionadas() {
-      if (!this.palavras_carregadas && !this.palavras_texto) return [];
-
-      var palavrasAtuais = this.palavras();
-      var adicionadas = [];
-
-      for (var j = 0; j < palavrasAtuais.length; j++) {
-        var found = false;
-
-        for (var i = 0; i < this.palavras_carregadas.length; i++) {
-          if (palavrasAtuais[j] == this.palavras_carregadas[i].nome) {
-            found = true;
-            break;
-          }
-        }
-
-        if (!found) adicionadas.push({ id: null, nome: palavrasAtuais[j] });
-      }
-
-      return this.criaSet(adicionadas, "nome");
-    },
-    palavrasExistentes() {
-      if (!this.palavras_carregadas) return [];
-
-      var palavrasAtuais = this.palavras();
-      var existentes = [];
-
-      for (var j = 0; j < palavrasAtuais.length; j++) {
-        if (
-          !this.foiRemovida(palavrasAtuais[j]) &&
-          !this.foiAdicionada(palavrasAtuais[j])
-        ) {
-          for (var i = 0; i < this.palavras_carregadas.length; i++) {
-            if (this.palavras_carregadas[i].nome == palavrasAtuais[j]) {
-              existentes.push(this.palavras_carregadas[i]);
-              break;
-            }
-          }
-        }
-      }
-
-      return this.criaSet(existentes, "nome");
-    },
-    clienteSelecionado() {
-      if (!this.id_cliente || !this.clientes) return null;
-
-      for (var i = 0; i < this.clientes.length; i++) {
-        if (this.clientes[i].id == this.id_cliente) return this.clientes[i];
-      }
-
-      return null;
-    },
-    topico_alterado() {
-      var self = this;
-
-      if (!self.id_spot) return;
-
-      self.palavras_texto = "Carregando...";
-      self.palavras_texto_enabled = false;
-
-      var url = `topicos/${self.id_spot}/palavras`;
-
-      obj_api.call(url, "GET", {}, function(response) {
-        self.palavras_carregadas = response.data;
-
-        var palavras = [];
-
-        for (var i = 0; i < self.palavras_carregadas.length; i++) {
-          palavras.push(self.palavras_carregadas[i].nome);
-        }
-
-        self.palavras_texto = palavras.join();
-        self.palavras_texto_enabled = true;
-      });
-    },
-    /*cliente_alterado() {
-      var self = this;
-
-      if (!self.id_cliente) {
-        return;
-      }
-
-      var cliente = self.clienteSelecionado();
-      self.id_load = cliente.id;
-      self.nome_cliente = cliente.nome;
-      self.topicos = [];
-      self.carregaTopicos();
-    },*/
     carregaForm(item) {
       var self = this;
       self.id = item.id;
       self.nome = item.nome;
       self.s3_path = item.s3_path;
     },
-    editar_elastic() {
-      console.log("onEdit?", this.onEdit);
-      if (this.onEdit != null) {
-        this.onEdit("editar_elastic");
-      }
-    },
-    editar_palavra() {
-      if (this.onEdit != null) {
-        this.onEdit("editar_palavra");
-      }
-    },
-
-    exibe_error(tipo) {},
-
-    getClassFirstSection() {
-      if (this.id != "") return "col-xs-9";
-
-      return "col-xs-12";
-    },
-
-    validar() {
-      return true;
-    },
-
     botao_voltar() {
       var self = this;
 
