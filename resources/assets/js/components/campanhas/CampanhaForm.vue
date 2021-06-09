@@ -321,8 +321,8 @@ export default {
           self.id_cliente = self.clientes.find(cliente => cliente.key === response.data[0].id_cliente);
 
           while(self.emissoras.length == 0 || self.spots.length == 0) {
-            console.log("Emissoras: " + self.emissoras.length);
-            console.log("Spots: " + self.spots.length);
+            //console.log("Emissoras: " + self.emissoras.length);
+            //console.log("Spots: " + self.spots.length);
           }
 
           $.each(response.emissora_data, function (index,value) {
