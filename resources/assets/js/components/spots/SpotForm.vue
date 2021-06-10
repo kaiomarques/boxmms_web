@@ -265,8 +265,7 @@ export default {
         processData: false,
 
         success: function (data) {
-          return;
-          //document.location.reload(true);
+          document.location.reload(true);
         }
       });
     },

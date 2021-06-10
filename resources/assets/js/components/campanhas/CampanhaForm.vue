@@ -71,17 +71,20 @@
             </div>
           </div>
         </div>
+
+
         <div class="row">
           <div class="col-xs-6">
             <div class="form-group">
-              <label>Adicionar Cliente</label>
+              <label>Adicionar Clientes</label>
               <multiselect 
                 name="id_cliente"
-                v-model="id_cliente"
-                :options="clientes"
+                v-model="id_cliente" 
+                :options="clientes" 
                 placeholder = "Selecione..."
                 :loading="!cliente_enabled"
                 :internal-search="false"
+                :multiple = true
                 label="name"
                 language="pt-BR"
                 track-by="key"
@@ -89,6 +92,7 @@
             </div>
           </div>
         </div>
+
         <div class="row">
           <div class="col-xs-6">
             <div class="form-group">
@@ -217,7 +221,7 @@ export default {
 
       emissoras_selecionadas: [],
       spots_selecionados: [],
-      cliente_selecionado: "",
+      clientes_selecionados: [],
 
       filtro_dtinicio: "",
       filtro_dtfim: "",
@@ -275,8 +279,10 @@ export default {
       self.carregando_clientes = false;
       self.cliente_enabled = true;
       if (self.id_load) {
-          if(self.cliente_selecionado != "") {
-            self.id_cliente = self.clientes.find(cliente => cliente.key == self.cliente_selecionado);
+          if(self.clientes_selecionadas.length > 0) {
+            $.each(self.clientes_selecionadas, function (index,id_cliente) {
+              self.id_cliente.push(self.clientes.find(cliente => cliente.key === id_cliente));
+            });
           }
       } else {
         self.id_cliente = null;
@@ -339,10 +345,14 @@ export default {
             self.spots_selecionados.push(value.key);
           });
 
-          self.cliente_selecionado = response.data[0].id_cliente;
+          $.each(response.cliente_data, function (index,value) {
+            self.clientes_selecionados.push(value.key);
+          });
 
           if(self.clientes.length > 0) {
-            self.id_cliente = self.clientes.find(cliente => cliente.key === response.data[0].id_cliente);
+            $.each(self.clientes_selecionados, function (index,id_cliente) {
+              self.id_cliente.push(self.clientes.find(cliente => cliente.id_cliente === id_cliente));
+            });
           }
 
           if(self.emissoras.length > 0) {
@@ -398,7 +408,7 @@ export default {
       arquivo.append('nome', this.nome);
       arquivo.append('id', this.id_load);
       arquivo.append('id_emissoras', JSON.stringify(this.id_emissora));
-      arquivo.append('id_cliente', JSON.stringify(this.id_cliente));
+      arquivo.append('id_clientes', JSON.stringify(this.id_cliente));
       arquivo.append('id_spots', JSON.stringify(this.id_spot));
       arquivo.append('data_inicial', Util.BrDateToUS($("#filtro_dtinicio").val()));
       arquivo.append('data_final', Util.BrDateToUS($("#filtro_dtfim").val()));
@@ -419,7 +429,7 @@ export default {
           success: function (data) {
             data = JSON.parse(data);
             if(data.msg == "sucesso!") {
-              //document.location.reload(true);
+              document.location.reload(true);
             } else {
               alert("Erro");
             }

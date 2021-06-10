@@ -3,6 +3,7 @@
 use App\Campanha;
 use App\CampanhaSpot;
 use App\CampanhaSpotMailing;
+use App\CampanhaSpotCliente;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Service\ErrorsService;
@@ -67,15 +68,23 @@ class CampanhasController extends Controller
         FROM boxmmsdb.campanha_spot_mailing
         WHERE id_campanha = {$id}";
 
+        $sql4 = "
+        SELECT 
+            id_cliente
+        FROM boxmmsdb.campanha_spot_clientes
+        WHERE id_campanha = {$id}";
+
         $itens = DB::select($sql);
         $spotItens = DB::select($sql2);
         $emissoraItens = DB::select($sql3);
+        $clienteItens = DB::select($sql4);
                 
         $saida = array(
             "qtde"=> count($itens),
             "data" => $itens, 
             "spot_data" => $spotItens,
             "emissora_data" => $emissoraItens,
+            "cliente_data" => $clienteItens,
             "sql"=> $sql
         );
 
@@ -96,10 +105,11 @@ class CampanhasController extends Controller
         $reg_campanha = null;
         $reg_campanha_spot = null;
         $reg_campanha_spot_mailing = null;
+        $reg_campanha_spot_cliente = null;
 
         $ids_spots = [];
         $ids_emissoras = [];
-        $id_cliente = null;
+        $ids_clientes = null;
 
         try {
             DB::beginTransaction();
@@ -110,13 +120,13 @@ class CampanhasController extends Controller
             if(isset($_POST["data_final"]) && $_POST["data_final"] != null) {
                 $data_final = $_POST["data_final"];
             }
-    
-    
-            if(isset($_POST["id_cliente"]) && $_POST["id_cliente"] != null) {
-                $id_cliente = json_decode($_POST["id_cliente"]);
-                $id_cliente = $id_cliente->key;
-            }
             
+            if(count(json_decode($_POST["id_clientes"])) > 0) {
+                foreach(json_decode($_POST["id_clientes"]) as $obj) {
+                    $ids_clientes[] = $obj->key;
+                }
+            }
+
             if(count(json_decode($_POST["id_spots"])) > 0) {
                 foreach(json_decode($_POST["id_spots"]) as $obj) {
                     $ids_spots[] = $obj->key;
@@ -142,7 +152,6 @@ class CampanhasController extends Controller
             } else {
                 $reg_campanha = new Campanha;
                 $reg_campanha->nome = $nome;
-                $reg_campanha->id_cliente = $id_cliente;
                 $reg_campanha->periodo_inicial = $data_inicial;
                 $reg_campanha->periodo_final = $data_final;
                 $ret1 = $reg_campanha->save();
@@ -158,6 +167,12 @@ class CampanhasController extends Controller
                         $reg_campanha_spot_mailing->id_emissora = $id_emissora;
                         $reg_campanha_spot_mailing->id_campanha = $reg_campanha->id;
                         $ret3 = $reg_campanha_spot_mailing->save();
+                    }
+                    foreach ($ids_clientes as $id_cliente) {
+                        $reg_campanha_spot_cliente =  new CampanhaSpotCliente;
+                        $reg_campanha_spot_cliente->id_cliente = $id_cliente;
+                        $reg_campanha_spot_cliente->id_campanha = $reg_campanha->id;
+                        $ret3 = $reg_campanha_spot_cliente->save();
                     }
                 }
                 $campanhaDados = $this->getById($reg_campanha->id);
@@ -175,7 +190,7 @@ class CampanhasController extends Controller
                     $dados["audio"] =  $spot_data->s3_path;
                     $dados["id_boxnet"] =  $spot_data->id_boxnet;
 
-                    $this->callSpyBox($dados);
+                    //$this->callSpyBox($dados);
                 }
             }
             DB::commit();
