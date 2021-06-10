@@ -190,7 +190,7 @@ class CampanhasController extends Controller
                     $dados["audio"] =  $spot_data->s3_path;
                     $dados["id_boxnet"] =  $spot_data->id_boxnet;
 
-                    //$this->callSpyBox($dados);
+                    $this->callSpyBox($dados);
                 }
             }
             DB::commit();
