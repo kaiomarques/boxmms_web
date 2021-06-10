@@ -168,6 +168,7 @@ class CampanhasController extends Controller
                     "end_date" => $campanhaDados["data"][0]->periodo_final,
                     "jsonstring_id_broadcaster" => "[".implode("," ,$ids_emissoras)."]"
                 );
+
                 foreach($campanhaDados["spot_data"] as $spot_data) {
                     $dados = $dadosParaEnvio;
                     $dados["spot"] =  $spot_data->nome;
