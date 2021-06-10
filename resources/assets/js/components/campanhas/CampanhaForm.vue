@@ -279,7 +279,7 @@ export default {
       self.carregando_clientes = false;
       self.cliente_enabled = true;
       if (self.id_load) {
-          if(self.clientes_selecionadas.length > 0) {
+          if(self.clientes_selecionados.length > 0) {
             $.each(self.clientes_selecionadas, function (index,id_cliente) {
               self.id_cliente.push(self.clientes.find(cliente => cliente.key === id_cliente));
             });
