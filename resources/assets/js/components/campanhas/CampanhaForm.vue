@@ -95,8 +95,8 @@
 
 
         <div class="row">
-          <div class="col-xs-6">
-            <div class="form-group">
+          <div class="col-xs-3">
+            <div class="form-group"  style="float:left">
               <label>Adicionar Mídia</label>
               <multiselect 
                 id="midia"
@@ -114,7 +114,31 @@
               ></multiselect >
             </div>
           </div>
+          <div class="col-xs-3">
+            <div class="form-group" style="float:right">
+              <label>Adicionar Praça</label>
+              <multiselect 
+                id="midia"
+                name="id_midia"
+                v-model="id_praca"
+                :options="pracas"
+                @select="recarregarPorPracas"
+                placeholder = "Selecione..."
+                :loading="!praca_enabled"
+                :internal-search="false"
+                label="name"
+                language="pt-BR"
+                track-by="id_praca"
+                style="width:220px"
+              ></multiselect >
+            </div>
+          </div>
         </div>
+
+
+        <!--div class="row">
+
+        </div-->
 
 
         <div class="row">
@@ -127,6 +151,7 @@
                 v-model="id_emissora"
                 :options="emissoras"
                 :multiple = true
+                @input="checarEmissorasSelecionada"
                 placeholder = "Selecione..."
                 :loading="!emissora_enabled"
                 :internal-search="false"
@@ -233,14 +258,17 @@ export default {
       id_emissora: [],
       id_midia: [],
       id_campanha:[],
+      id_praca: [],
       s3_path: "",
       nome_enabled: false,
       midia_enabled: false,
+      praca_enabled: false,
       spot_enabled: false,
       cliente_enabled: false,
-      emissora_enabled: false,
+      emissora_enabled: true,
       show_info_message: false,
       campanhas: [],
+      pracas: [],
       canais: [],
       spots: [],
       clientes: [],
@@ -250,7 +278,8 @@ export default {
       emissoras_selecionadas: [],
       spots_selecionados: [],
       clientes_selecionados: [],
-      midias_selecionados: [],
+      midia_selecionada: [],
+      praca_selecionada: [],
 
       filtro_dtinicio: "",
       filtro_dtfim: "",
@@ -258,6 +287,7 @@ export default {
       carregando_clientes: false,
       carregando_midia: false,
       carregando_canais: false,
+      carregando_pracas: false,
       carregando_emissoras: false,
       topicos_enabled: false,
       palavras_texto: "",
@@ -276,7 +306,11 @@ export default {
       message_text: "",
       message_type: "success",
       interval_message: null,
+      opcao_13: { id_emissora: -99, name: "[TODAS AS EMISSORAS DE TV]" },
+      opcao_14: { id_emissora: -99, name: "[TODAS AS EMISSORAS DE RÁDIO]" }, 
 
+      
+      //todas_praca_opcao: { id_emissora: -99, name: "[TODAS AS PRAÇAS]" },
       loading: false
     };
   },
@@ -290,6 +324,7 @@ export default {
     if (this.id_load == null || this.id_load == "") {
       this.id_load = 0;
       this.nome = "";
+      this.nome_enabled = true;
       this.s3_path = "";
     }
 
@@ -335,7 +370,20 @@ export default {
       }
     });
 
-
+    obj_api.call("pracas", "GET", null, function(response) {
+      $.each(response.data,function (index, value) {
+        self.pracas.push({ id_praca: value.id, name: value.nome });
+      });
+      self.praca_enabled = true;
+      if (self.id_load) {
+          if(self.praca_selecionada.length > 0) {
+            self.id_praca = self.praca_selecionada;
+          }
+      } else {
+        self.id_praca = null;
+        self.praca_enabled = true;
+      }
+    });
 
     obj_api.call("midias", "GET", null, function(response) {
       $.each(response.data,function (index, value) {
@@ -343,11 +391,10 @@ export default {
       });
       self.midia_enabled = true;
       if (self.id_load) {
-          /*if(self.midias_selecionadas.length > 0) {
-            $.each(self.midias_selecionadas, function (index,id_midia) {
-              self.id_midia.push(self.midias.find(midia => midia.id_midia === id_midia));
-            });
-          }*/
+          if(self.midia_selecionada.length > 0) {
+            alert(" ou aqui");
+            self.id_midia = self.midia_selecionada;
+          }
       } else {
         self.id_midia = null;
         self.midia_enabled = true;
@@ -374,6 +421,18 @@ export default {
             self.clientes_selecionados.push(value.key);
           });
 
+          if(response.data[0].id_praca != null) {
+            self.praca_selecionada = response.data[0].id_praca;
+          }
+
+          if(response.data[0].id_midia != null) {
+            self.midia_selecionada = response.data[0].id_midia;
+          }
+
+          if(response.data[0].todos != null) {
+            self.todos = response.data[0].todos;
+          }
+
           if(self.clientes.length > 0) {
             $.each(self.clientes_selecionados, function (index,id_cliente) {
               self.id_cliente.push(self.clientes.find(cliente => cliente.id_cliente === id_cliente));
@@ -391,6 +450,18 @@ export default {
               self.id_spot.push(self.spots.find(spot => spot.id_spot === id_spot));
             });
           }
+
+          if(self.pracas.length > 0) {
+              self.id_praca = self.pracas.find(praca => praca.id_praca === self.praca_selecionada);
+              self.recarregarPorPracas(self.id_praca);
+          }
+
+          if(self.midias.length > 0) {
+              self.id_midia = self.midias.find(midia => midia.id_midia === self.midia_selecionada);
+              self.recarregarPorMidia(self.id_midia);
+          }
+
+          
 
           self.filtro_dtinicio = Util.dateToBR(response.data[0].periodo_inicial);
           self.filtro_dtfim = Util.dateToBR(response.data[0].periodo_final);
@@ -428,6 +499,14 @@ export default {
 
       self.show_info_message = true;
       self.message_text = "Salvando mudanças. Por favor, aguarde.";
+      var todos = 0;
+
+      if(
+        self.id_emissora.find(emissora => emissora == self.opcao_13 ) !== undefined ||
+        self.id_emissora.find(emissora => emissora == self.opcao_14 ) !== undefined 
+      ) {
+        todos = 1;
+      }
 
       var arquivo = new FormData();
       arquivo.append('nome', this.nome);
@@ -435,8 +514,11 @@ export default {
       arquivo.append('id_emissoras', JSON.stringify(this.id_emissora));
       arquivo.append('id_clientes', JSON.stringify(this.id_cliente));
       arquivo.append('id_spots', JSON.stringify(this.id_spot));
+      arquivo.append('id_midia', JSON.stringify(this.id_midia));
+      arquivo.append('id_praca', JSON.stringify(this.id_praca));
       arquivo.append('data_inicial', Util.BrDateToUS($("#filtro_dtinicio").val()));
       arquivo.append('data_final', Util.BrDateToUS($("#filtro_dtfim").val()));
+      arquivo.append('todos', todos);
 
       $.ajax({
           url: url,
@@ -461,16 +543,72 @@ export default {
           }
       });
     },
+    checarEmissorasSelecionada(opcao) {
+      var self = this;
+      var opcao_selecionada = null;
+      if(opcao != null) {
+        opcao_selecionada = opcao[opcao.length - 1];
+      }
+
+      if(self.id_emissora != null) {
+        if(opcao_selecionada != null && opcao_selecionada == self.opcao_13) {
+          self.id_emissora = [self.opcao_13];
+        } else if(opcao_selecionada != null && opcao_selecionada == self.opcao_14) {
+          self.id_emissora = [self.opcao_14];
+        } else {
+          for( var i = 0; i < self.id_emissora.length; i++)
+                if ( self.id_emissora[i] == self.opcao_13 || self.id_emissora[i] == self.opcao_14) 
+                    self.id_emissora.splice(i, 1);
+        }
+      } 
+    },
+    recarregarPorPracas(opcao) {
+      var self = this;
+      self.emissoras = [];
+      self.emissora_enabled = false;
+      var id_praca = opcao.id_praca;
+      self.id_midia = null;
+      self.id_emissora = null;
+
+      obj_api.call("emissoras/porPraca/" + id_praca, "GET", null, function(response) {
+        
+        $.each(response.data,function (index, value) {
+          self.emissoras.push({ id_emissora: value.id, name: value.nome });
+        });
+
+        self.emissora_enabled = true;
+        if (self.id_load) {
+            if(self.emissoras_selecionadas.length > 0) {
+              $.each(self.emissoras_selecionadas, function (index,id_emissora) {
+                self.id_emissora.push(self.emissoras.find(emissora => emissora.id_emissora === id_emissora));
+              });
+            }
+        } else {
+          self.id_emissora = null;
+          self.emissora_enabled = true;
+        }
+      });
+    },
     recarregarPorMidia(opcao) {
       var self = this;
       self.emissoras = [];
       self.emissora_enabled = false;
       var id_midia = opcao.id_midia;
+      self.id_praca = null;
+      self.id_emissora = null;
 
-      obj_api.call("emissoras/" + id_midia, "GET", null, function(response) {
+      obj_api.call("emissoras/porMidia/" + id_midia, "GET", null, function(response) {
+        if(id_midia == 13) {
+          self.emissoras.push(self.opcao_13); 
+        }
+        if(id_midia == 14) {
+          self.emissoras.push(self.opcao_14);
+        }
+
         $.each(response.data,function (index, value) {
           self.emissoras.push({ id_emissora: value.id, name: value.nome });
         });
+
         self.emissora_enabled = true;
         if (self.id_load) {
             if(self.emissoras_selecionadas.length > 0) {

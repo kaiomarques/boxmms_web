@@ -9,6 +9,9 @@ class Campanha  extends Model{
     private $id_cliente;
     private $periodo_inicial;
     private $periodo_final;
+    private $id_praca;
+    private $id_midia;
+    private $todos;
 
     protected $table = 'campanhas';
     public $timestamps = false;
@@ -17,7 +20,10 @@ class Campanha  extends Model{
                     'nome',
                     'id_cliente',
                     'periodo_inicial',
-                    'periodo_final' 
+                    'periodo_final',
+                    'id_praca',
+                    'id_midia',
+                    'todos'
                 ];
     protected $hidden = [];
    

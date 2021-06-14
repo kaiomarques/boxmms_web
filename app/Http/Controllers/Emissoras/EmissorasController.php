@@ -64,4 +64,22 @@ class EmissorasController extends Controller
                     
         return $saida;
     }
+
+    public function selectByIdPraca($id_praca) {
+        $sql = "
+        SELECT 
+            id, nome
+        FROM boxintegra.emissora
+        WHERE id_praca = {$id_praca}";
+
+        $itens = DB::select($sql);
+                
+        $saida = array(
+            "qtde"=> count($itens),
+            "data" => $itens, 
+            "sql"=> $sql
+        );
+                    
+        return $saida;
+    }
 }

@@ -37,7 +37,8 @@ Route::group([
         
         Route::post('/emissoras', 'Emissoras\EmissorasController@index'); 
         Route::get('/emissoras', 'Emissoras\EmissorasController@index');
-        Route::get('/emissoras/{id_midia}', 'Emissoras\EmissorasController@selectByIdMidia');     
+        Route::get('/emissoras/porMidia/{id_midia}', 'Emissoras\EmissorasController@selectByIdMidia');
+        Route::get('/emissoras/porPraca/{id_praca}', 'Emissoras\EmissorasController@selectByIdPraca');     
 
         Route::get("/pracas", "Pracas\PracasController@index");
 
