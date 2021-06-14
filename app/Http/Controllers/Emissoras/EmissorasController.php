@@ -3,6 +3,9 @@ namespace App\Http\Controllers\Emissoras;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -42,5 +45,23 @@ class EmissorasController extends Controller
         $result = $this->queriesHandler->handle($query);
 
         return $this->sendResponse(array("data"=> $result));
+    }
+
+    public function selectByIdMidia($id_midia) {
+        $sql = "
+        SELECT 
+            id, nome
+        FROM boxintegra.emissora
+        WHERE id_veiculo = {$id_midia}";
+
+        $itens = DB::select($sql);
+                
+        $saida = array(
+            "qtde"=> count($itens),
+            "data" => $itens, 
+            "sql"=> $sql
+        );
+                    
+        return $saida;
     }
 }

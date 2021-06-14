@@ -36,7 +36,8 @@ Route::group([
         Route::get("/programas", "Programas\ProgramasController@index");
         
         Route::post('/emissoras', 'Emissoras\EmissorasController@index'); 
-        Route::get('/emissoras', 'Emissoras\EmissorasController@index');       
+        Route::get('/emissoras', 'Emissoras\EmissorasController@index');
+        Route::get('/emissoras/{id_midia}', 'Emissoras\EmissorasController@selectByIdMidia');     
 
         Route::get("/pracas", "Pracas\PracasController@index");
 
@@ -67,8 +68,10 @@ Route::group([
         Route::post('/recorte_delete', 'EventosArquivosController@destroy');
         Route::post('/recorte_delete_all', 'EventosArquivosController@destroy_all');
         Route::get('/materia_gerada/{id}', 'MateriaRascunhoController@show_materia_gerada');
-        Route::get('/materia_rascunho_del/{id}', 'MateriaRascunhoController@destroy');                
-                
+        Route::get('/materia_rascunho_del/{id}', 'MateriaRascunhoController@destroy'); 
+        
+        Route::get('/midias', 'MidiasController@select'); 
+
         Route::get('/search_arquivo/{id}', 'EventosArquivosController@temp_search');
         Route::get('/search_evento/{id}', 'EventosArquivosController@temp_search_programa');             
                 
