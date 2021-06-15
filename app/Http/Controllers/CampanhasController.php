@@ -29,6 +29,11 @@ class CampanhasController extends Controller
      *
      * @return Response
      */
+
+    const OPCAO_MIDIA = 1;
+
+    const OPCAO_PRACA = 2;
+
     public function index(Request $request)
     {
         $sql = "
@@ -186,7 +191,12 @@ class CampanhasController extends Controller
                         $ret2 = $reg_campanha_spot->save();
                     }
                     if ($todos == 1) {
-                        $ids_emissoras = $this->listarEmissoras($id_midia);
+                        if($id_midia != null) {
+                            $ids_emissoras = $this->listarEmissoras($id_midia, self::OPCAO_MIDIA);
+                        }
+                        if($id_praca != null) {
+                            $ids_emissoras = $this->listarEmissoras($id_praca, self::OPCAO_PRACA);
+                        }
                     } else {
                         foreach ($ids_emissoras as $id_emissora) {
                             $reg_campanha_spot_mailing =  new CampanhaSpotMailing;
@@ -218,7 +228,7 @@ class CampanhasController extends Controller
                     $dados["audio"] =  $spot_data->s3_path;
                     $dados["id_boxnet"] =  $spot_data->id_boxnet;
 
-                    $this->callSpyBox($dados);
+                    //$this->callSpyBox($dados);
                 }
             }
             DB::commit();
@@ -262,8 +272,13 @@ class CampanhasController extends Controller
         return $saida;
     }
 
-    private function listarEmissoras($idMidia) {
-        $sql = "SELECT id FROM  boxintegra.emissora WHERE id_veiculo = {$idMidia} and ativo = 1";
+    private function listarEmissoras($id, $opcao) {
+        if($opcao == self::OPCAO_MIDIA) {
+            $sql = "SELECT id FROM  boxintegra.emissora WHERE id_veiculo = {$id} and ativo = 1";
+        }
+        if($opcao == self::OPCAO_PRACA) {
+            $sql = "SELECT id FROM  boxintegra.emissora WHERE id_praca = {$id} and ativo = 1";
+        }
 
         $itens = DB::select($sql);
 

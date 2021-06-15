@@ -129,7 +129,7 @@
                 label="name"
                 language="pt-BR"
                 track-by="id_praca"
-                style="width:220px"
+                style="width:270px"
               ></multiselect >
             </div>
           </div>
@@ -308,7 +308,7 @@ export default {
       interval_message: null,
       opcao_13: { id_emissora: -99, name: "[TODAS AS EMISSORAS DE TV]" },
       opcao_14: { id_emissora: -99, name: "[TODAS AS EMISSORAS DE RÁDIO]" }, 
-
+      opcao_praca: { id_praca: -99, name: "[TODAS AS EMISSORAS DA PRAÇA]" }, 
       
       //todas_praca_opcao: { id_emissora: -99, name: "[TODAS AS PRAÇAS]" },
       loading: false
@@ -444,6 +444,9 @@ export default {
                 if(self.id_midia.id_midia == 13) self.id_emissora = self.opcao_13;
                 if(self.id_midia.id_midia == 14) self.id_emissora = self.opcao_14;
               }
+              if(self.id_praca != null && self.id_praca != 0) {
+                self.id_emissora = self.opcao_praca;
+              }
             } else {
               $.each(self.emissoras_selecionadas, function (index,id_emissora) {
                 self.id_emissora.push(self.emissoras.find(emissora => emissora.id_emissora === id_emissora));
@@ -506,8 +509,9 @@ export default {
       var todos = 0;
 
       if(
-        self.id_emissora.find(emissora => emissora == self.opcao_13 ) !== undefined ||
-        self.id_emissora.find(emissora => emissora == self.opcao_14 ) !== undefined 
+        self.id_emissora.find(emissora => emissora == self.opcao_13 )     !== undefined ||
+        self.id_emissora.find(emissora => emissora == self.opcao_14 )     !== undefined || 
+        self.id_emissora.find(emissora => emissora == self.opcao_praca )  !== undefined 
       ) {
         todos = 1;
       }
@@ -559,9 +563,13 @@ export default {
           self.id_emissora = [self.opcao_13];
         } else if(opcao_selecionada != null && opcao_selecionada == self.opcao_14) {
           self.id_emissora = [self.opcao_14];
+        } else if(opcao_selecionada != null && opcao_selecionada == self.opcao_praca) {
+          self.id_emissora = [self.opcao_praca];
         } else {
           for( var i = 0; i < self.id_emissora.length; i++)
-                if ( self.id_emissora[i] == self.opcao_13 || self.id_emissora[i] == self.opcao_14) 
+                if ( self.id_emissora[i] == self.opcao_13 || 
+                     self.id_emissora[i] == self.opcao_14 ||
+                     self.id_emissora[i] == self.opcao_praca) 
                     self.id_emissora.splice(i, 1);
         }
       } 
@@ -574,18 +582,27 @@ export default {
       self.id_midia = null;
       self.id_emissora = null;
 
-      obj_api.call("emissoras/porPraca/" + id_praca, "GET", null, function(response) {   
+      obj_api.call("emissoras/porPraca/" + id_praca, "GET", null, function(response) {
+        self.emissoras.push(self.opcao_praca); 
+        
+
         $.each(response.data,function (index, value) {
           self.emissoras.push({ id_emissora: value.id, name: value.nome });
         });
 
         self.emissora_enabled = true;
         if (self.id_load) {
-            if(self.emissoras_selecionadas.length > 0) {
-              self.id_emissora = [];
-              $.each(self.emissoras_selecionadas, function (index,id_emissora) {
-                self.id_emissora.push(self.emissoras.find(emissora => emissora.id_emissora === id_emissora));
-              });
+            if(self.todos == 1) {
+              if(self.id_praca != null && self.id_praca != 0) {
+                self.id_emissora = self.opcao_praca;
+              }
+            } else {
+              if(self.emissoras_selecionadas.length > 0) {
+                self.id_emissora = [];
+                $.each(self.emissoras_selecionadas, function (index,id_emissora) {
+                  self.id_emissora.push(self.emissoras.find(emissora => emissora.id_emissora === id_emissora));
+                });
+              }
             }
         } else {
           self.id_emissora = null;
