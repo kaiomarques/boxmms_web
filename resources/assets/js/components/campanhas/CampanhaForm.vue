@@ -118,8 +118,8 @@
             <div class="form-group" style="float:right">
               <label>Adicionar Praça</label>
               <multiselect 
-                id="midia"
-                name="id_midia"
+                id="praca"
+                name="id_praca"
                 v-model="id_praca"
                 :options="pracas"
                 @select="recarregarPorPracas"
@@ -451,17 +451,15 @@ export default {
             });
           }
 
-          if(self.pracas.length > 0) {
-              self.id_praca = self.pracas.find(praca => praca.id_praca === self.praca_selecionada);
-              self.recarregarPorPracas(self.id_praca);
+          if(self.pracas.length > 0 && self.id_praca != null && self.praca_selecionada != 0) {
+            self.id_praca = self.pracas.find(praca => praca.id_praca === self.praca_selecionada);
+            self.recarregarPorPracas(self.id_praca);
           }
 
-          if(self.midias.length > 0) {
+          if(self.midias.length > 0 && self.id_midia != null ) {
               self.id_midia = self.midias.find(midia => midia.id_midia === self.midia_selecionada);
               self.recarregarPorMidia(self.id_midia);
           }
-
-          
 
           self.filtro_dtinicio = Util.dateToBR(response.data[0].periodo_inicial);
           self.filtro_dtfim = Util.dateToBR(response.data[0].periodo_final);
@@ -570,8 +568,7 @@ export default {
       self.id_midia = null;
       self.id_emissora = null;
 
-      obj_api.call("emissoras/porPraca/" + id_praca, "GET", null, function(response) {
-        
+      obj_api.call("emissoras/porPraca/" + id_praca, "GET", null, function(response) {   
         $.each(response.data,function (index, value) {
           self.emissoras.push({ id_emissora: value.id, name: value.nome });
         });
@@ -579,6 +576,7 @@ export default {
         self.emissora_enabled = true;
         if (self.id_load) {
             if(self.emissoras_selecionadas.length > 0) {
+              self.id_emissora = [];
               $.each(self.emissoras_selecionadas, function (index,id_emissora) {
                 self.id_emissora.push(self.emissoras.find(emissora => emissora.id_emissora === id_emissora));
               });
@@ -612,6 +610,7 @@ export default {
         self.emissora_enabled = true;
         if (self.id_load) {
             if(self.emissoras_selecionadas.length > 0) {
+              self.id_emissora = [];
               $.each(self.emissoras_selecionadas, function (index,id_emissora) {
                 self.id_emissora.push(self.emissoras.find(emissora => emissora.id_emissora === id_emissora));
               });
