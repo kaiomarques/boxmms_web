@@ -392,7 +392,6 @@ export default {
       self.midia_enabled = true;
       if (self.id_load) {
           if(self.midia_selecionada.length > 0) {
-            alert(" ou aqui");
             self.id_midia = self.midia_selecionada;
           }
       } else {
@@ -440,20 +439,16 @@ export default {
           }
 
           if(self.emissoras.length > 0) {
-            //alert(JSON.stringify(self.id_praca));
-            //alert(JSON.stringify(self.id_midia));
-            //if(self.todos == 1) {
-              /*if(self.id_midia != null) {
-
+            if(self.todos == 1) {
+              if(self.id_midia != null && self.id_midia != 0) {
+                if(self.id_midia.id_midia == 13) self.id_emissora = self.opcao_13;
+                if(self.id_midia.id_midia == 14) self.id_emissora = self.opcao_14;
               }
-              if(self.id_praca != null) {
-
-              }*/
-            //} else {
+            } else {
               $.each(self.emissoras_selecionadas, function (index,id_emissora) {
                 self.id_emissora.push(self.emissoras.find(emissora => emissora.id_emissora === id_emissora));
               });
-            //}
+            }
           }
           
           if(self.spots.length > 0) {
@@ -586,7 +581,6 @@ export default {
 
         self.emissora_enabled = true;
         if (self.id_load) {
-          alert(self.todos);
             if(self.emissoras_selecionadas.length > 0) {
               self.id_emissora = [];
               $.each(self.emissoras_selecionadas, function (index,id_emissora) {
