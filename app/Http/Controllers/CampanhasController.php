@@ -185,7 +185,9 @@ class CampanhasController extends Controller
                         $reg_campanha_spot->id_spot = $id_spot;
                         $ret2 = $reg_campanha_spot->save();
                     }
-                    if($todos == 0) {
+                    if ($todos == 1) {
+                        $ids_emissoras = $this->listarEmissoras($id_midia);
+                    } else {
                         foreach ($ids_emissoras as $id_emissora) {
                             $reg_campanha_spot_mailing =  new CampanhaSpotMailing;
                             $reg_campanha_spot_mailing->id_emissora = $id_emissora;
@@ -193,6 +195,7 @@ class CampanhasController extends Controller
                             $ret3 = $reg_campanha_spot_mailing->save();
                         }
                     }
+
                     foreach ($ids_clientes as $id_cliente) {
                         $reg_campanha_spot_cliente =  new CampanhaSpotCliente;
                         $reg_campanha_spot_cliente->id_cliente = $id_cliente;
@@ -215,7 +218,7 @@ class CampanhasController extends Controller
                     $dados["audio"] =  $spot_data->s3_path;
                     $dados["id_boxnet"] =  $spot_data->id_boxnet;
 
-                    //$this->callSpyBox($dados);
+                    $this->callSpyBox($dados);
                 }
             }
             DB::commit();
@@ -257,6 +260,20 @@ class CampanhasController extends Controller
         );
                     
         return $saida;
+    }
+
+    private function listarEmissoras($idMidia) {
+        $sql = "SELECT id FROM  boxintegra.emissora WHERE id_veiculo = {$idMidia} and ativo = 1";
+
+        $itens = DB::select($sql);
+
+        $resultado = array();
+
+        foreach($itens as $item) {
+            $resultado[] = $item->id;
+        }
+
+        return $resultado;
     }
 
     /**
