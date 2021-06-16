@@ -52,7 +52,12 @@ class EmissorasController extends Controller
         SELECT 
             id, nome
         FROM boxintegra.emissora
-        WHERE id_veiculo = {$id_midia}";
+        WHERE id_veiculo = {$id_midia}
+        and nome not like \"[DESATIVADO]%\" 
+        and nome not like \"[DESATIVADA]%\" 
+        and nome not like \"[DESABILITADA]%\" 
+        and nome not like \"[DESABILITADO]%\" 
+        and nome not like \"TESTE -%\"";
 
         $itens = DB::select($sql);
                 
@@ -70,7 +75,12 @@ class EmissorasController extends Controller
         SELECT 
             id, nome
         FROM boxintegra.emissora
-        WHERE id_praca = {$id_praca}";
+        WHERE id_praca = {$id_praca}
+        and nome not like \"[DESATIVADO]%\" 
+        and nome not like \"[DESATIVADA]%\" 
+        and nome not like \"[DESABILITADA]%\" 
+        and nome not like \"[DESABILITADO]%\" 
+        and nome not like \"TESTE -%\"";
 
         $itens = DB::select($sql);
                 

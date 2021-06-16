@@ -274,10 +274,20 @@ class CampanhasController extends Controller
 
     private function listarEmissoras($id, $opcao) {
         if($opcao == self::OPCAO_MIDIA) {
-            $sql = "SELECT id FROM  boxintegra.emissora WHERE id_veiculo = {$id} and ativo = 1";
+            $sql = "SELECT id FROM  boxintegra.emissora WHERE id_veiculo = {$id} and ativo = 1
+            and nome not like \"[DESATIVADO]%\" 
+            and nome not like \"[DESATIVADA]%\" 
+            and nome not like \"[DESABILITADA]%\" 
+            and nome not like \"[DESABILITADO]%\" 
+            and nome not like \"TESTE -%\"";
         }
         if($opcao == self::OPCAO_PRACA) {
-            $sql = "SELECT id FROM  boxintegra.emissora WHERE id_praca = {$id} and ativo = 1";
+            $sql = "SELECT id FROM  boxintegra.emissora WHERE id_praca = {$id} and ativo = 1
+            and nome not like \"[DESATIVADO]%\" 
+            and nome not like \"[DESATIVADA]%\" 
+            and nome not like \"[DESABILITADA]%\" 
+            and nome not like \"[DESABILITADO]%\" 
+            and nome not like \"TESTE -%\"";
         }
 
         $itens = DB::select($sql);
