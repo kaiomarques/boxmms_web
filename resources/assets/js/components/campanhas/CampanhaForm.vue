@@ -344,7 +344,7 @@ export default {
       if (self.id_load) {
           if(self.clientes_selecionados.length > 0) {
             $.each(self.clientes_selecionados, function (index,id_cliente) {
-              self.id_cliente.push(self.clientes.find(cliente => cliente.id_cliente === id_cliente));
+              self.id_cliente.push(self.clientes.find(cliente => cliente.key === id_cliente));
             });
           }
       } else {
@@ -417,7 +417,7 @@ export default {
           });
 
           $.each(response.cliente_data, function (index,value) {
-            self.clientes_selecionados.push(value.key);
+            self.clientes_selecionados.push(value.id_cliente);
           });
 
           if(response.data[0].id_praca != null) {
@@ -432,9 +432,9 @@ export default {
             self.todos = response.data[0].todos;
           }
 
-          if(self.clientes.length > 0) {
+          if(self.clientes.length > 0 && self.clientes_selecionados != null) {
             $.each(self.clientes_selecionados, function (index,id_cliente) {
-              self.id_cliente.push(self.clientes.find(cliente => cliente.id_cliente === id_cliente));
+              self.id_cliente.push(self.clientes.find(cliente => cliente.key === id_cliente));
             });
           }
 
