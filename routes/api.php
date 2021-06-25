@@ -26,6 +26,9 @@ Route::group([
         Route::get("/recortes", "RecortesController@index");
         Route::post("/materias", "MateriasController@index");
         Route::get("/materias", "MateriasController@index");
+        Route::get("/materiasSpybox", "MateriasSpyboxController@index");
+
+        Route::get("materiasSpybox/xls", "MateriasSpyboxController@gerarXLS");
         
         Route::get("/clientes", "ClientesController@index");
         Route::get("/clientes/{clienteId}/canais/", "CanaisController@index");

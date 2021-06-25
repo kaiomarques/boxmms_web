@@ -28,6 +28,7 @@ import MateriaRascunhoList from './components/materia_rascunho/MateriaRascunhoLi
 
 import MateriaRascunho from './components/materia_rascunho/ListRascunho';
 import MateriaSalva from './components/materia_rascunho/ListSalvas';
+import MateriaSpybox from './components/materias_spybox/List';
 
 import CampanhaList from './components/campanhas/CampanhaList';
 import CampanhaForm from './components/campanhas/CampanhaForm';
@@ -291,6 +292,18 @@ var routes_geral = [
         menu: true,
         icon: "fa fa-database"
     },
+
+
+
+    {
+        path: base_path + 'materias_spybox',
+        name: 'materias_spybox',
+        component: MateriaSpybox,
+        title: "Matérias Spybox",
+        menu: true,
+        icon: "fa fa-user-secret"
+    },
+
 
     {
         path: base_path + 'configurar',

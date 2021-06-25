@@ -64,7 +64,9 @@
                             Route::get('/notificacoes3', 'HomeController@index' );
                             Route::get('/materias', 'HomeController@index' );
                             Route::get('/materias_salvas', 'HomeController@index' );
+                            Route::get('/materias_spybox', 'HomeController@index' );
                             Route::get('/materias_rascunho', 'HomeController@index' );
+                            Route::get("materiasSpybox/xls", "MateriasSpyboxController@gerarXLS");
                             Route::get('/tinder', 'HomeController@index' );
                             Route::get('/tinderlist', 'HomeController@index' );
                             Route::get('/configurar', 'HomeController@index' );
