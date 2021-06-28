@@ -21,7 +21,6 @@
           <a href="materiasSpybox/xls"
               target="_blank"
               class="btn btn-primary btn-lg pull-right" 
-              v-on:click="reload_table_search" 
               style="margin-right: 5px;background-color:#87ce83">
             <i class="fa fa-file-excel-o" v-if="!loading"></i>
             <i class="fa fa-spinner" v-if="loading"></i>
