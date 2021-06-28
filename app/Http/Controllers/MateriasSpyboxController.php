@@ -28,8 +28,8 @@ class MateriasSpyboxController  extends Controller
                 $sql = "
                 SELECT 
                         ms.id,
-                        ms.data_hora_materia,
                         ms.titulo,
+                        ms.data_hora_materia,
                         ms.id_boxnet,
                         e.nome as emissora_nome,
                         cb.descricao as praca_nome,
