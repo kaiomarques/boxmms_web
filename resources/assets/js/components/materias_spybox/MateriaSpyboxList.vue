@@ -50,7 +50,6 @@
         <table
           id="table_data"
           class="table table-bordered table-striped display"
-          style="width: 100%"
         >
           <thead>
             <tr>
@@ -225,10 +224,10 @@ export default {
     },*/
 
     style_list() {
-      if (this.action == "form") {
+      /*if (this.action == "form") {
         return "display:none";
       }
-      return "";
+      return "";*/
     },
 
     load_data() {
@@ -244,15 +243,15 @@ export default {
 
         var table = obj_datatable.dataTable("#table_data", {
             "dom" : "Bfrtip",
-            pageLength: obj_datatable.getPageLength(),          
-            paging: true,
-            pagingType: "full_numbers",
-            language: obj_datatable.getLanguage(),
+            /*pageLength: obj_datatable.getPageLength(),          
+            paging: true,*/
+            /*pagingType: "full_numbers",*/
+            /*language: obj_datatable.getLanguage(),*/
             responsive: true,
             processing: true,
-            lengthChange: false,
+            /*lengthChange: false,*/
             searching: false,
-            serverSide: true,
+            serverSide: false,
 
            ajax: {
                 url: window.URL_API + "materiasSpybox",
@@ -268,8 +267,8 @@ export default {
                 },
                 type: "GET",
                 data: filtro,
-                dataFilter: function(data) {
-                  var json = jQuery.parseJSON(data);
+                /*dataFilter: function(data) {
+                  //var json = jQuery.parseJSON(data);
 
                   json.recordsTotal = json.total;
                   json.recordsFiltered = json.total;
@@ -279,8 +278,8 @@ export default {
                   //self.data_filtro.filtro_dtfim = Util.dateToBR(json.dt_fim);
                   self.loading = false;
 
-                  return JSON.stringify(json); // return JSON string*/
-                }
+                  return JSON.stringify(json); // return JSON string
+                }*/
               },
             columns: [
               { data: "id" },

@@ -111,6 +111,9 @@ class MateriasSpyboxController  extends Controller
         $itens = DB::select($sql);
                 
         $saida = array(
+            "draw" => 1,
+            "recordsTotal"=> count($itens),
+            "recordsFiltered"=> count($itens),
             "total"=> count($itens),
             "qtde" => 50,
             "data" => $itens, 
