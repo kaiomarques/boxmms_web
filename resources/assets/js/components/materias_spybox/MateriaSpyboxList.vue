@@ -10,9 +10,6 @@
         method="GET" 
         @submit="validateAndSubmit" > 
         <div style="padding-top: 10px">
-
-
-              
             <div class="col-xs-12">
               <filtro_geral
                 :onSearch="reload_table_search"
@@ -62,11 +59,11 @@
               <th data-priority="0">Título</th>
               <th>Praça</th>
               <th>Emissora</th>
+              <th>Mídia</th>
               <th>Campanha</th>
               <th>Spot</th>
               <!--th>Início Processo</th-->
               <!--th>Fim Processo</th-->
-              <th style="width: 40px"  data-priority="1"></th>
             </tr>
           </thead>
         </table>
@@ -257,7 +254,7 @@ export default {
       }
 
         var table = obj_datatable.dataTable("#table_data", {
-            //"dom" : "Bfrtip",
+            "dom" : "Bfrtip",
             pageLength: obj_datatable.getPageLength(),          
             pagingType: "full_numbers",
             language: obj_datatable.getLanguage(),
@@ -283,15 +280,17 @@ export default {
                 data: filtro,
                 dataFilter: function(data) {
                   var json = jQuery.parseJSON(data);
-                  json.recordsTotal = json.total;
-                  json.recordsFiltered = json.total;
-                  json.data = json.data;
+                  var resultado = {};
+
+                  resultado.recordsTotal = json.total;
+                  resultado.recordsFiltered = json.total;
+                  resultado.data = json.data;
 
                   //self.data_filtro.filtro_dtinicio = Util.dateToBR(json.dt_inicio);
                   //self.data_filtro.filtro_dtfim = Util.dateToBR(json.dt_fim);
                   self.loading = false;
 
-                  return JSON.stringify(json); // return JSON string*/
+                  return JSON.stringify(resultado); // return JSON string*/
                 }
               },
             columns: [
@@ -300,8 +299,9 @@ export default {
               { data: "titulo" },
               { data: "praca_nome" },
               { data: "emissora_nome" },
+              { data: "midia_nome" },
               { data: "campanha_nome" },
-              { data: "spot_nome" },
+              { data: "spot_nome" }
               /*{ data: "hora_processo_inicio" },
               { data: "hora_processo_fim" }*/
             ],
@@ -309,13 +309,6 @@ export default {
           });
 
         self.table = table;
-
-        /*$("#table_data tbody").on("click", "a", function() {
-          var data = table.row($(this).parents("tr")).data();
-          self.editar(data);
-          //alert( data[0] +"'s salary is: "+ data[ 5 ] );
-        });*/
-
     }
   },
   computed: {},

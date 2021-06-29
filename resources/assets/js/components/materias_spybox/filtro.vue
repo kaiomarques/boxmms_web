@@ -5,6 +5,7 @@
         <div class="form-group">
           <label>Data Início</label>
           <input
+            name="dtinicio"
             type="text"
             class="form-control"
             id="filtro_dtinicio"
@@ -18,6 +19,7 @@
         <div class="form-group">
           <label>Data Fim</label>
           <input
+            name="dtfim"
             type="text"
             class="form-control"
             id="filtro_dtfim"
@@ -28,20 +30,6 @@
       </div>
       </div>
 
-      <div class="col-md-2" v-if="show_palavras">
-        <div class="form-group">
-          <label>Palavras Chaves</label>
-          <input
-            type="text"
-            class="form-control"
-            name="filtro_palavra"
-            id="filtro_palavra"
-            v-model="data_filtro.palavras"
-            placeholder="Palavra Chave"
-          />
-        </div>
-      </div>
-
     <div class="form-row">
       <div class="col-md-2">
         <div class="form-group">
@@ -50,7 +38,6 @@
             id = "veiculo_id"
             name = "veiculo_id"
             v-model="data_filtro.id_veiculo"
-            v-on:change="change_veiculo"
             class="form-control"
           >
             <option v-for="(item, index) in midias" :key="index" :value="item.id">{{item.nome}}</option>
@@ -65,7 +52,6 @@
             id="id_praca"
             name="id_praca"
             v-model="data_filtro.id_praca"
-            v-on:change="change_praca" 
             class="form-control">
             <option v-for="(item, index) in pracas" :key="index" :value="item.id">{{item.nome}}</option>
           </select>
@@ -225,7 +211,6 @@ export default {
         self.pracas = retorno.data;
         self.pracas.unshift({id: -1, nome:"--TODAS--"});
         self.data_filtro.id_praca = -1;
-        self.change_praca();
       });
     },
 
@@ -254,13 +239,6 @@ export default {
         self.data_filtro.id_spot = -1;
       });
     },
-
-    change_veiculo() {
-      this.carregarEmissoras();
-    },
-    change_praca() {
-      this.carregarEmissoras();
-    }
   },
   mounted() {
     let self = this;
