@@ -42,7 +42,8 @@ class MateriasSpyboxController  extends Controller
                             DATE_FORMAT(ms.hora_processo_inicio, '%d/%m/%Y %H:%i:%s') AS hora_processo_inicio,
                             DATE_FORMAT(ms.hora_processo_fim, '%d/%m/%Y %H:%i:%s') AS hora_processo_fim,
                             c.nome as campanha_nome,
-                            s.nome as spot_nome
+                            s.nome as spot_nome,
+                            ms.nome_arquivo as nome_arquivo
                         FROM boxintegra.materia_radiotv_spybox ms
                         INNER JOIN boxintegra.cadastro_basico cb ON cb.id = ms.id_praca
                         INNER JOIN boxintegra.emissora e ON e.id = ms.id_emissora
@@ -69,7 +70,8 @@ class MateriasSpyboxController  extends Controller
                         $item->hora_processo_inicio,
                         $item->hora_processo_fim,
                         $item->campanha_nome,
-                        $item->spot_nome
+                        $item->spot_nome,
+                        $item->nome_arquivo
                     );
                 }
 
