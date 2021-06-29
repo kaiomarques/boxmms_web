@@ -112,8 +112,15 @@ class MateriasSpyboxController  extends Controller
                 
         $saida = array(
             "total"=> count($itens),
+            "qtde" => 50,
             "data" => $itens, 
-            "sql"=> $sql
+            "sql"=> $sql,
+            "pagging"=> (object) [
+                'inicio' => 0,
+                'pagesize' => 50,
+                'fim' => 50,
+                'page' => 1
+              ]
         );
                     
         return $saida;

@@ -62,21 +62,10 @@
               <th>Mídia</th>
               <th>Campanha</th>
               <th>Spot</th>
-              <!--th>Início Processo</th-->
-              <!--th>Fim Processo</th-->
             </tr>
           </thead>
         </table>
       </div>
-    </div>
-    <div v-if="action =='form'" class="col-xs-12">
-      <FormMateria
-        v-bind:id_materia_rascunho="id"
-        :id_evento="id_evento"
-        v-bind:onSave="onSave"
-        v-bind:onBack="onBack"
-        v-bind:onRemove="onRemove"
-      ></FormMateria>
     </div>
   </div>
 </template>
@@ -256,6 +245,7 @@ export default {
         var table = obj_datatable.dataTable("#table_data", {
             "dom" : "Bfrtip",
             pageLength: obj_datatable.getPageLength(),          
+            paging: true,
             pagingType: "full_numbers",
             language: obj_datatable.getLanguage(),
             responsive: true,
@@ -280,17 +270,16 @@ export default {
                 data: filtro,
                 dataFilter: function(data) {
                   var json = jQuery.parseJSON(data);
-                  var resultado = {};
 
-                  resultado.recordsTotal = json.total;
-                  resultado.recordsFiltered = json.total;
-                  resultado.data = json.data;
+                  json.recordsTotal = json.total;
+                  json.recordsFiltered = json.total;
+                  json.data = json.data;
 
                   //self.data_filtro.filtro_dtinicio = Util.dateToBR(json.dt_inicio);
                   //self.data_filtro.filtro_dtfim = Util.dateToBR(json.dt_fim);
                   self.loading = false;
 
-                  return JSON.stringify(resultado); // return JSON string*/
+                  return JSON.stringify(json); // return JSON string*/
                 }
               },
             columns: [
@@ -302,8 +291,6 @@ export default {
               { data: "midia_nome" },
               { data: "campanha_nome" },
               { data: "spot_nome" }
-              /*{ data: "hora_processo_inicio" },
-              { data: "hora_processo_fim" }*/
             ],
             order: [[0, "desc"]]
           });
