@@ -243,13 +243,13 @@ export default {
 
         var table = obj_datatable.dataTable("#table_data", {
             "dom" : "Bfrtip",
-            /*pageLength: obj_datatable.getPageLength(),          
-            paging: true,*/
-            /*pagingType: "full_numbers",*/
-            /*language: obj_datatable.getLanguage(),*/
+            pageLength: obj_datatable.getPageLength(),          
+            paging: true,
+            pagingType: "full_numbers",
+            language: obj_datatable.getLanguage(),
             responsive: true,
             processing: true,
-            /*lengthChange: false,*/
+            lengthChange: false,
             searching: false,
             serverSide: false,
 
