@@ -60,18 +60,18 @@ class MateriasSpyboxController  extends Controller
         
                 foreach($itens as $item) {
                     $dados[] = array(
-                        $item->id,
-                        $item->data_materia,
-                        $item->hora_materia,
-                        $item->titulo,
-                        $item->emissora_nome,
-                        $item->praca_nome,
-                        $item->midia_nome,
-                        $item->hora_processo_inicio,
-                        $item->hora_processo_fim,
-                        $item->campanha_nome,
-                        $item->spot_nome,
-                        $item->nome_arquivo
+                        "Id" => $item->id,
+                        "Data" => $item->data_materia,
+                        "Hora" => $item->hora_materia,
+                        "Título" => $item->titulo,
+                        "Emissora" => $item->emissora_nome,
+                        "Praça" => $item->praca_nome,
+                        "Mídia" => $item->midia_nome,
+                        "Início do processo" => $item->hora_processo_inicio,
+                        "Fim do processo" => $item->hora_processo_fim,
+                        "Campanha" => $item->campanha_nome,
+                        "Spot" => $item->spot_nome,
+                        "Nome do arquivo" => $item->nome_arquivo
                     );
                 }
 
