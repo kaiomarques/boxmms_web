@@ -33,7 +33,8 @@ class MateriasSpyboxController  extends Controller
                 SELECT 
                             ms.id,
                             ms.titulo,
-                            DATE_FORMAT(ms.data_hora_materia, '%d/%m/%Y %H:%i:%s') AS data_hora_materia,
+                            DATE_FORMAT(ms.data_hora_materia, '%d/%m/%Y') AS data_materia,
+                            DATE_FORMAT(ms.data_hora_materia, '%H:%i:%s') AS hora_materia,
                             ms.id_boxnet,
                             e.nome as emissora_nome,
                             cb.descricao as praca_nome,
@@ -59,7 +60,8 @@ class MateriasSpyboxController  extends Controller
                 foreach($itens as $item) {
                     $dados[] = array(
                         $item->id,
-                        $item->data_hora_materia,
+                        $item->data_materia,
+                        $item->hora_materia,
                         $item->titulo,
                         $item->emissora_nome,
                         $item->praca_nome,
