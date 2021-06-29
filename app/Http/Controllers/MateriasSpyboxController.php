@@ -33,7 +33,7 @@ class MateriasSpyboxController  extends Controller
                 SELECT 
                             ms.id,
                             ms.titulo,
-                            DATE_FORMAT(ms.data_hora_materia, '%d/%m/%Y') AS data_hora_materia,
+                            DATE_FORMAT(ms.data_hora_materia, '%d/%m/%Y %H:%i:%s') AS data_hora_materia,
                             ms.id_boxnet,
                             e.nome as emissora_nome,
                             cb.descricao as praca_nome,
