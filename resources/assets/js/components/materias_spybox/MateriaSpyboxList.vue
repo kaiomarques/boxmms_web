@@ -3,39 +3,49 @@
 <template>
   <div>
     <div v-bind:style="style_list()">
-      <div style="padding-top: 10px">
-        <div class="col-xs-12">
-          <filtro_geral
-            :onSearch="reload_table_search"
-            v-model="data_filtro"
-            :show_status="prop_status == null "
-          ></filtro_geral>
+      <form 
+        id="materias_form" 
+        name="materias_form" 
+        action="materiasSpybox/xls" 
+        method="GET" 
+        @submit="validateAndSubmit" > 
+        <div style="padding-top: 10px">
+
+
+              
+            <div class="col-xs-12">
+              <filtro_geral
+                :onSearch="reload_table_search"
+                v-model="data_filtro"
+                :show_status="prop_status == null "
+              ></filtro_geral>
+            </div>
+            <div class="col-xs-12" style="border-botom:10px">
+              <button class="btn btn-primary btn-lg pull-right" v-on:click="reload_table_search">
+                <i class="fa fa-search" v-if="!loading"></i>
+                <i class="fa fa-spinner" v-if="loading"></i>
+                Filtrar
+              </button>
+
+            <button type="submit"
+                target="_blank"
+                class="btn btn-primary btn-lg pull-right" 
+                style="margin-right: 5px;background-color:#87ce83">
+              <i class="fa fa-file-excel-o" v-if="!loading"></i>
+              <i class="fa fa-spinner" v-if="loading"></i>
+              XLS
+            </button>
+
+            <button
+              v-if="mostra_add"
+              class="btn btn-default btn-lg"
+              v-on:click="open_form"
+              v-html="button_new_text"
+            ></button>
+          </div>
+          
         </div>
-        <div class="col-xs-12" style="border-botom:10px">
-          <button class="btn btn-primary btn-lg pull-right" v-on:click="reload_table_search">
-            <i class="fa fa-search" v-if="!loading"></i>
-            <i class="fa fa-spinner" v-if="loading"></i>
-            Filtrar
-          </button>
-
-          <a href="materiasSpybox/xls"
-              target="_blank"
-              class="btn btn-primary btn-lg pull-right" 
-              style="margin-right: 5px;background-color:#87ce83">
-            <i class="fa fa-file-excel-o" v-if="!loading"></i>
-            <i class="fa fa-spinner" v-if="loading"></i>
-            XLS
-          </a>
-
-          <button
-            v-if="mostra_add"
-            class="btn btn-default btn-lg"
-            v-on:click="open_form"
-            v-html="button_new_text"
-          ></button>
-        </div>
-      </div>
-
+      </form>
       <div class="col-xs-12">
         <div class="col-xs-12" v-if="loading">
           <i class="fa fa-spinner"></i> Carregando....
@@ -48,19 +58,14 @@
           <thead>
             <tr>
               <th>ID</th>
-              <!-- <th>ID Projeto</th> -->
               <th data-priority="0">Data</th>
               <th data-priority="0">Título</th>
               <th>Praça</th>
               <th>Emissora</th>
               <th>Campanha</th>
               <th>Spot</th>
-              <th>Início Processo</th>
-              <th>Fim Processo</th>
-              <!--th>Operador</th-->
-              <!-- <th>Dt. Cadastro</th> -->
-              <!-- <th>Status</th> -->
-              <!-- <th>ID matéria</th> -->
+              <!--th>Início Processo</th-->
+              <!--th>Fim Processo</th-->
               <th style="width: 40px"  data-priority="1"></th>
             </tr>
           </thead>
@@ -127,6 +132,9 @@ export default {
     };
   },
   methods: {
+    validateAndSubmit(e) {
+      return true;
+    },
     getObjFiltro() {
       var data = {
         dt_inicio: Util.BrDateToUS($("#filtro_dtinicio").val()),
@@ -141,11 +149,10 @@ export default {
         data["id_programa"] = this.data_filtro.id_programa;
         data["veiculo_id"] = this.data_filtro.id_veiculo,
         data["id_emissora"] = this.data_filtro.id_emissora;
-        data["cliente_nome"] = this.data_filtro.cliente_nome;
-        data["status"] = this.data_filtro.status;
+        data["id_campanha"] = this.data_filtro.id_campanha;
+        data["id_spot"] = this.data_filtro.id_spot;
       }
 
-      console.log("filtro?");
       console.log(data);
 
       return data;
@@ -170,9 +177,6 @@ export default {
       this.id = datarow.id;
       this.id_evento = datarow.id_projeto;
       this.action = "form";
-
-      console.log("Vue recebeu o javascript:" + datarow.id);
-      //  console.log( datarow );
     },
     onSave() {
       this.refresh_table();
@@ -207,20 +211,11 @@ export default {
       }
     },
 
-    reload_table_search_old(page) {
+    /*reload_table_search_old(page) {
       var self = this;
       self.loading = true;
 
-      // this.filtro_dtinicio = $("#filtro_dtinicio").val();
-      // this.filtro_dtfim = $("#filtro_dtfim").val();
-
       if (this.table != null) {
-        /* var url =
-          window.URL_API + "eventos?ret=api&filtro=" + this.filtro_titulo;
-
-        this.table.ajax.url(url);
-
-        this.table.ajax.reload(); */
 
         var filtro = this.getObjFiltro();
 
@@ -241,7 +236,7 @@ export default {
           self.loading = false;
         });
       }
-    },
+    },*/
 
     style_list() {
       if (this.action == "form") {
@@ -256,14 +251,10 @@ export default {
       self.button_new_text = '<i class="fa fa-user" ></i> CADASTRAR';
       var filtro = this.data_filtro;
 
-      if (this.prop_status != null) {
-        filtro["status"] = this.prop_status;
-      }
-
-       var query_string = obj_api.serialize(filtro);
-        if (query_string != "") {
+      var query_string = obj_api.serialize(filtro);
+      if (query_string != "") {
         query_string = "?" + query_string;
-        }
+      }
 
         var table = obj_datatable.dataTable("#table_data", {
             //"dom" : "Bfrtip",
@@ -283,30 +274,24 @@ export default {
                 apiauth: window.API_MYAUTH
                 },
                 error: function(xhr, textStatus, errorThrown) {
-                // alert(errorThrown);
-
-                if (xhr.responseText != null && xhr.responseText != undefined) {
-                    //  self.sql = xhr.responseText;
-
-                    $("#div_error_api").html(xhr.responseText);
-                }
-
-                // console.log(textStatus);
+                  if (xhr.responseText != null && xhr.responseText != undefined) {
+                      //  self.sql = xhr.responseText;
+                      $("#div_error_api").html(xhr.responseText);
+                  }
                 },
                 type: "GET",
-                //data: filtro,
+                data: filtro,
                 dataFilter: function(data) {
-                var json = jQuery.parseJSON(data);
-                json.recordsTotal = json.total;
-                json.recordsFiltered = json.total;
-                json.data = json.data;
+                  var json = jQuery.parseJSON(data);
+                  json.recordsTotal = json.total;
+                  json.recordsFiltered = json.total;
+                  json.data = json.data;
 
-                self.data_filtro.filtro_dtinicio = Util.dateToBR(json.dt_inicio);
-                self.data_filtro.filtro_dtfim = Util.dateToBR(json.dt_fim);
-                self.loading = false;
-                //console.log(json);
+                  //self.data_filtro.filtro_dtinicio = Util.dateToBR(json.dt_inicio);
+                  //self.data_filtro.filtro_dtfim = Util.dateToBR(json.dt_fim);
+                  self.loading = false;
 
-                return JSON.stringify(json); // return JSON string
+                  return JSON.stringify(json); // return JSON string*/
                 }
               },
             columns: [
@@ -317,22 +302,19 @@ export default {
               { data: "emissora_nome" },
               { data: "campanha_nome" },
               { data: "spot_nome" },
-              { data: "hora_processo_inicio" },
-              { data: "hora_processo_fim" }
-            ],
-                buttons: [
-                'copy', 'excel', 'pdf'
+              /*{ data: "hora_processo_inicio" },
+              { data: "hora_processo_fim" }*/
             ],
             order: [[0, "desc"]]
           });
 
         self.table = table;
 
-        $("#table_data tbody").on("click", "a", function() {
+        /*$("#table_data tbody").on("click", "a", function() {
           var data = table.row($(this).parents("tr")).data();
           self.editar(data);
           //alert( data[0] +"'s salary is: "+ data[ 5 ] );
-        });
+        });*/
 
     }
   },

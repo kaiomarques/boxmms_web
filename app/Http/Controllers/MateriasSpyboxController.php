@@ -21,7 +21,7 @@ class MateriasSpyboxController  extends Controller
 {
     public function gerarXLS(Request $request) {
 
-
+        var_dump($_GET);die;
 
         Excel::create('relatorio_spybox', function($excel) {
             $excel->sheet('Sheetname', function($sheet) {
@@ -93,7 +93,7 @@ class MateriasSpyboxController  extends Controller
         $itens = DB::select($sql);
                 
         $saida = array(
-            "qtde"=> count($itens),
+            "total"=> count($itens),
             "data" => $itens, 
             "sql"=> $sql
         );

@@ -26,17 +26,6 @@
           />
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="form-group">
-          <label>Cliente</label>
-          <input
-            type="text"
-            class="form-control"
-            id="filtro_nome_cliente"
-            v-model="data_filtro.cliente_nome"
-            placeholder="Nome do cliente"
-          />
-        </div>
       </div>
 
       <div class="col-md-2" v-if="show_palavras">
@@ -52,27 +41,6 @@
           />
         </div>
       </div>
-
-      <div class="col-md-2">
-        <div class="form-group">
-          <label>Status</label>
-          <select 
-          
-            id="id_evento_status"
-            name="id_evento_status"
-            v-model="data_filtro.id_evento_status"
-            class="form-control"
-            
-            >
-            <option
-              v-for="(item, index) in evento_status"
-              :key="index"
-              :value="item.id"
-            >{{item.nome}}</option>
-          </select>
-        </div>
-      </div>
-    </div>
 
     <div class="form-row">
       <div class="col-md-2">
@@ -111,7 +79,6 @@
             id="id_emissora"
             name="id_emissora"
             v-model="data_filtro.id_emissora"
-            v-on:change="change_emissora"
             class="form-control"
           >
             <option v-for="(item, index) in emissoras" :key="index" :value="item.id">{{item.nome}}</option>
@@ -121,31 +88,27 @@
 
       <div class="col-md-6">
         <div class="form-group">
-          <label>Programa</label>
+          <label>Campanha</label>
           <select
-            id="id_programa"
-            name="id_programa"
-            v-model="data_filtro.id_programa"
+            id="id_campanha"
+            name="id_campanha"
+            v-model="data_filtro.id_campanha"
             class="form-control"
           >
-            <option v-for="(item, index) in programas" :key="index" :value="item.id">{{item.nome}}</option>
+            <option v-for="(item, index) in campanhas" :key="index" :value="item.id">{{item.nome}}</option>
           </select>
         </div>
       </div>
-    </div>
-    <div class="form-row" v-if="show_status">
-      <div class="col-md-1">
+            <div class="col-md-6">
         <div class="form-group">
-          <label>Status</label>
+          <label>Spot</label>
           <select
-            id="filtro_status"
-            name="filtro_status"
-            v-model="data_filtro.status"
+            id="id_spot"
+            name="id_spot"
+            v-model="data_filtro.id_spot"
             class="form-control"
           >
-            <option value="-1">--</option>
-            <option value="1">Mat. Criada</option>
-            <option value="0 ">Rascunho</option>
+            <option v-for="(item, index) in spots" :key="index" :value="item.id">{{item.nome}}</option>
           </select>
         </div>
       </div>
@@ -208,21 +171,22 @@ export default {
 
       item_filho: null,
       clientes: [],
+      emissoras: [],
       pracas: [],
       midias: [
         { id: -1, nome: "--TODAS--"},
         { id: 13, nome: "TV" },
         { id: 14, nome: "Rádio" }
       ],
+      campanhas: [],
+      spots: [],
       id_veiculo: null,
       id_praca: null,
       id_evento_status: null,
-      programas: [],
-      programas: [],
-      evento_status: [],
+      id_campanha: null,
+      id_spot: null,
       palavras: null,
       loading: false,
-
       button_new_text: "" //<i class=\"fa fa-file\" ></i> NOVA POST"
     };
   },
@@ -231,39 +195,6 @@ export default {
       if (this.onNovo != null) {
         this.onNovo();
       }
-    },
-    exibirCarregamentoDeProgramas() {
-      this.programas = [];
-      this.programas.push({id: -1, nome:"Carregando..."})
-      this.data_filtro.id_programa = -1;
-    },
-    carregarProgramas() {
-      var self = this;
-      var data_programa = {};
-      this.exibirCarregamentoDeProgramas();
-
-      if (
-        this.data_filtro.id_emissora != null &&
-        this.data_filtro.id_emissora != "" &&
-        this.data_filtro.id_emissora != " "
-      ) {
-        data_programa["id_emissora"] = this.data_filtro.id_emissora;
-      }
-      if (this.data_filtro.id_veiculo) {
-        data_programa["veiculo_id"] = this.data_filtro.id_veiculo;
-      }
-      if (this.data_filtro.id_praca) {
-        data_programa["praca_id"] = this.data_filtro.id_praca;
-      }
-
-      obj_api.call("programas", "POST", data_programa, function(retorno) {        
-        
-        retorno.data.unshift({id: -1, nome:"--TODOS--"});
-
-        self.programas = retorno.data;
-        self.data_filtro.id_programa = -1;
-      });
-
     },
     exibirCarregamentoDeEmissoras() {
       this.emissoras = [];
@@ -282,7 +213,6 @@ export default {
         self.emissoras = retorno.data;
         self.emissoras.unshift({id: -1, nome: "--TODAS--"});
         self.data_filtro.id_emissora = -1;
-        self.change_emissora();
       });
     },
     carregarPracas() {
@@ -299,16 +229,29 @@ export default {
       });
     },
 
-    carregarStatus() {
+    carregarCampanhas() {
       var self = this;
-      self.evento_status = [];
-      self.evento_status.push({ id: -1, nome: "Carregando..." });
-      self.data_filtro.id_evento_status = -1;
+      self.campanhas = [];
+      self.campanhas.push({ id: -1, nome: "Carregando..." });
+      self.data_filtro.id_campanha = -1;
 
-      obj_api.call("eventos_status", "GET", null, function(retorno) {
-        self.evento_status = retorno.data;
-        self.evento_status.unshift({ id: -1, nome: "--TODAS--" });
-        self.data_filtro.id_evento_status = -1;
+      obj_api.call("campanhas", "GET", null, function(retorno) {
+        self.campanhas = retorno.data;
+        self.campanhas.unshift({ id: -1, nome: "--TODAS--" });
+        self.data_filtro.id_campanha = -1;
+      });
+    },
+
+    carregarSpots() {
+      var self = this;
+      self.spots = [];
+      self.spots.push({ id: -1, nome: "Carregando..." });
+      self.data_filtro.id_spot = -1;
+
+      obj_api.call("select_spots", "GET", null, function(retorno) {
+        self.spots = retorno.data;
+        self.spots.unshift({ id: -1, nome: "--TODAS--" });
+        self.data_filtro.id_spot = -1;
       });
     },
 
@@ -317,9 +260,6 @@ export default {
     },
     change_praca() {
       this.carregarEmissoras();
-    },
-    change_emissora() {
-      this.carregarProgramas();
     }
   },
   mounted() {
@@ -343,10 +283,11 @@ export default {
 
     self.button_new_text = '<i class="fa fa-user" ></i> CADASTRAR';
     this.data_filtro.id_veiculo = -1;
-    this.exibirCarregamentoDeEmissoras();
-    this.exibirCarregamentoDeProgramas();
+    //this.exibirCarregamentoDeEmissoras();
+    this.carregarEmissoras();
     this.carregarPracas();
-    this.carregarStatus();
+    this.carregarCampanhas();
+    this.carregarSpots();
 
     $(document).ready(function() {
       obj_editor.loadCalendar("#filtro_dtinicio");
