@@ -270,8 +270,8 @@ export default {
     $(document).ready(function() {
       obj_editor.loadCalendar("#filtro_dtinicio");
       obj_editor.loadCalendar("#filtro_dtfim");
-      console.log("URL: " + window.URL_API + "eventos_arquivos2");
-      console.log("Type: " + self.type);
+      //console.log("URL: " + window.URL_API + "eventos_arquivos2");
+      //console.log("Type: " + self.type);
     });
   }
 };

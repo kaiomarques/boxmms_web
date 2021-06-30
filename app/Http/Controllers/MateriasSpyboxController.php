@@ -83,9 +83,6 @@ class MateriasSpyboxController  extends Controller
 
     public function index(Request $request)
     {
-
-        $request->all();
-
         $filtros = $this->setFiltros($request);
 
 

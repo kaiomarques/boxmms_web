@@ -109,38 +109,52 @@ export default {
         id_emissora: null,
 
         filtro_dtinicio: "",
-        filtro_dtfim: "",
-        status: ""
+        filtro_dtfim: ""
       },
 
       button_new_text: "" //<i class=\"fa fa-file\" ></i> NOVA POST"
     };
   },
   methods: {
+    serialize (obj) {
+      var str = [];
+      for (var p in obj)
+        if (obj.hasOwnProperty(p)) {
+          str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+        }
+      return "? "+str.join("&");
+    },
+
     validateAndSubmit(e) {
       return true;
     },
     getObjFiltro() {
-      var data = {
-        dt_inicio: Util.BrDateToUS($("#filtro_dtinicio").val()),
-        dt_fim: Util.BrDateToUS($("#filtro_dtfim").val())
+      var data = []; 
+
+      var data2 = {
+        "dtinicio" : $("#filtro_dtinicio").val(),
+        "dtfim" : $("#filtro_dtfim").val(),
+        "id_praca" : $("#id_praca").val(),
+        "veiculo_id" : $("#veiculo_id").val(),
+        "id_emissora" : $("#id_emissora").val(),
+        "id_campanha" : $("#id_campanha").val(),
+        "id_spot" : $("#id_spot").val()
       };
+      
+      data["dtinicio"] = $("#filtro_dtinicio").val();
+      data["dtfim"] = $("#filtro_dtfim").val();
+ 
+      data["id_praca"] = $("#id_praca").val();
+      data["veiculo_id"] = $("#veiculo_id").val(),
+      data["id_emissora"] = $("#id_emissora").val();
+      data["id_campanha"] = $("#id_campanha").val();
+      data["id_spot"] = $("#id_spot").val();
 
-      if (this.prop_status != null) {
-        this.data_filtro.status = this.prop_status;
-      }
+      //alert( data );
+      //alert( JSON.stringify(data) );
+      //alert( JSON.stringify(data2) );
 
-      if (this.data_filtro != null) {
-        data["id_programa"] = this.data_filtro.id_programa;
-        data["veiculo_id"] = this.data_filtro.id_veiculo,
-        data["id_emissora"] = this.data_filtro.id_emissora;
-        data["id_campanha"] = this.data_filtro.id_campanha;
-        data["id_spot"] = this.data_filtro.id_spot;
-      }
-
-      console.log(data);
-
-      return data;
+      return data2;
     },
     onBack(objPost) {
       //Clicou no back button.
@@ -172,26 +186,20 @@ export default {
       this.reload_table_search(page);
     },
 
-     reload_table_search() {
+     reload_table_search(e) {
+       e.preventDefault();
       if (this.table != null) {
 
         var filtro = this.getObjFiltro();
-        if ( this.tinder ){
-          filtro["status"] = "4";
-          filtro["status_evento"] = "1,2";
-        }
-        var query_string = obj_api.serialize(filtro);
-        if (query_string != "") {
-          query_string = "?" + query_string;
-        }
+
+        var query_string = this.serialize(filtro);
+
+        var url_com_filtro = window.URL_API + "materiasSpybox" + query_string;
 
         var url =
-          window.URL_API + "materias" + query_string;
+          window.URL_API + "materiasSpybox" + query_string;
 
         this.table.ajax.url(url);
-
-        //console.log(url);
-        //console.log(this.table );
         this.table.ajax.reload();
       }
     },
@@ -234,9 +242,12 @@ export default {
       let self = this;
 
       self.button_new_text = '<i class="fa fa-user" ></i> CADASTRAR';
-      var filtro = this.data_filtro;
+      var filtro = this.getObjFiltro;
 
       var query_string = obj_api.serialize(filtro);
+      
+      var query_string = self.serialize(filtro);
+
       if (query_string != "") {
         query_string = "?" + query_string;
       }
