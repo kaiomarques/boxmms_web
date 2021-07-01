@@ -89,7 +89,7 @@ class MateriasSpyboxController  extends Controller
         $sql = "
         SELECT 
             ms.id,
-            DATE_FORMAT(ms.data_hora_materia, '%d/%m/%Y') AS data_hora_materia,
+            DATE_FORMAT(ms.data_hora_materia, '%d/%m/%Y %H:%i:%s') AS data_hora_materia,
             ms.titulo,
             ms.id_boxnet,
             e.nome as emissora_nome,

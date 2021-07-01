@@ -292,6 +292,9 @@ export default {
                   return JSON.stringify(json); // return JSON string
                 }*/
               },
+              language: {
+                  sLoadingRecords : '<span style="width:100%;"><img src="images/loading.gif"></span>'
+              },
             columns: [
               { data: "id" },
               { data: "data_hora_materia" },
