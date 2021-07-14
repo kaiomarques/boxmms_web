@@ -245,30 +245,25 @@ export default {
       var filtro = this.getObjFiltro;
 
       var query_string = obj_api.serialize(filtro);
-      
-      var query_string = self.serialize(filtro);
 
       if (query_string != "") {
         query_string = "?" + query_string;
       }
 
         var table = obj_datatable.dataTable("#table_data", {
-            "dom" : "Bfrtip",
             pageLength: obj_datatable.getPageLength(),          
-            paging: true,
             pagingType: "full_numbers",
             language: obj_datatable.getLanguage(),
             responsive: true,
             processing: true,
             lengthChange: false,
             searching: false,
-            serverSide: false,
-
+            serverSide: true,
            ajax: {
-                url: window.URL_API + "materiasSpybox",
+                url: window.URL_API + "materiasSpybox"  + query_string,
                 headers: {
-                Authorization: window.API_AUTHORIZATION,
-                apiauth: window.API_MYAUTH
+                  Authorization: window.API_AUTHORIZATION,
+                  apiauth: window.API_MYAUTH
                 },
                 error: function(xhr, textStatus, errorThrown) {
                   if (xhr.responseText != null && xhr.responseText != undefined) {
@@ -276,8 +271,8 @@ export default {
                       $("#div_error_api").html(xhr.responseText);
                   }
                 },
-                type: "GET",
-                data: filtro,
+                type: "POST",
+                //data: filtro,
                 /*dataFilter: function(data) {
                   //var json = jQuery.parseJSON(data);
 

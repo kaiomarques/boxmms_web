@@ -398,6 +398,7 @@ export default {
   },
   computed: {},
   mounted() {
+    alert("É aqui ");
     let self = this;
 
     $(document).ready(function() {

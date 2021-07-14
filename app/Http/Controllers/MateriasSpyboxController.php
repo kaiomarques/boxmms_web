@@ -83,10 +83,8 @@ class MateriasSpyboxController  extends Controller
 
     public function index(Request $request)
     {
-        $filtros = $this->setFiltros($request);
 
-
-        $sql = "
+        $sql_filtro = "
         SELECT 
             ms.id,
             DATE_FORMAT(ms.data_hora_materia, '%d/%m/%Y %H:%i:%s') AS data_hora_materia,
@@ -105,36 +103,48 @@ class MateriasSpyboxController  extends Controller
         INNER JOIN boxintegra.emissora e ON e.id = ms.id_emissora
         INNER JOIN boxmmsdb.campanha_spot cs ON cs.id = ms.id_boxnet
         INNER JOIN boxmmsdb.campanhas c ON c.id = cs.id_campanha
-        INNER JOIN boxmmsdb.spots s ON s.id = cs.id_spot
+        INNER JOIN boxmmsdb.spots s ON s.id = ms.id_spot
         INNER JOIN boxintegra.midias m ON m.id = e.id_veiculo
-        WHERE 1 = 1 ".$filtros;
+        WHERE 1 = 1 ".$this->setFiltros($request);
 
-        $itens = DB::select($sql);
+        $sql_pagina = $sql_filtro.$this->setPage($request);
+
+        $itens_total = DB::select($sql_filtro);
+        $itens_paginado = DB::select($sql_pagina);
                 
         $saida = array(
-            "draw" => 1,
-            "recordsTotal"=> count($itens),
-            "recordsFiltered"=> count($itens),
-            "total"=> count($itens),
-            "qtde" => 50,
-            "data" => $itens, 
-            "sql"=> $sql,
-            "pagging"=> (object) [
-                'inicio' => 0,
-                'pagesize' => 50,
-                'fim' => 50,
-                'page' => 1
-              ]
+            "draw" => $request["draw"],
+            "recordsTotal"=> count($itens_total),
+            "recordsFiltered"=> count($itens_total),
+            "data" => $itens_paginado, 
+            "sql"=> $sql_pagina
         );
                     
         return $saida;
+    }
+
+
+    private function setPage($request) {
+        $limit_sql = "";
+
+        if (($request->has('length')  && $request->input('length') != "") &&
+            ($request->has('start')  && $request->input('start') != "")) {
+            $length = $request->input('length');
+            $start = $request->input('start');
+
+            $limit_sql = " LIMIT $start,$length";
+        } else {
+            $limit_sql = " LIMIT 0,10";
+        }
+
+        return $limit_sql;
+        
     }
 
     private function setFiltros($request) {
         $filtros = "";
 
         if( $request->has('dtinicio')  && $request->input('dtinicio') != "") {
-
             $date = DateTime::createFromFormat('d/m/Y', $request->input('dtinicio'));
             $data_inicio = $date->format('Y-m-d 00:00:00');
 
@@ -150,7 +160,7 @@ class MateriasSpyboxController  extends Controller
         }
 
         if( $request->has('id_emissora') && $request->input('id_emissora') != -1 ) {
-            $filtros.= " and e.nome = \"".$request->input('id_emissora')."\" ";
+            $filtros.= " and e.id = \"".$request->input('id_emissora')."\" ";
         }
 
         if( $request->has('id_praca') && $request->input('id_praca') != -1 ) {
@@ -166,7 +176,7 @@ class MateriasSpyboxController  extends Controller
         }
 
         if( $request->has('id_spot') && $request->input('id_spot') != -1  ) {
-            $filtros.= " and cs.id_spot = \"".$request->input('id_spot')."\" ";
+            $filtros.= " and ms.id_spot = \"".$request->input('id_spot')."\" ";
         }
 
         return $filtros;
