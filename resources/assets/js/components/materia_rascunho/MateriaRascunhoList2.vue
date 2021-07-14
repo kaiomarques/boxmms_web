@@ -285,7 +285,7 @@ export default {
                   dataFilter: function(data) {
                   var json = jQuery.parseJSON(data);
                   json.recordsTotal = json.total;
-                  json.recordsFiltered = json.total;
+                 json.recordsFiltered = json.total;
                   json.data = json.data;
 
                   self.data_filtro.filtro_dtinicio = Util.dateToBR(json.dt_inicio);
@@ -398,7 +398,6 @@ export default {
   },
   computed: {},
   mounted() {
-    alert("É aqui ");
     let self = this;
 
     $(document).ready(function() {

@@ -83,7 +83,6 @@ class MateriasSpyboxController  extends Controller
 
     public function index(Request $request)
     {
-
         $sql_filtro = "
         SELECT 
             ms.id,
@@ -119,7 +118,7 @@ class MateriasSpyboxController  extends Controller
             "data" => $itens_paginado, 
             "sql"=> $sql_pagina
         );
-                    
+
         return $saida;
     }
 
@@ -147,12 +146,10 @@ class MateriasSpyboxController  extends Controller
         if( $request->has('dtinicio')  && $request->input('dtinicio') != "") {
             $date = DateTime::createFromFormat('d/m/Y', $request->input('dtinicio'));
             $data_inicio = $date->format('Y-m-d 00:00:00');
-
             $filtros.= " and ms.data_hora_materia >= \"".$data_inicio."\" ";
         }
 
         if($request->has('dtfim')  && $request->input('dtfim') != "") {
-
             $date = DateTime::createFromFormat('d/m/Y', $request->input('dtfim'));
             $data_fim = $date->format('Y-m-d 23:59:59');
 
